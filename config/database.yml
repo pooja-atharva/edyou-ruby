@@ -1,0 +1,15 @@
+default: &default
+  adapter:  postgresql
+  encoding: unicode
+  pool:     5
+  username: <%= Rails.application.credentials.config[:DB_USERNAME] %>
+  password: <%= Rails.application.credentials.config[:DB_PASSWORD] %>
+  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>
+
+development:
+  <<: *default
+  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_development
+
+staging:
+  <<: *default
+  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_staging
