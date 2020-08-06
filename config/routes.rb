@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   scope module: :api, path: :api do
     scope module: :v1, path: :v1 do
+      resources :followers, only: %i[index create destroy]
       resources :users do
         collection do
           post :reset_password
@@ -30,11 +31,14 @@ Rails.application.routes.draw do
           delete :cancel
         end
       end
+      resources :friends
       resources :groups do
         member do
           post :add_users
         end
       end
+      resources :posts
+      resources :feelings
     end
   end
 end
