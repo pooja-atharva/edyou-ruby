@@ -1,0 +1,21 @@
+<table class="hs-table-content" style="width: 100%; background-color: #fff; text-align: center; margin-top: 0px;
+    margin-left: auto; margin-bottom: 0; margin-right: auto; padding: 20px; " width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="padding-left: 22px;">
+      <p style="font-size: 24px; color: #333333; font-family: Arial, Helvetica, sans-serif;
+          line-height: 21px; text-align: left; font-weight: 500; margin-top: 29px; margin-bottom: 0;">
+        <span style="display: block;">Hey, <%=@user.name%></span>
+      </p>
+      <p style="font-size: 20px; color: #333333; font-family: Arial, Helvetica, sans-serif;
+          line-height: 30px; text-align: left; font-weight: 500; margin-top: 35px; margin-bottom: 0;">
+        Please verify below OTP to reset your password on <b>EdYou</b>. Your OTP for verification.</p>
+      <p style="font-size: 25px; color: #333333; font-family: Arial, Helvetica, sans-serif;
+          line-height: 30px; text-align: left; margin-top: 20px; margin-bottom: 0;">
+        <span style="display: inline-block; vertical-align: middle;"><b>OTP:</b></span>
+        <span style="padding-left: 13px; display: inline-block; vertical-align: middle;">
+          <b> <%=@user.otp_code%> </b>
+        </span>
+      </p>
+    </td>
+  </tr>
+</table>

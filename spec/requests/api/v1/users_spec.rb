@@ -41,6 +41,43 @@ RSpec.describe 'api/v1/users', type: :request do
     end
   end
 
+  path '/api/v1/users/update' do
+    put 'Update User Profile' do
+      tags 'Auth'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          class_name: { type: :string },
+          graduation: { type: :string },
+          status: { type: :string },
+          attending_university: { type: :string },
+          high_school: { type: :string },
+          from_location: { type: :string },
+          gender: { type: :string },
+          religion: { type: :string },
+          language: { type: :string },
+          date_of_birth: { type: :string },
+          favourite_quotes: { type: :string }
+        },
+      }
+      response '200', 'User profile updated successfully' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        let(:user) { { class_name: 'class_name', graduation: 'graduation', status: 'status',
+                      attending_university: 'attending_university',  high_school: 'high_school', from_location: 'from_location',
+                      gender: 'gender', religion: 'religion', language: 'language', date_of_birth: 'date_of_birth', favourite_quotes: 'favourite_quotes' } }
+        run_test!
+      end
+      response "422", 'invalid request' do
+        let(:user) { { class_name: 'class_name', graduation: 'graduation', status: 'status',
+                      attending_university: 'attending_university',  high_school: 'high_school', from_location: 'from_location',
+                      gender: 'gender', religion: 'religion', language: 'language', date_of_birth: 'date_of_birth', favourite_quotes: 'favourite_quotes' } }
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/users/verify_otp' do
     post 'Verify OTP' do
       tags 'Auth'

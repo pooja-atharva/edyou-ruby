@@ -840,6 +840,76 @@
         }
       }
     },
+    "/api/v1/users/update": {
+      "put": {
+        "summary": "Update User Profile",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "class_name": {
+                  "type": "string"
+                },
+                "graduation": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "attending_university": {
+                  "type": "string"
+                },
+                "high_school": {
+                  "type": "string"
+                },
+                "from_location": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "religion": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string"
+                },
+                "date_of_birth": {
+                  "type": "string"
+                },
+                "favourite_quotes": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile updated successfully"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
     "/api/v1/users/verify_otp": {
       "post": {
         "summary": "Verify OTP",

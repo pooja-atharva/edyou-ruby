@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :friendships, ->(user) {
     unscope(:where).where(user: user).or(where(friend: user))
   }
+  has_one :profile
 
   has_many :groups_users
   has_and_belongs_to_many :groups
@@ -29,6 +30,10 @@ class User < ApplicationRecord
     self.reset_password_token = nil
     self.password = password
     save!
+  end
+
+  def send_otp_for_forgot
+    UserMailer.send_otp_for_forgot(self).deliver_now
   end
 
   def email_changed?

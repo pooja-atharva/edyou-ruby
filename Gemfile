@@ -48,6 +48,8 @@ group :development do
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
+  gem 'solargraph'
+  gem 'rubocop'
 end
 
 group :test do
@@ -69,4 +71,5 @@ gem 'devise'
 gem 'doorkeeper'
 gem 'active_model_otp'
 gem 'active_model_serializers'
+gem 'pry'
 gem 'rswag'

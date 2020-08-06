@@ -1,6 +1,6 @@
 module Api
   class V1::UsersController < V1::BaseController
-    skip_before_action :doorkeeper_authorize!
+    skip_before_action :doorkeeper_authorize!, except: %i[update]
     before_action :set_user, except: %i[reset_password]
 
     def reset_password
@@ -33,7 +33,7 @@ module Api
 
     def send_otp
       if @user.present?
-          #@user.send_otp_for_forgot
+          @user.send_otp_for_forgot
           render_success_response({ otp: @user.otp_code }, 'OTP sent successfully.')
       else
         render_unprocessable_entity('User is not present.')
@@ -45,10 +45,22 @@ module Api
       render json: { success: true, message: 'User logged out successfully', data: {}, meta: {}, errors: [] }
     end
 
+    def update
+      profile = current_user.profile.blank? ? current_user.create_profile(profile_params) : current_user.profile.update_attributes(profile_params)
+      if profile
+        render_success_response({
+          user: single_serializer.new(current_user.profile, serializer: Api::V1::ProfileSerializer)
+        }, "Profile updated successfully.")
+      else
+        render_unprocessable_entity("Update failed")
+      end
+    end
+
     private
 
-    def password_params
-      params.require(:user).permit(:password, :password_confirmation)
+    def profile_params
+      params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion,
+                    :language, :date_of_birth, :favourite_quotes)
     end
 
     def set_user

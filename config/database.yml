@@ -10,6 +10,10 @@ development:
   <<: *default
   database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_development
 
+test:
+  <<: *default
+  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_test
+
 staging:
   <<: *default
   database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_staging
