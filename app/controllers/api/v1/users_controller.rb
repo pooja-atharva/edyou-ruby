@@ -45,10 +45,36 @@ module Api
       render json: { success: true, message: 'User logged out successfully', data: {}, meta: {}, errors: [] }
     end
 
+    def update
+      user = User.find_by(id: params[:id])
+      if user.update(user_params)
+        data = { status: true, message: 'User profile is update successfully', data: user_data(user)}
+      else
+        data = { status: false, message: user.errors.full_messages.join(','), errors: user.errors.full_messages }
+        @status = 422
+      end
+      render json: data, status: default_status
+    rescue ActiveRecord::RecordNotFound
+      invalid_user_response
+    end
+
     private
+
+    def user_params
+      params.require(:user).permit(
+        :email,
+        user_profile_attributes: [:id, :user_id, :batch, :graduation, :major, :marital_status,
+                             :attending, :high_school, :address, :gender, :religion,
+                             :language, :birthdate]
+      )
+    end
 
     def password_params
       params.require(:user).permit(:password, :password_confirmation)
+    end
+
+    def user_data(object)
+      single_serializer.new(object, serializer: Api::V1::UserSerializer)
     end
 
     def set_user

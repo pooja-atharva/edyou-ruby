@@ -764,6 +764,177 @@
         }
       }
     },
+
+    "/api/v1/users/{id}": {
+      "put": {
+        "summary": "Update User Details",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "Bearer": [
+  
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "user_profile_attributes": {
+                      "type": "object",
+                      "properties": {
+                        "batch": {
+                          "type": "string"
+                        },
+                        "graduation": {
+                          "type": "integer"
+                        },
+                        "major": {
+                          "type": "string"
+                        },
+                        "marital_status": {
+                          "type": "integer"
+                        },
+                        "attending": {
+                          "type": "string"
+                        },
+                        "high_school": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "type": "integer"
+                        },
+                        "religion": {
+                          "type": "string"
+                        },
+                        "language": {
+                          "type": "string"
+                        },
+                        "birthdate": {
+                          "type": "string",
+                          "format": "date"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "user"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "User profile is updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "user_profile_attributes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "user_id": {
+                                "type": "integer"
+                              },
+                              "batch": {
+                                "type": "string"
+                              },
+                              "graduation": {
+                                "type": "integer"
+                              },
+                              "major": {
+                                "type": "string"
+                              },
+                              "marital_status": {
+                                "type": "integer"
+                              },
+                              "attending": {
+                                "type": "string"
+                              },
+                              "high_school": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "gender": {
+                                "type": "integer"
+                              },
+                              "religion": {
+                                "type": "string"
+                              },
+                              "language": {
+                                "type": "string"
+                              },
+                              "birthdate": {
+                                "type": "date"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/reset_password": {
       "post": {
         "summary": "Reset User Password",

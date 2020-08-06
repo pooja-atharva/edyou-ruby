@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_profiles
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   use_doorkeeper do

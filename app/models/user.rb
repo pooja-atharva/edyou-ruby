@@ -8,8 +8,16 @@ class User < ApplicationRecord
   has_many :groups_users
   has_and_belongs_to_many :groups
   has_many :own_groups, class_name: 'Group', foreign_key: :owner_id
+  has_one :user_profile, dependent: :destroy
+  accepts_nested_attributes_for :user_profile
 
   validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@edu.com\z/, message: 'must be from edu account' }, if: :from_website?
+
+  after_create :user_profile
+
+  def user_profile
+    self.build_user_profile.save(:validate => false)
+  end
 
   def from_website?
     google_id.nil?
