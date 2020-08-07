@@ -30,11 +30,20 @@ Rails.application.routes.draw do
           delete :cancel
         end
       end
+      resources :friends
       resources :groups do
         member do
           post :add_users
         end
       end
+      resources :posts do
+        collection do
+          get :audience
+        end
+      end
+      resources :feelings, only: [:index]
+      resources :activities, only: [:index, :show]
+      resources :followings, only: %i[index create destroy]
     end
   end
 end

@@ -1,5 +1,6 @@
 class Api::V1::BaseController < ActionController::API
   include ApplicationMethods
+  include Pagination
   before_action :doorkeeper_authorize!
 
   private

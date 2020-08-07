@@ -28,11 +28,11 @@ module ApplicationMethods
                   }, 200)
   end
 
-  def render_unprocessable_entity(message, status = 200)
+  def render_unprocessable_entity(message, status = 422)
     json_response({
-                    success: false,
-                    message: message
-                  }, status) and return true
+      success: false,
+      message: message
+    }, status) and return true
   end
 
   def render_success_response(resources = {}, message = '', status = 200, meta = {})
