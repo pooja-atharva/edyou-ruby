@@ -88,4 +88,4 @@ RSpec.describe 'api/v1/blocks', type: :request do
       end
     end
   end
-end
+end  

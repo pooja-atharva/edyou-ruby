@@ -44,6 +44,11 @@ Rails.application.routes.draw do
       resources :feelings, only: [:index]
       resources :activities, only: [:index, :show]
       resources :followings, only: %i[index create destroy]
+      resources :blocks, only: %i[index create] do
+        collection do
+          delete :destroy
+        end
+      end
     end
   end
 end

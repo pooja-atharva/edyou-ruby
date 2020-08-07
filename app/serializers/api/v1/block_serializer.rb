@@ -8,7 +8,6 @@ module Api
       end
       
       def blocker
-        byebug
         blocked_entity = object.follower_type.constantize.find_by_id(object.follower_id)
         ActiveModelSerializers::SerializableResource.new(
           blocked_entity,
