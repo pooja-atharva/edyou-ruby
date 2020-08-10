@@ -16,36 +16,33 @@ module Api
       if @block.present?
         message = 'You have already blocked'
       else
-        current_user.block(@block_data)
+        @block = current_user.block(@reference)
         message = 'You have blocked successfully'
       end
-      data = { status: true, message: message, data: nil }
-      render json: data, status: default_status
+      render_success_response(
+        { block: single_serializer.new(@block, serializer: Api::V1::BlockSerializer) },
+        message
+      )
     end
 
     def destroy
-      if !@block.present?
-        render_unprocessable_entity('You have already unblocked.')
+      if @block.present?
+        current_user.unblock(@reference)
+        render_success_response(nil, 'You have unblocked successfully')
       else
-        current_user.unblock(@block_data)
-        data = {
-          status: true, message: 'You have unblocked successfully',
-          data: single_serializer.new(@block, serializer: Api::V1::BlockSerializer)
-        }
-        render json: data, status: default_status
+        render_unprocessable_entity('Reference object is not found to unblock.')
       end
     end
 
     private
 
     def validate_record
-      allow_block = ['User', 'Post', 'Group']
-      render_unprocessable_entity("You cannot block/unblock this entity.") and return if block_params[:reference_type].present? && !allow_block.include?(params[:reference_type])
-      @block_data = params[:reference_type].constantize.find_by_id(params[:reference_id])
-      render_unprocessable_entity("#{params[:reference_type].constantize} is not found") and return if @block_data.nil?
-      render_unprocessable_entity('You cannot block/unblock yourself') and return if params[:reference_type] == "User" && @block_data.id.present? && current_user.id == @block_data.id
-      render_unprocessable_entity('You cannot block/unblock your own entity') and return if params[:reference_type] != "User" && @block_data.user_id.present? && current_user.id == @block_data.user_id
-      @block = Follow.blocked.where(followable: current_user, follower: @block_data).first
+      render_unprocessable_entity('You cannot block/unblock this entity.') and return if block_params[:reference_type].present? && !block_params[:reference_type].in?(Constant::BLOCK_SUPPORT_OBJECTS)
+      @reference = block_params[:reference_type].constantize.find_by_id(block_params[:reference_id])
+      render_unprocessable_entity("#{params[:reference_type].constantize} is not found") and return if @reference.nil?
+      render_unprocessable_entity('You cannot block/unblock yourself') and return if @reference.is_a?(User) && current_user == @reference
+      # render_unprocessable_entity('You cannot block/unblock your own entity') and return if params[:reference_type] != "User" && @reference.user_id.present? && current_user.id == @reference.user_id
+      @block = Follow.blocked.where(followable: current_user, follower: @reference).first
     end
 
     def filter_params
@@ -53,7 +50,7 @@ module Api
     end
 
     def block_params
-      params.permit(:reference_id, :reference_type)
+      params.require(:block).permit(:reference_id, :reference_type)
     end
   end
 end

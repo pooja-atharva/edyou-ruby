@@ -63,6 +63,211 @@
         }
       }
     },
+    "/api/v1/albums": {
+      "get": {
+        "summary": "Get User Albums",
+        "tags": [
+          "Albums"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Albums list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "object"
+                      },
+                      "permission": {
+                        "type": "object"
+                      },
+                      "access_requirement_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        }
+                      },
+                      "allow_contributors": {
+                        "type": "boolean"
+                      },
+                      "contributors": {
+                        "type": "object"
+                      },
+                      "post_count": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create an Album",
+        "tags": [
+          "Albums"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "album",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "album": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "permission_id": {
+                      "type": "integer"
+                    },
+                    "access_requirement_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "allow_contributors": {
+                      "type": "boolean"
+                    },
+                    "contributors_attributes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "user_id": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "album"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Album created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Album is created successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object"
+                    },
+                    "permission": {
+                      "type": "object"
+                    },
+                    "access_requirement_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "allow_contributors": {
+                      "type": "boolean"
+                    },
+                    "contributors": {
+                      "type": "object"
+                    },
+                    "post_count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/blocks": {
       "get": {
         "summary": "List of Blocks",
@@ -122,7 +327,7 @@
                       "id": {
                         "type": "integer"
                       },
-                      "type": {
+                      "reference_type": {
                         "type": "string"
                       },
                       "block": {
@@ -164,22 +369,26 @@
             "schema": {
               "type": "object",
               "properties": {
-                "reference_type": {
-                  "type": "string",
-                  "value": "User",
-                  "enum": [
-                    "User",
-                    "Post",
-                    "Group"
-                  ]
-                },
-                "reference_id": {
-                  "type": "integer"
+                "block": {
+                  "type": "object",
+                  "properties": {
+                    "reference_type": {
+                      "type": "string",
+                      "value": "User",
+                      "enum": [
+                        "User",
+                        "Post",
+                        "Group"
+                      ]
+                    },
+                    "reference_id": {
+                      "type": "integer"
+                    }
+                  }
                 }
               },
               "required": [
-                "reference_type",
-                "reference_id"
+                "block"
               ]
             }
           }
@@ -204,7 +413,7 @@
                     "id": {
                       "type": "integer"
                     },
-                    "type": {
+                    "reference_type": {
                       "type": "string"
                     },
                     "block": {
@@ -245,22 +454,26 @@
             "schema": {
               "type": "object",
               "properties": {
-                "reference_type": {
-                  "type": "string",
-                  "value": "User",
-                  "enum": [
-                    "User",
-                    "Post",
-                    "Group"
-                  ]
-                },
-                "reference_id": {
-                  "type": "integer"
+                "block": {
+                  "type": "object",
+                  "properties": {
+                    "reference_type": {
+                      "type": "string",
+                      "value": "User",
+                      "enum": [
+                        "User",
+                        "Post",
+                        "Group"
+                      ]
+                    },
+                    "reference_id": {
+                      "type": "integer"
+                    }
+                  }
                 }
               },
               "required": [
-                "reference_type",
-                "reference_id"
+                "block"
               ]
             }
           }
@@ -285,7 +498,7 @@
                     "id": {
                       "type": "integer"
                     },
-                    "type": {
+                    "reference_type": {
                       "type": "string"
                     },
                     "block": {
@@ -1530,6 +1743,73 @@
                       "type": "array",
                       "items": {
                         "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/posts/audience": {
+      "get": {
+        "summary": "List Post Permission",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts list permissions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "action_name": {
+                        "type": "string"
+                      },
+                      "action_description": {
+                        "type": "string"
+                      },
+                      "action_emoji": {
+                        "type": "string"
+                      },
+                      "action": {
+                        "type": "string"
+                      },
+                      "action_object": {
+                        "type": "string"
                       }
                     }
                   }

@@ -20,7 +20,12 @@ class User < ApplicationRecord
   has_many :taggings, as: :tagger, dependent: :destroy
   has_many :tagged_posts, through: :taggings, source: :taggable, source_type: 'Post', dependent: :destroy
 
+  has_many :albums, dependent: :destroy
+  has_many :contributors, dependent: :destroy
+  has_many :contributing_albums, through: :contributors, source: :album
+
   accepts_nested_attributes_for :taggings, allow_destroy: true
+  accepts_nested_attributes_for :contributors, allow_destroy: true
 
   validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@edu.com\z/, message: 'must be from edu account' }, if: :from_website?
 

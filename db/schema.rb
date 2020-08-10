@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_131858) do
+ActiveRecord::Schema.define(version: 2020_08_07_130143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,29 @@ ActiveRecord::Schema.define(version: 2020_08_06_131858) do
     t.integer "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "albums", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.bigint "user_id", null: false
+    t.integer "post_count"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "permission_id"
+    t.integer "access_requirement_ids", default: [], array: true
+    t.boolean "allow_contributors", default: false
+    t.index ["permission_id"], name: "index_albums_on_permission_id"
+    t.index ["user_id"], name: "index_albums_on_user_id"
+  end
+
+  create_table "contributors", force: :cascade do |t|
+    t.bigint "album_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["album_id"], name: "index_contributors_on_album_id"
+    t.index ["user_id"], name: "index_contributors_on_user_id"
   end
 
   create_table "feelings", force: :cascade do |t|
@@ -238,6 +261,10 @@ ActiveRecord::Schema.define(version: 2020_08_06_131858) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "albums", "permissions"
+  add_foreign_key "albums", "users"
+  add_foreign_key "contributors", "albums"
+  add_foreign_key "contributors", "users"
   add_foreign_key "likes", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "posts", "activities"

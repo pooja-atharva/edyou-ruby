@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/blocks', type: :request do
   properties = {
     id: { type: :integer },
-    type: { type: :string },
+    reference_type: { type: :string },
     block: { type: :object }
   }
  
@@ -22,7 +22,7 @@ RSpec.describe 'api/v1/blocks', type: :request do
       end
 
       response '422', 'Invalid Request' do
-        let(:follower) {{}}
+        let(:block) {{}}
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -36,22 +36,27 @@ RSpec.describe 'api/v1/blocks', type: :request do
       consumes 'application/json'
       parameter name: :block, in: :body, schema: {
         type: :object,
-        properties:{
-          reference_type: { type: :string, value: "User", enum: ["User", 'Post', 'Group']},
-          reference_id: { type: :integer }
+        properties: {
+          block: {
+            type: :object,
+            properties: {
+              reference_type: { type: :string, value: Constant::BLOCK_SUPPORT_OBJECTS.first, enum: Constant::BLOCK_SUPPORT_OBJECTS},
+              reference_id: { type: :integer }
+            }
+          }
         },
-        required: [:reference_type, :reference_id],
+        required: [:block],
       }
 
       response '200', 'Follow user' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        let(:block) { { id: 1 } }
+        let(:block) { { reference_type: 'User', reference_id: 1 } }
         schema type: :object, properties: ApplicationMethods.success_schema(properties, 'You have blocked succesfully')
         run_test!
       end
 
       response '422', 'Invalid Request' do
-        let(:follower) {{id: 0}}
+        let(:block) {{reference_type: 'User', reference_id: 1}}
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
@@ -65,11 +70,16 @@ RSpec.describe 'api/v1/blocks', type: :request do
       consumes 'application/json'
       parameter name: :block, in: :body, schema: {
         type: :object,
-        properties:{
-          reference_type: { type: :string, value: "User", enum: ["User", 'Post', 'Group']},
-          reference_id: { type: :integer }
+        properties: {
+          block: {
+            type: :object,
+            properties: {
+              reference_type: { type: :string, value: Constant::BLOCK_SUPPORT_OBJECTS.first, enum: Constant::BLOCK_SUPPORT_OBJECTS},
+              reference_id: { type: :integer }
+            }
+          }
         },
-        required: [:reference_type, :reference_id],
+        required: [:block],
       }
 
       response '200', 'Unblock' do

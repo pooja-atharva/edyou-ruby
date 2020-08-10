@@ -1,9 +1,9 @@
 module Api
   module V1
     class BlockSerializer < ActiveModel::Serializer
-      attributes :id, :type, :blocker
+      attributes :id, :reference_type, :blocker
       
-      def type
+      def reference_type
         object.follower_type
       end
       
