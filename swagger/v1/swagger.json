@@ -93,7 +93,12 @@
             "name": "reference_type",
             "in": "query",
             "type": "string",
-            "value": "User"
+            "value": "User",
+            "enum": [
+              "User",
+              "Post",
+              "Group"
+            ]
           }
         ],
         "responses": {
@@ -154,13 +159,19 @@
         ],
         "parameters": [
           {
-            "name": "params",
+            "name": "block",
             "in": "body",
             "schema": {
-              "type": "string",
+              "type": "object",
               "properties": {
                 "reference_type": {
-                  "type": "string"
+                  "type": "string",
+                  "value": "User",
+                  "enum": [
+                    "User",
+                    "Post",
+                    "Group"
+                  ]
                 },
                 "reference_id": {
                   "type": "integer"
@@ -229,13 +240,19 @@
         ],
         "parameters": [
           {
-            "name": "params",
+            "name": "block",
             "in": "body",
             "schema": {
-              "type": "string",
+              "type": "object",
               "properties": {
                 "reference_type": {
-                  "type": "string"
+                  "type": "string",
+                  "value": "User",
+                  "enum": [
+                    "User",
+                    "Post",
+                    "Group"
+                  ]
                 },
                 "reference_id": {
                   "type": "integer"

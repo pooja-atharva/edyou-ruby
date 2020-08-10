@@ -13,7 +13,7 @@ RSpec.describe 'api/v1/blocks', type: :request do
       security [Bearer: []]
       parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
       parameter name: :page, in: :query, type: :integer, value: 1
-      parameter name: :reference_type, in: :query, type: :string, value: "User"
+      parameter name: :reference_type, in: :query, type: :string, value: "User", enum: ["User", 'Post', 'Group']
 
       response '200', 'List of Followings' do
         let(:'Authorization') { 'Bearer ' + generate_token }
@@ -34,10 +34,10 @@ RSpec.describe 'api/v1/blocks', type: :request do
       tags 'Blocks'
       security [Bearer: []]
       consumes 'application/json'
-      parameter name: :params, in: :body, schema: {
-        type: :string,
+      parameter name: :block, in: :body, schema: {
+        type: :object,
         properties:{
-          reference_type: { type: :string },
+          reference_type: { type: :string, value: "User", enum: ["User", 'Post', 'Group']},
           reference_id: { type: :integer }
         },
         required: [:reference_type, :reference_id],
@@ -63,10 +63,10 @@ RSpec.describe 'api/v1/blocks', type: :request do
       tags 'Blocks'
       security [Bearer: []]
       consumes 'application/json'
-      parameter name: :params, in: :body, schema: {
-        type: :string,
+      parameter name: :block, in: :body, schema: {
+        type: :object,
         properties:{
-          reference_type: { type: :string },
+          reference_type: { type: :string, value: "User", enum: ["User", 'Post', 'Group']},
           reference_id: { type: :integer }
         },
         required: [:reference_type, :reference_id],
