@@ -88,6 +88,12 @@
             "in": "query",
             "type": "integer",
             "value": 1
+          },
+          {
+            "name": "reference_type",
+            "in": "query",
+            "type": "string",
+            "value": "User"
           }
         ],
         "responses": {

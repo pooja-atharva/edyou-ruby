@@ -13,6 +13,7 @@ RSpec.describe 'api/v1/blocks', type: :request do
       security [Bearer: []]
       parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
       parameter name: :page, in: :query, type: :integer, value: 1
+      parameter name: :reference_type, in: :query, type: :string, value: "User"
 
       response '200', 'List of Followings' do
         let(:'Authorization') { 'Bearer ' + generate_token }
