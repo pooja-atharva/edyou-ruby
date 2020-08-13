@@ -1812,6 +1812,73 @@
         }
       }
     },
+    "/api/v1/permissions": {
+      "get": {
+        "summary": "List of permissions",
+        "tags": [
+          "Permissions"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "reference_type",
+            "in": "query",
+            "type": "string",
+            "value": "Post",
+            "enum": [
+              "Album",
+              "Post"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Permissions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "permission_type": {
+                        "type": "object"
+                      },
+                      "action_object": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/posts": {
       "post": {
         "summary": "Create a Post",

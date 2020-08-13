@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_10_090736) do
+ActiveRecord::Schema.define(version: 2020_08_13_092429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,14 +197,20 @@ ActiveRecord::Schema.define(version: 2020_08_10_090736) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
-  create_table "permissions", force: :cascade do |t|
+  create_table "permission_types", force: :cascade do |t|
     t.string "action_name"
     t.string "action_description"
-    t.string "action_emoji"
     t.string "action"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "action_emoji"
     t.string "action_object"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "permission_type_id"
   end
 
   create_table "posts", force: :cascade do |t|

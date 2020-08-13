@@ -57,6 +57,7 @@ Rails.application.routes.draw do
           delete :destroy
         end
       end
+      resources :permissions, only: %[index]
     end
   end
 end
