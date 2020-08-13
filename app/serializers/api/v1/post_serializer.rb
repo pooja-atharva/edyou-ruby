@@ -1,8 +1,9 @@
 module Api
   module V1
     class PostSerializer < ActiveModel::Serializer
-      attributes :id, :body, :publish_date, :parent_id, :parent_type,
-          :feeling, :activity, :comment_count, :like_count, :user, :tagged_users
+      attributes :id, :body, :publish_date, :parent,
+          :feeling, :activity, :comment_count, :like_count, :permission,
+          :access_requirement_ids, :user, :tagged_users
 
       def feeling
         unless object.feeling_id.blank?
@@ -20,12 +21,22 @@ module Api
         end
       end
 
+      def parent
+        if object.parent_type == 'Album'
+          ActiveModelSerializers::SerializableResource.new(object.parent, each_serializer: Api::V1::AlbumSerializer)
+        end
+      end
+
       def tagged_users
         ActiveModelSerializers::SerializableResource.new(object.tagged_users, each_serializer: Api::V1::TaggedUserSerializer)
       end
 
       def user
         ActiveModelSerializers::SerializableResource.new(object.user, serializer: Api::V1::UserSerializer)
+      end
+
+      def permission
+        ActiveModelSerializers::SerializableResource.new(object.permission, serializer: Api::V1::PermissionSerializer)
       end
     end
   end

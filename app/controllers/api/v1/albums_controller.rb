@@ -42,7 +42,8 @@ module Api
 
     def album_params
       params.require(:album).permit(:name, :description, :permission_id,
-                                    :allow_contributors,
+                                    :allow_contributors, :parent_id,
+                                    :parent_type,
                                     contributors_attributes: [:user_id],
                                     access_requirement_ids: [])
     end

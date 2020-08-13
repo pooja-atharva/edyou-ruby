@@ -1,7 +1,7 @@
 class Album < ApplicationRecord
   belongs_to :user
   belongs_to :permission
-  has_many :posts
+  has_many :posts, as: :parent
   has_many :contributors
   has_many :contributing_users, through: :contributors, source: :user
 

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
           post :reset_password
           post :send_otp
           post :verify_otp
+          post :profile_image
           delete :signout
         end
       end
@@ -36,6 +37,8 @@ Rails.application.routes.draw do
           post :add_users
         end
       end
+      resources :likes
+      resources :comments
       resources :posts do
         collection do
           get :audience

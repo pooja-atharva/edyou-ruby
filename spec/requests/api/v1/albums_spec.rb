@@ -10,6 +10,11 @@ RSpec.describe 'api/v1/albums', type: :request do
                   contributors: { type: :object },
                   post_count: { type: :integer }
                 }
+  audience_properties = { id: {type: :integer}, action_name: {type: :string},
+                            action_description: {type: :string},
+                            action_emoji: {type: :string},
+                            action: {type: :string},
+                            action_object: {type: :string} }
 
   album_properties = {
     name: { type: :string },
@@ -70,6 +75,27 @@ RSpec.describe 'api/v1/albums', type: :request do
 
       response '422', 'Invalid Request' do
         let(:album) { { name: 'sample' }}
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/albums/audience' do
+    get 'List Album Permission' do
+      tags 'Albums'
+      security [Bearer: []]
+      consumes 'application/json'
+
+      response '200', 'Albums list permissions' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        let(:album) { { name: 'sample' } }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(audience_properties)
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:album) {{name: 'sample', user_ids: [1,2]}}
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end

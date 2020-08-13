@@ -15,11 +15,9 @@ RSpec.describe 'api/v1/users', type: :request do
       }
       response '200', 'Reset User Password done' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        let(:reset_password) { { reset_password_token: 'token', password: 'password' } }
         run_test!
       end
       response "422", 'invalid request' do
-        let(:reset_password) {{reset_password_token: 'token', password: 'password'}}
         run_test!
       end
     end
@@ -31,11 +29,9 @@ RSpec.describe 'api/v1/users', type: :request do
       parameter name: :email, in: :formData, type: :string, required: true
       response '200', 'User created successfully' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: { email: 'email'}
         run_test!
       end
       response "422", 'invalid request' do
-        schema type: :object, properties: { email: 'email'}
         run_test!
       end
     end
@@ -43,7 +39,7 @@ RSpec.describe 'api/v1/users', type: :request do
 
   path '/api/v1/users/update' do
     put 'Update User Profile' do
-      tags 'Auth'
+      tags 'Profile'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :user, in: :body, schema: {
@@ -64,15 +60,24 @@ RSpec.describe 'api/v1/users', type: :request do
       }
       response '200', 'User profile updated successfully' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        let(:user) { { class_name: 'class_name', graduation: 'graduation', status: 'status',
-                      attending_university: 'attending_university',  high_school: 'high_school', from_location: 'from_location',
-                      gender: 'gender', religion: 'religion', language: 'language', date_of_birth: 'date_of_birth', favourite_quotes: 'favourite_quotes' } }
         run_test!
       end
       response "422", 'invalid request' do
-        let(:user) { { class_name: 'class_name', graduation: 'graduation', status: 'status',
-                      attending_university: 'attending_university',  high_school: 'high_school', from_location: 'from_location',
-                      gender: 'gender', religion: 'religion', language: 'language', date_of_birth: 'date_of_birth', favourite_quotes: 'favourite_quotes' } }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/users/profile_image' do
+    post 'Update Profile Pic' do
+      tags 'Profile'
+      security [Bearer: []]
+      parameter name: :profile_image, in: :formData, type: :file, required: true
+      response '200', 'Profile pic uploaded successfully' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        run_test!
+      end
+      response "422", 'invalid request' do
         run_test!
       end
     end
@@ -85,11 +90,9 @@ RSpec.describe 'api/v1/users', type: :request do
       parameter name: :otp, in: :formData, type: :string, required: true
       response '200', 'User created successfully' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: { email: 'email', otp: 'OTP'}
         run_test!
       end
       response "422", 'invalid request' do
-        schema type: :object, properties: { email: 'email', otp: 'OTP'}
         run_test!
       end
     end
@@ -110,11 +113,9 @@ RSpec.describe 'api/v1/users', type: :request do
       }
       response '200', 'User created successfully' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        let(:user) { { name: 'name', email: 'email', password: 'password' } }
         run_test!
       end
       response "422", 'invalid request' do
-        let(:user) { { name: 'name', email: 'email', password: 'password' } }
         run_test!
       end
     end
@@ -135,11 +136,9 @@ RSpec.describe 'api/v1/users', type: :request do
       }
       response '200', 'Login' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        let(:user) { { email: 'email', password: 'password', grant_type: 'password' } }
         run_test!
       end
       response "422", 'invalid request' do
-        let(:user) { { email: 'email', password: 'password', grant_type: 'password' } }
         run_test!
       end
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_07_130143) do
+ActiveRecord::Schema.define(version: 2020_08_10_090736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2020_08_07_130143) do
     t.string "name"
     t.text "description"
     t.bigint "user_id", null: false
-    t.integer "post_count"
+    t.integer "posts_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "permission_id"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 2020_08_07_130143) do
     t.boolean "allow_contributors", default: false
     t.index ["permission_id"], name: "index_albums_on_permission_id"
     t.index ["user_id"], name: "index_albums_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.string "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "contributors", force: :cascade do |t|
@@ -209,8 +219,11 @@ ActiveRecord::Schema.define(version: 2020_08_07_130143) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "feeling_id"
     t.bigint "activity_id"
+    t.bigint "permission_id"
+    t.integer "access_requirement_ids", default: [], array: true
     t.index ["activity_id"], name: "index_posts_on_activity_id"
     t.index ["feeling_id"], name: "index_posts_on_feeling_id"
+    t.index ["permission_id"], name: "index_posts_on_permission_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -263,12 +276,15 @@ ActiveRecord::Schema.define(version: 2020_08_07_130143) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "albums", "permissions"
   add_foreign_key "albums", "users"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
   add_foreign_key "contributors", "albums"
   add_foreign_key "contributors", "users"
   add_foreign_key "likes", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "posts", "activities"
   add_foreign_key "posts", "feelings"
+  add_foreign_key "posts", "permissions"
   add_foreign_key "posts", "users"
   add_foreign_key "profiles", "users"
 end

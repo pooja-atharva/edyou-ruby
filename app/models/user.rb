@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :taggings, as: :tagger, dependent: :destroy
   has_many :tagged_posts, through: :taggings, source: :taggable, source_type: 'Post', dependent: :destroy
 
+  has_one_attached :profile_image
+  has_many_attached :cover_images
   has_many :albums, dependent: :destroy
   has_many :contributors, dependent: :destroy
   has_many :contributing_albums, through: :contributors, source: :album

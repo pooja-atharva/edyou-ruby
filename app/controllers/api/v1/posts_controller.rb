@@ -4,6 +4,7 @@ module Api
       post = Post.new(post_params)
       post.user = current_user
       post.publish_date = Time.now if post.publish_date.blank?
+      post.permission = public_permission if post.permission_id.blank?
       if post.save
         data = { status: true, message: 'Post is created successfully', data: post_data(post)}
       else
@@ -19,8 +20,15 @@ module Api
     end
 
     private
+      def public_permission
+        Permission.find_by(action_name: 'Public', action_object: 'Post')
+      end
+
       def post_params
-        params.require(:post).permit(:body, :publish_date, :parent_id, :parent_type, :feeling_id, :activity_id, taggings_attributes: [:id, :tagger_id, :tagger_type])
+        params.require(:post).permit(:body, :publish_date, :parent_id,
+          :parent_type, :feeling_id, :activity_id, :permission_id,
+          taggings_attributes: [:id, :tagger_id, :tagger_type],
+          access_requirement_ids: [])
       end
 
       def post_data(object)

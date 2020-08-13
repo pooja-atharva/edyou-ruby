@@ -1,6 +1,6 @@
 module Api
   class V1::UsersController < V1::BaseController
-    skip_before_action :doorkeeper_authorize!, except: %i[update]
+    skip_before_action :doorkeeper_authorize!, except: %i[update profile_image]
     before_action :set_user, except: %i[reset_password]
 
     def reset_password
@@ -28,6 +28,26 @@ module Api
         end
       else
         render_unprocessable_entity('User is not present.')
+      end
+    end
+
+    def cover_images
+      if current_user.update(media_params)
+        render_success_response({
+          user: single_serializer.new(current_user, serializer: Api::V1::ProfileSerializer)
+        }, 'Profile pic updated successfully.')
+      else
+        render_unprocessable_entity("Update pic failed")
+      end
+    end
+
+    def profile_image
+      if current_user.update(profile_image: params[:profile_image])
+        render_success_response({
+          user: single_serializer.new(current_user, serializer: Api::V1::UserSerializer)
+        }, 'Profile pic updated successfully.')
+      else
+        render_unprocessable_entity("Update pic failed")
       end
     end
 
@@ -61,6 +81,10 @@ module Api
     def profile_params
       params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion,
                     :language, :date_of_birth, :favourite_quotes)
+    end
+
+    def media_params
+      params.permit(cover_images: [])
     end
 
     def set_user

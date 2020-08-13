@@ -4,9 +4,12 @@ RSpec.describe 'api/v1/posts', type: :request do
 
   properties = { id: {type: :integer}, body: {type: :string},
                   publish_date: {type: :string},
-                  parent_id: { type: :integer}, parent_type: { type: :string },
+                  parent: { type: :object},
                   feeling: { type: :string },
                   activity: { type: :string },
+                  permission: { type: :object },
+                  access_requirement_ids: { type: :array,
+                                            items: { type: :integer } },
                   tagged_users: {type: :array, items: {type: :object}},
                   users: {type: :array, items: {type: :object}}}
 
@@ -23,6 +26,8 @@ RSpec.describe 'api/v1/posts', type: :request do
     parent_type: { type: :string },
     feeling_id: { type: :integer },
     activity_id: { type: :integer },
+    permission_id: { type: :integer },
+    access_requirement_ids: { type: :array, items: { type: :integer } },
     taggings_attributes: {
       type: :array,
       items: {

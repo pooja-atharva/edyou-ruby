@@ -32,8 +32,6 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'awesome_print'
-  gem "rspec-rails"
-  gem "rswag-specs"
 end
 
 group :development do
@@ -75,3 +73,5 @@ gem 'pry'
 gem 'rswag'
 gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'kaminari'
+gem "rspec-rails"
+gem "rswag-specs"
