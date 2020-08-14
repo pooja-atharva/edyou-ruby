@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_092429) do
+ActiveRecord::Schema.define(version: 2020_08_14_100103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -233,6 +233,16 @@ ActiveRecord::Schema.define(version: 2020_08_13_092429) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "privacy_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "permission_type_id", null: false
+    t.string "action_object"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_type_id"], name: "index_privacy_settings_on_permission_type_id"
+    t.index ["user_id"], name: "index_privacy_settings_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "class_name"
@@ -292,5 +302,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_092429) do
   add_foreign_key "posts", "feelings"
   add_foreign_key "posts", "permissions"
   add_foreign_key "posts", "users"
+  add_foreign_key "privacy_settings", "permission_types"
+  add_foreign_key "privacy_settings", "users"
   add_foreign_key "profiles", "users"
 end

@@ -58,6 +58,7 @@ Rails.application.routes.draw do
         end
       end
       resources :permissions, only: %[index]
+      resources :privacy_settings, only: %i[index update]
     end
   end
 end

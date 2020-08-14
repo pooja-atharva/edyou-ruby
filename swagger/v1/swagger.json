@@ -2096,6 +2096,168 @@
         }
       }
     },
+    "/api/v1/privacy_settings": {
+      "get": {
+        "summary": "List of privacy_settings",
+        "tags": [
+          "Privacy Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of privacy_settings",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "action_object": {
+                        "type": "string"
+                      },
+                      "permission_type": {
+                        "type": "object"
+                      },
+                      "user": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/privacy_settings/{id}": {
+      "put": {
+        "summary": "Update Privacy Setting",
+        "tags": [
+          "Privacy Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Privacy Setting ID",
+            "required": true
+          },
+          {
+            "name": "privacy_setting",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "privacy_setting": {
+                  "type": "object",
+                  "properties": {
+                    "permission_type_id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "privacy_setting"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Privacy Setting Updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Privacy Setting is updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "action_object": {
+                      "type": "string"
+                    },
+                    "permission_type": {
+                      "type": "object"
+                    },
+                    "user": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You are not authorized."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/reset_password": {
       "post": {
         "summary": "Reset User Password",

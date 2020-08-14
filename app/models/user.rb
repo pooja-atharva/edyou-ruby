@@ -25,11 +25,20 @@ class User < ApplicationRecord
   has_many :albums, dependent: :destroy
   has_many :contributors, dependent: :destroy
   has_many :contributing_albums, through: :contributors, source: :album
+  has_many :privacy_settings
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
   accepts_nested_attributes_for :contributors, allow_destroy: true
 
   validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@edu.com\z/, message: 'must be from edu account' }, if: :from_website?
+  after_create :set_privacy_settings
+
+  def set_privacy_settings
+    default_permission_type_id = PermissionType.find_by(action: 'public').id
+    Constant::PRIVACY_SETTING_OBJECTS.each do |ps_object|
+      privacy_settings.find_or_create_by(permission_type_id: default_permission_type_id, action_object: ps_object) 
+    end
+  end
 
   def from_website?
     google_id.nil?
