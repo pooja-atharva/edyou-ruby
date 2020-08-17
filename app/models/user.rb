@@ -36,7 +36,7 @@ class User < ApplicationRecord
   def set_privacy_settings
     default_permission_type_id = PermissionType.find_by(action: 'public').id
     Constant::PRIVACY_SETTING_OBJECTS.each do |ps_object|
-      privacy_settings.find_or_create_by(permission_type_id: default_permission_type_id, action_object: ps_object) 
+      privacy_settings.find_or_create_by(permission_type_id: default_permission_type_id, action_object: ps_object)
     end
   end
 

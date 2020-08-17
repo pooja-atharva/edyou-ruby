@@ -10,12 +10,16 @@ module Api
     end
 
     def update
-      privacy_setting = current_user.privacy_settings.find_by(id: params[:id])
-      render json: {status: false, message: 'Privacy Setting is not found.'}, status: 404 and return if privacy_setting.nil?
-      privacy_setting.attributes = privacy_setting_params
-      if privacy_setting.save
-        data = { status: true, message: 'Privacy Setting is updated successfully', data: privacy_setting_data(privacy_setting)}
+      render_unprocessable_entity('You have changes nothing in privacy setting.') and return if !params[:privacy_setting].present?
+      params[:privacy_setting].each do |privacy_obj|
+        privacy_setting = current_user.privacy_settings.find_by(action_object: privacy_obj[:action_object])
+        if privacy_setting.present?
+          privacy_setting.update(permission_type_id: privacy_obj[:permission_type_id], action_object: privacy_obj[:action_object])
+        else
+          current_user.privacy_settings.create(permission_type_id: privacy_obj[:permission_type_id], action_object: privacy_obj[:action_object])
+        end
       end
+      data = { status: true, message: 'Privacy Settings are updated successfully', data: nil}
       render json: data, status: default_status
     rescue ActiveRecord::RecordNotFound
       invalid_user_response

@@ -58,7 +58,11 @@ Rails.application.routes.draw do
         end
       end
       resources :permissions, only: %[index]
-      resources :privacy_settings, only: %i[index update]
+      resources :privacy_settings, only: %i[index] do
+        collection do
+          post :update
+        end
+      end
     end
   end
 end

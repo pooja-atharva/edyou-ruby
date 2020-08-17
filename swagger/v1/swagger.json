@@ -2152,11 +2152,9 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/privacy_settings/{id}": {
-      "put": {
-        "summary": "Update Privacy Setting",
+      },
+      "post": {
+        "summary": "Change Privacy Setting",
         "tags": [
           "Privacy Setting"
         ],
@@ -2172,30 +2170,27 @@
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "type": "string",
-            "description": "Privacy Setting ID",
-            "required": true
-          },
-          {
-            "name": "privacy_setting",
+            "name": "privacy_settings",
+            "description": "array of objects",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "privacy_setting": {
-                  "type": "object",
-                  "properties": {
-                    "permission_type_id": {
-                      "type": "integer"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "action_object": {
+                        "type": "string"
+                      },
+                      "permission_type_id": {
+                        "type": "integer"
+                      }
                     }
                   }
                 }
-              },
-              "required": [
-                "privacy_setting"
-              ]
+              }
             }
           }
         ],
