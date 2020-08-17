@@ -1,28 +1,23 @@
 module Api
   class V1::PrivacySettingsController < V1::BaseController
     def index
-      privacy_settings = current_user.privacy_settings
-      data = {
-        status: true, message: '',
-        data: array_serializer.new(privacy_settings, serializer: Api::V1::PrivacySettingSerializer)
-      }
-      render json: data, status: default_status
+      render_success_response(
+        { privacy_settings: array_serializer.new(current_user.privacy_settings, serializer: Api::V1::PrivacySettingSerializer) }
+      )
     end
 
     def update
-      render_unprocessable_entity('You have changes nothing in privacy setting.') and return if !params[:privacy_setting].present?
+      render_unprocessable_entity('You have changes nothing in privacy setting.') and return unless params[:privacy_setting].present?
       params[:privacy_setting].each do |privacy_obj|
-        privacy_setting = current_user.privacy_settings.find_by(action_object: privacy_obj[:action_object])
-        if privacy_setting.present?
-          privacy_setting.update(permission_type_id: privacy_obj[:permission_type_id], action_object: privacy_obj[:action_object])
-        else
-          current_user.privacy_settings.create(permission_type_id: privacy_obj[:permission_type_id], action_object: privacy_obj[:action_object])
-        end
+        privacy_setting = current_user.privacy_settings.find_or_initialize_by(action_object: privacy_obj[:action_object])
+        privacy_setting.permission_type_id = privacy_obj[:permission_type_id]
+        privacy_setting.action_object = privacy_obj[:action_object]
+        privacy_setting.save
       end
-      data = { status: true, message: 'Privacy Settings are updated successfully', data: nil}
-      render json: data, status: default_status
-    rescue ActiveRecord::RecordNotFound
-      invalid_user_response
+      render_success_response(
+        { privacy_settings: array_serializer.new(current_user.privacy_settings, serializer: Api::V1::PrivacySettingSerializer) },
+        'Privacy Settings are updated successfully'
+      )
     end
 
     private

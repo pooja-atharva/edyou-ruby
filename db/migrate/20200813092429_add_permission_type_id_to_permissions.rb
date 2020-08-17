@@ -5,5 +5,6 @@ class AddPermissionTypeIdToPermissions < ActiveRecord::Migration[6.0]
     remove_column :permissions, :action, :string
     add_column :permissions, :permission_type_id, :integer
   end
+  add_index :permissions, :permission_type_id
 end
  

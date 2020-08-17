@@ -7,5 +7,7 @@ class CreatePrivacySettings < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :privacy_settings, :user_id
+    add_index :privacy_settings, :permission_type_id
   end
 end

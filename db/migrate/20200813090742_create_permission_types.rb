@@ -7,5 +7,7 @@ class CreatePermissionTypes < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :permission_types, :action_name
+    add_index :permission_types, :action
   end
 end

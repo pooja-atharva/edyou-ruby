@@ -31,6 +31,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :contributors, allow_destroy: true
 
   validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@edu.com\z/, message: 'must be from edu account' }, if: :from_website?
+
   after_create :set_privacy_settings
 
   def set_privacy_settings
