@@ -15,6 +15,17 @@ class Post < ApplicationRecord
 
   scope :daily_temp_post, -> { where("created_at <= ? and delete_post_after_24_hour = ? and status = ?", 1.day.ago, true, 4)}
 
+  after_commit :create_hashtags
+
+  def create_hashtags
+    if body.scan(/#\w+/).flatten.present?
+      taggings.destroy_all if taggings.present?
+      body.scan(/#\w+/).flatten.each do |tag|
+        taggings.create(context: tag)
+      end
+    end
+  end
+
   def self.deactivate
     update_all(status: 5)
   end
