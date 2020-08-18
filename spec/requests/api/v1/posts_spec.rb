@@ -8,6 +8,8 @@ RSpec.describe 'api/v1/posts', type: :request do
                   feeling: { type: :string },
                   activity: { type: :string },
                   permission: { type: :object },
+                  status: { type: :integer},
+                  delete_post_after_24_hour: { type: :boolean },
                   access_requirement_ids: { type: :array,
                                             items: { type: :integer } },
                   tagged_users: {type: :array, items: {type: :object}},
@@ -27,6 +29,8 @@ RSpec.describe 'api/v1/posts', type: :request do
     feeling_id: { type: :integer },
     activity_id: { type: :integer },
     permission_id: { type: :integer },
+    delete_post_after_24_hour: { type: :boolean },
+    status: { type: :integer },
     access_requirement_ids: { type: :array, items: { type: :integer } },
     taggings_attributes: {
       type: :array,

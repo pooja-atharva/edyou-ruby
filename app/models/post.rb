@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  include Status
+
   belongs_to :user
   belongs_to :feeling, optional: true
   belongs_to :activity, optional: true
@@ -10,4 +12,10 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
+
+  scope :daily_temp_post, -> { where("created_at <= ? and delete_post_after_24_hour = ? and status = ?", 1.day.ago, true, 4)}
+
+  def self.deactivate
+    update_all(status: 5)
+  end
 end

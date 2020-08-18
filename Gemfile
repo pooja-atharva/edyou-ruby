@@ -75,3 +75,4 @@ gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'kaminari'
 gem "rspec-rails"
 gem "rswag-specs"
+gem 'whenever', require: false

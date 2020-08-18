@@ -2,9 +2,7 @@ module Api
   class V1::PostsController < V1::BaseController
     def create
       post = Post.new(post_params)
-      post.user = current_user
-      post.publish_date = Time.now if post.publish_date.blank?
-      post.permission = public_permission if post.permission_id.blank?
+      post_defaults(post)
       if post.save
         data = { status: true, message: 'Post is created successfully', data: post_data(post)}
       else
@@ -20,6 +18,14 @@ module Api
     end
 
     private
+
+      def post_defaults(post)
+        post.user = current_user
+        post.publish_date = Time.now if post.publish_date.blank?
+        post.permission = public_permission if post.permission_id.blank?
+        post.status = :approved if post.status.blank?
+      end
+
       def public_permission
         Permission.find_by(action_name: 'Public', action_object: 'Post')
       end
@@ -28,6 +34,7 @@ module Api
         params.require(:post).permit(:body, :publish_date, :parent_id,
           :parent_type, :feeling_id, :activity_id, :permission_id,
           taggings_attributes: [:id, :tagger_id, :tagger_type],
+          :delete_post_after_24_hour, :status
           access_requirement_ids: [])
       end
 

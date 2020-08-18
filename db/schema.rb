@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_10_090736) do
+ActiveRecord::Schema.define(version: 2020_08_13_102517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,6 +221,8 @@ ActiveRecord::Schema.define(version: 2020_08_10_090736) do
     t.bigint "activity_id"
     t.bigint "permission_id"
     t.integer "access_requirement_ids", default: [], array: true
+    t.boolean "delete_post_after_24_hour", default: false
+    t.integer "status"
     t.index ["activity_id"], name: "index_posts_on_activity_id"
     t.index ["feeling_id"], name: "index_posts_on_feeling_id"
     t.index ["permission_id"], name: "index_posts_on_permission_id"

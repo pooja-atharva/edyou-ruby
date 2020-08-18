@@ -3,7 +3,8 @@ module Api
     class PostSerializer < ActiveModel::Serializer
       attributes :id, :body, :publish_date, :parent,
           :feeling, :activity, :comment_count, :like_count, :permission,
-          :access_requirement_ids, :user, :tagged_users
+          :access_requirement_ids, :user, :tagged_users, :status,
+          :delete_post_after_24_hour
 
       def feeling
         unless object.feeling_id.blank?

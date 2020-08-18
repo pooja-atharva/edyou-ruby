@@ -1860,6 +1860,12 @@
                     "permission_id": {
                       "type": "integer"
                     },
+                    "delete_post_after_24_hour": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
                     "access_requirement_ids": {
                       "type": "array",
                       "items": {
@@ -1929,6 +1935,12 @@
                     },
                     "permission": {
                       "type": "object"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "delete_post_after_24_hour": {
+                      "type": "boolean"
                     },
                     "access_requirement_ids": {
                       "type": "array",
