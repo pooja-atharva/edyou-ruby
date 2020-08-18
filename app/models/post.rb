@@ -18,11 +18,9 @@ class Post < ApplicationRecord
   after_commit :create_hashtags
 
   def create_hashtags
-    if body.scan(/#\w+/).flatten.present?
-      taggings.destroy_all if taggings.present?
-      body.scan(/#\w+/).flatten.each do |tag|
-        taggings.create(context: tag)
-      end
+    taggings.destroy_all if taggings.present?
+    body.scan(/#\w+/).flatten.each do |tag|
+      taggings.create(context: tag)
     end
   end
 
