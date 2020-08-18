@@ -51,10 +51,16 @@ Rails.application.routes.draw do
           get :audience
         end
       end
-      resources :followings, only: %i[index create destroy]
-      resources :blocks, only: %i[index create] do
+      resources :followings, only: [:index, :create, :destroy]
+      resources :blocks, only: [:index, :create] do
         collection do
           delete :destroy
+        end
+      end
+      resources :permissions, only: [:index]
+      resources :privacy_settings, only: [:index] do
+        collection do
+          post :update
         end
       end
     end

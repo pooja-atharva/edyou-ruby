@@ -385,19 +385,28 @@ Activity.find_or_create_by(name: "board games", parent_id: parent_activity.id)
 parent_activity = Activity.find_or_create_by(name: 'Supporting')
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#               PermissionType List                 #
+# # # # # # # # # # # # # # # # # # # # # # # # # # #
+permission_type1 = PermissionType.find_or_create_by(action_name: "Public", action_description: "Anyone on or off EdYou", action: "public")
+permission_type2 = PermissionType.find_or_create_by(action_name: "Friends", action_description: "Your friends on EdYou", action: "friends")
+permission_type3 = PermissionType.find_or_create_by(action_name: "Friends, except...", action_description: "Don't show to some friends", action: "except_friends")
+permission_type4 = PermissionType.find_or_create_by(action_name: "Specific friends...", action_description: "Only show to some friends", action: "specific_friends")
+permission_type5 = PermissionType.find_or_create_by(action_name: "Only me", action_description: "Only me", action: "private")
+permission_type6 = PermissionType.find_or_create_by(action_name: "Close friends", action_description: "Your custom list", action: "close_friends")
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # #
 #               Permission List                     #
 # # # # # # # # # # # # # # # # # # # # # # # # # # #
-Permission.find_or_create_by(action_name: "Public", action_description: "Anyone on or off EdYou", action: "public",  action_object: 'Post')
-Permission.find_or_create_by(action_name: "Friends", action_description: "Your friends on EdYou", action: "friends", action_object: 'Post')
-Permission.find_or_create_by(action_name: "Friends, except...", action_description: "Don't show to some friends", action: "except_friends", action_object: 'Post')
-Permission.find_or_create_by(action_name: "Specific friends...", action_description: "Only show to some friends", action: "specific_friends", action_object: 'Post')
-Permission.find_or_create_by(action_name: "Only me", action_description: "Only me", action: "private",  action_object: 'Post')
-Permission.find_or_create_by(action_name: "Close friends", action_description: "Your custom list", action: "close_friends", action_object: 'Post')
-Permission.find_or_create_by(action_name: "Public", action_description: "Anyone on or off EdYou", action: "public",  action_object: 'Album')
-Permission.find_or_create_by(action_name: "Friends", action_description: "Your friends on EdYou", action: "friends", action_object: 'Album')
-Permission.find_or_create_by(action_name: "Friends, except...", action_description: "Don't show to some friends", action: "except_friends", action_object: 'Album')
-Permission.find_or_create_by(action_name: "Specific friends...", action_description: "Only show to some friends", action: "specific_friends", action_object: 'Album')
-Permission.find_or_create_by(action_name: "Only me", action_description: "Only me", action: "private",  action_object: 'Album')
-Permission.find_or_create_by(action_name: "Close friends", action_description: "Your custom list", action: "close_friends", action_object: 'Album')
-Permission.find_or_create_by(action_name: "Friends of contributors", action_description: "Contributors and their friends", action: "contributors_friends",  action_object: 'Album')
-Permission.find_or_create_by(action_name: "Contributors Only", action_description: "Only contributors added to this album", action: "contributors", action_object: 'Album')
+Permission.find_or_create_by(permission_type_id: permission_type1.id,action_object: 'Post') 
+Permission.find_or_create_by(permission_type_id: permission_type2.id,action_object: 'Post')
+Permission.find_or_create_by(permission_type_id: permission_type3.id,action_object: 'Post')
+Permission.find_or_create_by(permission_type_id: permission_type4.id,action_object: 'Post')
+Permission.find_or_create_by(permission_type_id: permission_type5.id,action_object: 'Post')
+Permission.find_or_create_by(permission_type_id: permission_type6.id,action_object: 'Post')
+
+Permission.find_or_create_by(permission_type_id: permission_type1.id,action_object: 'Album') 
+Permission.find_or_create_by(permission_type_id: permission_type2.id,action_object: 'Album')
+Permission.find_or_create_by(permission_type_id: permission_type3.id,action_object: 'Album')
+Permission.find_or_create_by(permission_type_id: permission_type4.id,action_object: 'Album')
+Permission.find_or_create_by(permission_type_id: permission_type5.id,action_object: 'Album')
+Permission.find_or_create_by(permission_type_id: permission_type6.id,action_object: 'Album')

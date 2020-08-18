@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_102517) do
+ActiveRecord::Schema.define(version: 2020_08_14_100103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,14 +197,20 @@ ActiveRecord::Schema.define(version: 2020_08_13_102517) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
-  create_table "permissions", force: :cascade do |t|
+  create_table "permission_types", force: :cascade do |t|
     t.string "action_name"
     t.string "action_description"
-    t.string "action_emoji"
     t.string "action"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "action_emoji"
     t.string "action_object"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "permission_type_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -227,6 +233,16 @@ ActiveRecord::Schema.define(version: 2020_08_13_102517) do
     t.index ["feeling_id"], name: "index_posts_on_feeling_id"
     t.index ["permission_id"], name: "index_posts_on_permission_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "privacy_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "permission_type_id", null: false
+    t.string "action_object"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_type_id"], name: "index_privacy_settings_on_permission_type_id"
+    t.index ["user_id"], name: "index_privacy_settings_on_user_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -288,5 +304,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_102517) do
   add_foreign_key "posts", "feelings"
   add_foreign_key "posts", "permissions"
   add_foreign_key "posts", "users"
+  add_foreign_key "privacy_settings", "permission_types"
+  add_foreign_key "privacy_settings", "users"
   add_foreign_key "profiles", "users"
 end
