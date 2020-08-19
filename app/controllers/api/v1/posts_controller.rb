@@ -56,7 +56,7 @@ module Api
       end
 
       def search_params
-        params.permit(:search)
+        params.permit(:query)
       end
 
       def filter_params

@@ -90,4 +90,28 @@ RSpec.describe 'api/v1/posts', type: :request do
       end
     end
   end
+
+  path '/api/v1/posts/search' do
+    post 'Search Post by Hashtag' do
+      tags 'Posts'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :query, in: :query, type: :string, value: "string"
+      parameter name: :page, in: :query, type: :integer, value: 1
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+
+      response '200', 'List of Posts' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:follower) {{}}
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
 end

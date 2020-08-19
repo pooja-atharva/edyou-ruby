@@ -2041,6 +2041,120 @@
         }
       }
     },
+    "/api/v1/posts/search": {
+      "post": {
+        "summary": "Search Post by Hashtag",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string",
+            "value": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          },
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Posts",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "body": {
+                        "type": "string"
+                      },
+                      "publish_date": {
+                        "type": "string"
+                      },
+                      "parent": {
+                        "type": "object"
+                      },
+                      "feeling": {
+                        "type": "string"
+                      },
+                      "activity": {
+                        "type": "string"
+                      },
+                      "permission": {
+                        "type": "object"
+                      },
+                      "status": {
+                        "type": "integer"
+                      },
+                      "delete_post_after_24_hour": {
+                        "type": "boolean"
+                      },
+                      "access_requirement_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        }
+                      },
+                      "tagged_users": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "users": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/reset_password": {
       "post": {
         "summary": "Reset User Password",
