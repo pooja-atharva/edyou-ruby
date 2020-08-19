@@ -18,14 +18,13 @@ module Api
     end
 
     def search
-      render_unprocessable_entity('Query params must be present.') and return unless params[:query].present?
-      posts = Post.all.includes(:taggings).where(taggings: { context: params[:query] })
+      render_unprocessable_entity('Query params must be present.') and return unless search_params[:query].present?
+      posts = Post.joins(:taggings).where(taggings: { context: search_params[:query] }).filter_on(filter_params)
       if posts.present?
-        data = {
-          status: true, message: '',
-          data: array_serializer.new(posts, serializer: Api::V1::PostSerializer),
-        }
-        render json: data, status: default_status
+        render_success_response(
+          { posts: array_serializer.new(posts, serializer: Api::V1::PostSerializer) },
+            '',  200, page_meta(posts, filter_params)
+        )
       else
         render_success_response(nil, 'No post found.')
       end
@@ -54,6 +53,14 @@ module Api
 
       def post_data(object)
         single_serializer.new(object, serializer: Api::V1::PostSerializer)
+      end
+
+      def search_params
+        params.permit(:search)
+      end
+
+      def filter_params
+        params.permit(:page, :per)
       end
   end
 end

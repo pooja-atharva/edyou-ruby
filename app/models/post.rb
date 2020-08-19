@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   include Status
+  include Filterable
 
   belongs_to :user
   belongs_to :feeling, optional: true
