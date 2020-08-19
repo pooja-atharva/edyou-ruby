@@ -20,7 +20,7 @@ class Post < ApplicationRecord
   def create_hashtags
     taggings.destroy_all if taggings.present?
     body.scan(/#\w+/).flatten.each do |tag|
-      taggings.create(context: tag)
+      taggings.create(context: tag.gsub("#", ""))
     end
   end
 

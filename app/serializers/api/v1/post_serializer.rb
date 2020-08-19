@@ -2,7 +2,7 @@ module Api
   module V1
     class PostSerializer < ActiveModel::Serializer
       attributes :id, :body, :publish_date, :parent,
-          :feeling, :activity, :comment_count, :like_count, :permission,
+          :feeling, :activity, :comment_count, :like_count, :permission_id,
           :access_requirement_ids, :user, :tagged_users, :status,
           :delete_post_after_24_hour
 

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       resources :posts do
         collection do
           get :audience
+          post :search
         end
       end
       resources :feelings, only: [:index]

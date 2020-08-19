@@ -17,6 +17,20 @@ module Api
       render json: { status: true, data: array_serializer.new(permissions, serializer: Api::V1::PermissionSerializer) }
     end
 
+    def search
+      render_unprocessable_entity('Query params must be present.') and return unless params[:query].present?
+      posts = Post.all.includes(:taggings).where(taggings: { context: params[:query] })
+      if posts.present?
+        data = {
+          status: true, message: '',
+          data: array_serializer.new(posts, serializer: Api::V1::PostSerializer),
+        }
+        render json: data, status: default_status
+      else
+        render_success_response(nil, 'No post found.')
+      end
+    end
+
     private
 
       def post_defaults(post)
@@ -33,8 +47,8 @@ module Api
       def post_params
         params.require(:post).permit(:body, :publish_date, :parent_id,
           :parent_type, :feeling_id, :activity_id, :permission_id,
+          :delete_post_after_24_hour, :status,
           taggings_attributes: [:id, :tagger_id, :tagger_type],
-          :delete_post_after_24_hour, :status
           access_requirement_ids: [])
       end
 
