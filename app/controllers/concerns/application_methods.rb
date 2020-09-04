@@ -67,24 +67,51 @@ module ApplicationMethods
     ActiveModelSerializers::SerializableResource
   end
 
-  def self.success_schema(properties = {}, message = nil)
+  def self.success_schema(properties = {}, message = nil, data_key = 'model_key')
     {
       status: { type: :boolean, example: true }, message: { type: :string, example: message },
-      data: { type: :object, properties: properties }
+      data: {
+        type: :object, properties: {
+          "#{data_key}": { type: :object, properties: properties }
+        }
+      }
     }
   end
 
-  def self.success_plural_schema(properties = {}, message = nil)
-    {
+  def self.success_plural_schema(properties = {}, message = nil, data_key = 'model_key', meta_tags = true)
+    base_response = {
       status: { type: :boolean, example: true }, message: { type: :string, example: message },
-      data: { type: :array, items:{ properties: properties} }
+      data: {
+        type: :object,  properties: {
+          "#{data_key}": { type: :array, items:{ properties: properties}  }
+        }
+      },
     }
+    base_response.merge!(meta_tags_schema) if meta_tags
+    base_response.merge(errors: {type: :array, items: { type: :string}})
   end
 
   def self.invalid_schema
     {
       status: { type: :boolean, example: false }, message: { type: :string },
       errors: { type: :array, items: { type: :string}}
+    }
+  end
+
+  def self.meta_tags_schema
+    {
+      meta: { type: :object, properties: {
+        page: {type: :string},
+        per: {type: :string},
+        pagination: {type: :object, properties: {
+          per_page: {type: :integer, example: Kaminari.config.default_per_page},
+          current_page: {type: :integer, example: 1},
+          next_page: {type: :integer, example: 2},
+          prev_page: {type: :integer, example: 0},
+          total_pages: {type: :integer, example: 2},
+          total_count: {type: :integer, example: Kaminari.config.default_per_page * 2},
+        }},
+      }}
     }
   end
 

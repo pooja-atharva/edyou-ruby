@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_14_100103) do
+ActiveRecord::Schema.define(version: 2020_09_04_053639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.string "name"
     t.text "description"
     t.bigint "user_id", null: false
-    t.integer "posts_count"
+    t.integer "posts_count", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "permission_id"
@@ -56,6 +56,23 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.boolean "allow_contributors", default: false
     t.index ["permission_id"], name: "index_albums_on_permission_id"
     t.index ["user_id"], name: "index_albums_on_user_id"
+  end
+
+  create_table "calendar_events", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.text "description"
+    t.string "location"
+    t.datetime "datetime_at"
+    t.string "price"
+    t.string "event_type"
+    t.integer "status", default: 4
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["datetime_at"], name: "index_calendar_events_on_datetime_at"
+    t.index ["status"], name: "index_calendar_events_on_status"
+    t.index ["title"], name: "index_calendar_events_on_title"
+    t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -110,9 +127,18 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
+  create_table "group_posts", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_group_posts_on_group_id"
+    t.index ["post_id"], name: "index_group_posts_on_post_id"
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string "name"
-    t.text "string"
+    t.text "description"
     t.integer "owner_id"
     t.boolean "privacy", default: false
     t.string "university"
@@ -153,6 +179,20 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["likeable_id", "likeable_type"], name: "index_likes_on_likeable_id_and_likeable_type"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "media_items", force: :cascade do |t|
+    t.string "media_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["media_token"], name: "index_media_items_on_media_token"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -203,6 +243,8 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.string "action"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_permission_types_on_action"
+    t.index ["action_name"], name: "index_permission_types_on_action_name"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -211,6 +253,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "permission_type_id"
+    t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -229,8 +272,10 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
     t.integer "access_requirement_ids", default: [], array: true
     t.boolean "delete_post_after_24_hour", default: false
     t.integer "status"
+    t.bigint "location_id"
     t.index ["activity_id"], name: "index_posts_on_activity_id"
     t.index ["feeling_id"], name: "index_posts_on_feeling_id"
+    t.index ["location_id"], name: "index_posts_on_location_id"
     t.index ["permission_id"], name: "index_posts_on_permission_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -298,10 +343,13 @@ ActiveRecord::Schema.define(version: 2020_08_14_100103) do
   add_foreign_key "comments", "users"
   add_foreign_key "contributors", "albums"
   add_foreign_key "contributors", "users"
+  add_foreign_key "group_posts", "groups"
+  add_foreign_key "group_posts", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "posts", "activities"
   add_foreign_key "posts", "feelings"
+  add_foreign_key "posts", "locations"
   add_foreign_key "posts", "permissions"
   add_foreign_key "posts", "users"
   add_foreign_key "privacy_settings", "permission_types"

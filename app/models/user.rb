@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :groups
   has_many :own_groups, class_name: 'Group', foreign_key: :owner_id
   has_many :posts, dependent: :destroy
+  has_many :calendar_events, dependent: :destroy
 
   has_many :taggings, as: :tagger, dependent: :destroy
   has_many :tagged_posts, through: :taggings, source: :taggable, source_type: 'Post', dependent: :destroy
@@ -32,6 +33,8 @@ class User < ApplicationRecord
 
   validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@edu.com\z/, message: 'must be from edu account' }, if: :from_website?
 
+  scope :search_with_name, -> (query) { where("name ilike ?", "%#{query}%") }
+
   after_create :set_privacy_settings
 
   def set_privacy_settings
@@ -39,6 +42,12 @@ class User < ApplicationRecord
     Constant::PRIVACY_SETTING_OBJECTS.each do |ps_object|
       privacy_settings.find_or_create_by(permission_type_id: default_permission_type_id, action_object: ps_object)
     end
+  end
+
+  def default_permission(action_object)
+    default_permission_type = privacy_settings.find_by(action_object: action_object).permission_type
+    permission = Permission.find_by(action_object: action_object, permission_type_id: default_permission_type.id)
+    return permission
   end
 
   def from_website?

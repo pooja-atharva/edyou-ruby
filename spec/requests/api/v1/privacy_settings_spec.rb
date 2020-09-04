@@ -15,7 +15,7 @@ RSpec.describe 'api/v1/privacy_settings', type: :request do
 
       response '200', 'List of privacy_settings' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties, nil, 'privacy_settings')
         run_test!
       end
 
@@ -50,7 +50,7 @@ RSpec.describe 'api/v1/privacy_settings', type: :request do
 
       response '200', 'Privacy Setting Updated' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Privacy Setting is updated successfully')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Privacy Setting is updated successfully', 'privacy_settings')
         run_test!
       end
 

@@ -17,29 +17,47 @@ module Api
       render json: { status: true, data: array_serializer.new(permissions, serializer: Api::V1::PermissionSerializer) }
     end
 
+    def search
+      render_unprocessable_entity('Query params must be present.') and return unless search_params[:query].present?
+      posts = Post.joins(:taggings).where(taggings: { context: search_params[:query] }).filter_on(filter_params)
+      if posts.present?
+        render_success_response(
+          { posts: array_serializer.new(posts, serializer: Api::V1::PostSerializer) },
+          '',  200, page_meta(posts, filter_params)
+        )
+      else
+        render_success_response(nil, 'No post found.')
+      end
+    end
+
     private
 
       def post_defaults(post)
         post.user = current_user
         post.publish_date = Time.now if post.publish_date.blank?
-        post.permission = public_permission if post.permission_id.blank?
+        post.permission = current_user.default_permission('Post') if post.permission_id.blank?
         post.status = :approved if post.status.blank?
-      end
-
-      def public_permission
-        Permission.find_by(action_name: 'Public', action_object: 'Post')
       end
 
       def post_params
         params.require(:post).permit(:body, :publish_date, :parent_id,
           :parent_type, :feeling_id, :activity_id, :permission_id,
+          :delete_post_after_24_hour, :status, :location_id,
+          group_ids: [],
           taggings_attributes: [:id, :tagger_id, :tagger_type],
-          :delete_post_after_24_hour, :status
           access_requirement_ids: [])
       end
 
       def post_data(object)
         single_serializer.new(object, serializer: Api::V1::PostSerializer)
+      end
+
+      def search_params
+        params.permit(:query)
+      end
+
+      def filter_params
+        params.permit(:page, :per)
       end
   end
 end

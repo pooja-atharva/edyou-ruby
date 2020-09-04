@@ -16,7 +16,7 @@ RSpec.describe 'api/v1/followings', type: :request do
 
       response '200', 'List of Followings' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties, nil, 'follows')
         run_test!
       end
 
@@ -44,7 +44,7 @@ RSpec.describe 'api/v1/followings', type: :request do
       response '200', 'Follow user' do
         let(:'Authorization') { 'Bearer ' + generate_token }
         let(:follower) { { id: 1 } }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'You are now following this user')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'You are now following this user', 'follow')
         run_test!
       end
 
@@ -65,7 +65,7 @@ RSpec.describe 'api/v1/followings', type: :request do
 
       response '200', 'Unfollow user' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'You are no longer following this user')
+        schema type: :object, properties: { status: { type: :boolean, example: true }, message: { type: :string, example: 'You are no longer following this user' }}
         run_test!
       end
 

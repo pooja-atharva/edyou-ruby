@@ -7,9 +7,13 @@ RSpec.describe 'api/v1/posts', type: :request do
                   parent: { type: :object},
                   feeling: { type: :string },
                   activity: { type: :string },
+                  comment_count: { type: :integer },
+                  like_count: { type: :integer },
                   permission: { type: :object },
+                  location: {type: :object },
                   status: { type: :integer},
                   delete_post_after_24_hour: { type: :boolean },
+                  groups: {type: :object},
                   access_requirement_ids: { type: :array,
                                             items: { type: :integer } },
                   tagged_users: {type: :array, items: {type: :object}},
@@ -29,6 +33,8 @@ RSpec.describe 'api/v1/posts', type: :request do
     feeling_id: { type: :integer },
     activity_id: { type: :integer },
     permission_id: { type: :integer },
+    location_id: { type: :integer },
+    group_ids: { type: :array, items: { type: :integer } },
     delete_post_after_24_hour: { type: :boolean },
     status: { type: :integer },
     access_requirement_ids: { type: :array, items: { type: :integer } },
@@ -85,6 +91,29 @@ RSpec.describe 'api/v1/posts', type: :request do
 
       response '422', 'Invalid Request' do
         let(:post) {{name: 'sample', user_ids: [1,2]}}
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/posts/search' do
+    post 'Search Post by Hashtag' do
+      tags 'Posts'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :query, in: :query, type: :string, value: 'string'
+      parameter name: :page, in: :query, type: :integer, value: 1
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+
+      response '200', 'List of Posts' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:follower) {{}}
         schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end

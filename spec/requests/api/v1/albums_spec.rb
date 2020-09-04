@@ -8,13 +8,13 @@ RSpec.describe 'api/v1/albums', type: :request do
                                             items: { type: :integer } },
                   allow_contributors: { type: :boolean },
                   contributors: { type: :object },
-                  post_count: { type: :integer }
+                  posts_count: { type: :integer }
                 }
-  audience_properties = { id: {type: :integer}, action_name: {type: :string},
-                            action_description: {type: :string},
+  audience_properties = { id: {type: :integer},
+                            action_object: {type: :string},
                             action_emoji: {type: :string},
-                            action: {type: :string},
-                            action_object: {type: :string} }
+                            permission_type: {type: :object}
+                             }
 
   album_properties = {
     name: { type: :string },

@@ -36,19 +36,70 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "parent": {
-                        "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parent": {
+                            "type": "string"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -94,40 +145,91 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "user": {
-                        "type": "object"
-                      },
-                      "permission": {
-                        "type": "object"
-                      },
-                      "access_requirement_ids": {
-                        "type": "array",
-                        "items": {
-                          "type": "integer"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "object"
+                          },
+                          "permission": {
+                            "type": "object"
+                          },
+                          "access_requirement_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            }
+                          },
+                          "allow_contributors": {
+                            "type": "boolean"
+                          },
+                          "contributors": {
+                            "type": "object"
+                          },
+                          "posts_count": {
+                            "type": "integer"
+                          }
                         }
-                      },
-                      "allow_contributors": {
-                        "type": "boolean"
-                      },
-                      "contributors": {
-                        "type": "object"
-                      },
-                      "post_count": {
-                        "type": "integer"
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -224,35 +326,40 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "user": {
-                      "type": "object"
-                    },
-                    "permission": {
-                      "type": "object"
-                    },
-                    "access_requirement_ids": {
-                      "type": "array",
-                      "items": {
-                        "type": "integer"
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "user": {
+                          "type": "object"
+                        },
+                        "permission": {
+                          "type": "object"
+                        },
+                        "access_requirement_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "allow_contributors": {
+                          "type": "boolean"
+                        },
+                        "contributors": {
+                          "type": "object"
+                        },
+                        "posts_count": {
+                          "type": "integer"
+                        }
                       }
-                    },
-                    "allow_contributors": {
-                      "type": "boolean"
-                    },
-                    "contributors": {
-                      "type": "object"
-                    },
-                    "post_count": {
-                      "type": "integer"
                     }
                   }
                 }
@@ -299,28 +406,73 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "action_name": {
-                        "type": "string"
-                      },
-                      "action_description": {
-                        "type": "string"
-                      },
-                      "action_emoji": {
-                        "type": "string"
-                      },
-                      "action": {
-                        "type": "string"
-                      },
-                      "action_object": {
-                        "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "action_object": {
+                            "type": "string"
+                          },
+                          "action_emoji": {
+                            "type": "string"
+                          },
+                          "permission_type": {
+                            "type": "object"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -388,19 +540,70 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "reference_type": {
-                        "type": "string"
-                      },
-                      "block": {
-                        "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "reference_type": {
+                            "type": "string"
+                          },
+                          "block": {
+                            "type": "object"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -477,14 +680,19 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "reference_type": {
-                      "type": "string"
-                    },
-                    "block": {
-                      "type": "object"
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "reference_type": {
+                          "type": "string"
+                        },
+                        "block": {
+                          "type": "object"
+                        }
+                      }
                     }
                   }
                 }
@@ -562,14 +770,19 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "reference_type": {
-                      "type": "string"
-                    },
-                    "block": {
-                      "type": "object"
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "reference_type": {
+                          "type": "string"
+                        },
+                        "block": {
+                          "type": "object"
+                        }
+                      }
                     }
                   }
                 }
@@ -588,6 +801,787 @@
                 "message": {
                   "type": "string",
                   "example": "You are not authorized."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calendar_events": {
+      "get": {
+        "summary": "Get Calendar Events",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calendar Events list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "calendar_events": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "epoc_datetime_at": {
+                                "type": "integer"
+                              },
+                              "price": {
+                                "type": "string"
+                              },
+                              "event_type": {
+                                "type": "string"
+                              },
+                              "user": {
+                                "type": "object"
+                              },
+                              "media_items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "integer"
+                                    },
+                                    "url": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Calendar Event",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "calendar_event",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "calendar_event": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "epoc_datetime_at": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "event_type": {
+                      "type": "string"
+                    },
+                    "media_tokens": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "calendar_event"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calendar Event",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Event is created successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "calendar_event": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "epoc_datetime_at": {
+                              "type": "integer"
+                            },
+                            "price": {
+                              "type": "string"
+                            },
+                            "event_type": {
+                              "type": "string"
+                            },
+                            "user": {
+                              "type": "object"
+                            },
+                            "media_items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer"
+                                  },
+                                  "url": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calendar_events/{id}/": {
+      "put": {
+        "summary": "Update Calendar Event",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Event ID",
+            "required": true
+          },
+          {
+            "name": "calendar_event",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "calendar_event": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "epoc_datetime_at": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "event_type": {
+                      "type": "string"
+                    },
+                    "media_tokens": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "calendar_event"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calendar Event",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Event is updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "calendar_event": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "epoc_datetime_at": {
+                              "type": "integer"
+                            },
+                            "price": {
+                              "type": "string"
+                            },
+                            "event_type": {
+                              "type": "string"
+                            },
+                            "user": {
+                              "type": "object"
+                            },
+                            "media_items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer"
+                                  },
+                                  "url": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calendar_events/{id}": {
+      "get": {
+        "summary": "Event Details",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Event ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event Details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "calendar_event": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "epoc_datetime_at": {
+                              "type": "integer"
+                            },
+                            "price": {
+                              "type": "string"
+                            },
+                            "event_type": {
+                              "type": "string"
+                            },
+                            "user": {
+                              "type": "object"
+                            },
+                            "media_items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer"
+                                  },
+                                  "url": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Calendar Event",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Calendar Event ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event is removed successfully"
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calendar_events/{id}/add_media_item": {
+      "post": {
+        "summary": "Add media item in Calendar Event",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Calendar Event ID",
+            "required": true
+          },
+          {
+            "name": "media_item",
+            "in": "formData",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event Details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Media item is added successfully in event"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "calendar_event": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "epoc_datetime_at": {
+                              "type": "integer"
+                            },
+                            "price": {
+                              "type": "string"
+                            },
+                            "event_type": {
+                              "type": "string"
+                            },
+                            "user": {
+                              "type": "object"
+                            },
+                            "media_items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer"
+                                  },
+                                  "url": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calendar_events/{id}/remove_media_item/{media_item_id}": {
+      "delete": {
+        "summary": "Remove media item from Calendar Event",
+        "tags": [
+          "Calendar Events"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Calendar Event ID",
+            "required": true
+          },
+          {
+            "name": "media_item_id",
+            "in": "path",
+            "type": "string",
+            "description": "Media Item ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event Details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Media item is removed successfully from the event"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "calendar_event": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "epoc_datetime_at": {
+                              "type": "integer"
+                            },
+                            "price": {
+                              "type": "string"
+                            },
+                            "event_type": {
+                              "type": "string"
+                            },
+                            "user": {
+                              "type": "object"
+                            },
+                            "media_items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer"
+                                  },
+                                  "url": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -675,16 +1669,67 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -741,19 +1786,70 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "follower": {
-                        "type": "object"
-                      },
-                      "following": {
-                        "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "follows": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "follower": {
+                            "type": "object"
+                          },
+                          "following": {
+                            "type": "object"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -816,14 +1912,19 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "follower": {
-                      "type": "object"
-                    },
-                    "following": {
-                      "type": "object"
+                    "follow": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "follower": {
+                          "type": "object"
+                        },
+                        "following": {
+                          "type": "object"
+                        }
+                      }
                     }
                   }
                 }
@@ -877,20 +1978,6 @@
                 "message": {
                   "type": "string",
                   "example": "You are no longer following this user"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "follower": {
-                      "type": "object"
-                    },
-                    "following": {
-                      "type": "object"
-                    }
-                  }
                 }
               }
             }
@@ -951,14 +2038,131 @@
                   "example": null
                 },
                 "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
                   "type": "array",
                   "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/friends/search": {
+      "post": {
+        "summary": "Get User Friends Search Result",
+        "tags": [
+          "Friends"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Album created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Friends search is successfull."
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
                       }
                     }
                   }
@@ -1030,17 +2234,22 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "user": {
-                      "type": "object"
-                    },
-                    "friend": {
-                      "type": "object"
-                    },
-                    "status": {
-                      "type": "string"
+                    "friendship": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user": {
+                          "type": "object"
+                        },
+                        "friend": {
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -1098,17 +2307,22 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "user": {
-                      "type": "object"
-                    },
-                    "friend": {
-                      "type": "object"
-                    },
-                    "status": {
-                      "type": "string"
+                    "friendship": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user": {
+                          "type": "object"
+                        },
+                        "friend": {
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -1182,17 +2396,22 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "user": {
-                      "type": "object"
-                    },
-                    "friend": {
-                      "type": "object"
-                    },
-                    "status": {
-                      "type": "string"
+                    "friendship": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user": {
+                          "type": "object"
+                        },
+                        "friend": {
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -1266,17 +2485,22 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "user": {
-                      "type": "object"
-                    },
-                    "friend": {
-                      "type": "object"
-                    },
-                    "status": {
-                      "type": "string"
+                    "friendship": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user": {
+                          "type": "object"
+                        },
+                        "friend": {
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -1324,6 +2548,20 @@
         "consumes": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "Groups list",
@@ -1336,25 +2574,123 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": null
+                  "example": ""
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "owner": {
-                        "type": "object"
-                      },
-                      "users": {
-                        "type": "array",
-                        "items": {
-                          "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "owner": {
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "privacy": {
+                            "type": "boolean"
+                          },
+                          "university": {
+                            "type": "string"
+                          },
+                          "section": {
+                            "type": "string"
+                          },
+                          "president": {
+                            "type": "string"
+                          },
+                          "vice_president": {
+                            "type": "string"
+                          },
+                          "treasure": {
+                            "type": "string"
+                          },
+                          "social_director": {
+                            "type": "string"
+                          },
+                          "secretary": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "calendar_link": {
+                            "type": "string"
+                          },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "groups_users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "user": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -1396,6 +2732,9 @@
                     "name": {
                       "type": "string"
                     },
+                    "description": {
+                      "type": "string"
+                    },
                     "privacy": {
                       "type": "boolean"
                     },
@@ -1426,18 +2765,24 @@
                     "calendar_link": {
                       "type": "string"
                     },
+                    "avatar": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "string",
+                          "example": "data:image/png;base64,base64 data"
+                        }
+                      }
+                    },
                     "groups_users_attributes": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
                           "user_id": {
                             "type": "integer"
                           },
-                          "_destroy": {
+                          "admin": {
                             "type": "boolean"
                           }
                         }
@@ -1454,7 +2799,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Group created",
+            "description": "Group is created",
             "schema": {
               "type": "object",
               "properties": {
@@ -1469,16 +2814,68 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "owner": {
-                      "type": "object"
-                    },
-                    "users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
+                    "group": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "owner": {
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "privacy": {
+                          "type": "boolean"
+                        },
+                        "university": {
+                          "type": "string"
+                        },
+                        "section": {
+                          "type": "string"
+                        },
+                        "president": {
+                          "type": "string"
+                        },
+                        "vice_president": {
+                          "type": "string"
+                        },
+                        "treasure": {
+                          "type": "string"
+                        },
+                        "social_director": {
+                          "type": "string"
+                        },
+                        "secretary": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "calendar_link": {
+                          "type": "string"
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "user": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -1531,6 +2928,9 @@
                     "name": {
                       "type": "string"
                     },
+                    "description": {
+                      "type": "string"
+                    },
                     "privacy": {
                       "type": "boolean"
                     },
@@ -1561,6 +2961,15 @@
                     "calendar_link": {
                       "type": "string"
                     },
+                    "avatar": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "string",
+                          "example": "data:image/png;base64,base64 data"
+                        }
+                      }
+                    },
                     "groups_users_attributes": {
                       "type": "array",
                       "items": {
@@ -1571,6 +2980,9 @@
                           },
                           "user_id": {
                             "type": "integer"
+                          },
+                          "admin": {
+                            "type": "boolean"
                           },
                           "_destroy": {
                             "type": "boolean"
@@ -1589,7 +3001,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Group created",
+            "description": "Group is updated",
             "schema": {
               "type": "object",
               "properties": {
@@ -1604,16 +3016,68 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "owner": {
-                      "type": "object"
-                    },
-                    "users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
+                    "group": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "owner": {
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "privacy": {
+                          "type": "boolean"
+                        },
+                        "university": {
+                          "type": "string"
+                        },
+                        "section": {
+                          "type": "string"
+                        },
+                        "president": {
+                          "type": "string"
+                        },
+                        "vice_president": {
+                          "type": "string"
+                        },
+                        "treasure": {
+                          "type": "string"
+                        },
+                        "social_director": {
+                          "type": "string"
+                        },
+                        "secretary": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "calendar_link": {
+                          "type": "string"
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "user": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -1672,16 +3136,68 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "owner": {
-                      "type": "object"
-                    },
-                    "users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
+                    "group": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "owner": {
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "privacy": {
+                          "type": "boolean"
+                        },
+                        "university": {
+                          "type": "string"
+                        },
+                        "section": {
+                          "type": "string"
+                        },
+                        "president": {
+                          "type": "string"
+                        },
+                        "vice_president": {
+                          "type": "string"
+                        },
+                        "treasure": {
+                          "type": "string"
+                        },
+                        "social_director": {
+                          "type": "string"
+                        },
+                        "secretary": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "calendar_link": {
+                          "type": "string"
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "user": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -1723,7 +3239,140 @@
         ],
         "responses": {
           "200": {
-            "description": "Group removed successfully"
+            "description": "Group removed successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Group is left successfully."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/groups/{id}/remove_avatar": {
+      "delete": {
+        "summary": "Remove Group Avatar",
+        "tags": [
+          "Groups"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Group ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group avatar removed successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Group Avatar is removed."
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "owner": {
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "privacy": {
+                          "type": "boolean"
+                        },
+                        "university": {
+                          "type": "string"
+                        },
+                        "section": {
+                          "type": "string"
+                        },
+                        "president": {
+                          "type": "string"
+                        },
+                        "vice_president": {
+                          "type": "string"
+                        },
+                        "treasure": {
+                          "type": "string"
+                        },
+                        "social_director": {
+                          "type": "string"
+                        },
+                        "secretary": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "calendar_link": {
+                          "type": "string"
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "user": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "422": {
             "description": "Invalid Request",
@@ -1812,6 +3461,184 @@
         }
       }
     },
+    "/api/v1/locations": {
+      "get": {
+        "summary": "Get Location",
+        "tags": [
+          "Locations"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Locations list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "avatar_url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/locations/search": {
+      "post": {
+        "summary": "Get Location Search Result",
+        "tags": [
+          "Locations"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Album created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Locations search is successfull."
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "avatar_url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/permissions": {
       "get": {
         "summary": "List of permissions",
@@ -1852,19 +3679,70 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "permission_type": {
-                        "type": "object"
-                      },
-                      "action_object": {
-                        "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "permission_type": {
+                            "type": "object"
+                          },
+                          "action_object": {
+                            "type": "string"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -1927,6 +3805,15 @@
                     "permission_id": {
                       "type": "integer"
                     },
+                    "location_id": {
+                      "type": "integer"
+                    },
+                    "group_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
                     "delete_post_after_24_hour": {
                       "type": "boolean"
                     },
@@ -1982,49 +3869,66 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "body": {
-                      "type": "string"
-                    },
-                    "publish_date": {
-                      "type": "string"
-                    },
-                    "parent": {
-                      "type": "object"
-                    },
-                    "feeling": {
-                      "type": "string"
-                    },
-                    "activity": {
-                      "type": "string"
-                    },
-                    "permission": {
-                      "type": "object"
-                    },
-                    "status": {
-                      "type": "integer"
-                    },
-                    "delete_post_after_24_hour": {
-                      "type": "boolean"
-                    },
-                    "access_requirement_ids": {
-                      "type": "array",
-                      "items": {
-                        "type": "integer"
-                      }
-                    },
-                    "tagged_users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    },
-                    "users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "publish_date": {
+                          "type": "string"
+                        },
+                        "parent": {
+                          "type": "object"
+                        },
+                        "feeling": {
+                          "type": "string"
+                        },
+                        "activity": {
+                          "type": "string"
+                        },
+                        "comment_count": {
+                          "type": "integer"
+                        },
+                        "like_count": {
+                          "type": "integer"
+                        },
+                        "permission": {
+                          "type": "object"
+                        },
+                        "location": {
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "delete_post_after_24_hour": {
+                          "type": "boolean"
+                        },
+                        "groups": {
+                          "type": "object"
+                        },
+                        "access_requirement_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "tagged_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        }
                       }
                     }
                   }
@@ -2072,28 +3976,256 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "action_name": {
-                        "type": "string"
-                      },
-                      "action_description": {
-                        "type": "string"
-                      },
-                      "action_emoji": {
-                        "type": "string"
-                      },
-                      "action": {
-                        "type": "string"
-                      },
-                      "action_object": {
-                        "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "action_name": {
+                            "type": "string"
+                          },
+                          "action_description": {
+                            "type": "string"
+                          },
+                          "action_emoji": {
+                            "type": "string"
+                          },
+                          "action": {
+                            "type": "string"
+                          },
+                          "action_object": {
+                            "type": "string"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/posts/search": {
+      "post": {
+        "summary": "Search Post by Hashtag",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string",
+            "value": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          },
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Posts",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "publish_date": {
+                            "type": "string"
+                          },
+                          "parent": {
+                            "type": "object"
+                          },
+                          "feeling": {
+                            "type": "string"
+                          },
+                          "activity": {
+                            "type": "string"
+                          },
+                          "comment_count": {
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "type": "integer"
+                          },
+                          "permission": {
+                            "type": "object"
+                          },
+                          "location": {
+                            "type": "object"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "delete_post_after_24_hour": {
+                            "type": "boolean"
+                          },
+                          "groups": {
+                            "type": "object"
+                          },
+                          "access_requirement_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            }
+                          },
+                          "tagged_users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -2136,22 +4268,73 @@
                   "example": null
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "action_object": {
-                        "type": "string"
-                      },
-                      "permission_type": {
-                        "type": "object"
-                      },
-                      "user": {
-                        "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "privacy_settings": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "action_object": {
+                            "type": "string"
+                          },
+                          "permission_type": {
+                            "type": "object"
+                          },
+                          "user": {
+                            "type": "object"
+                          }
+                        }
                       }
                     }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -2223,17 +4406,22 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "action_object": {
-                      "type": "string"
-                    },
-                    "permission_type": {
-                      "type": "object"
-                    },
-                    "user": {
-                      "type": "object"
+                    "privacy_settings": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "action_object": {
+                          "type": "string"
+                        },
+                        "permission_type": {
+                          "type": "object"
+                        },
+                        "user": {
+                          "type": "object"
+                        }
+                      }
                     }
                   }
                 }

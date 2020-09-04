@@ -3,7 +3,7 @@ module Api
     class AlbumSerializer < ActiveModel::Serializer
       attributes :id, :name, :description, :user, :permission,
                   :access_requirement_ids, :allow_contributors,
-                  :contributors, :post_count
+                  :contributors, :posts_count
 
       def contributors
         ActiveModelSerializers::SerializableResource.new(object.contributing_users, each_serializer: Api::V1::UserSerializer)

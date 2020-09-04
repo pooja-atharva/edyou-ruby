@@ -31,10 +31,15 @@ Rails.application.routes.draw do
           delete :cancel
         end
       end
-      resources :friends
+      resources :friends do
+        collection do
+          post :search
+        end
+      end
       resources :groups do
         member do
           post :add_users
+          delete :remove_avatar
         end
       end
       resources :likes
@@ -42,10 +47,16 @@ Rails.application.routes.draw do
       resources :posts do
         collection do
           get :audience
+          post :search
         end
       end
       resources :feelings, only: [:index]
       resources :activities, only: [:index, :show]
+      resources :locations, only: [:index] do
+        collection do
+          post :search
+        end
+      end
       resources :albums, only: [:index, :create] do
         collection do
           get :audience
@@ -63,6 +74,14 @@ Rails.application.routes.draw do
           post :update
         end
       end
+
+      resources :calendar_events do
+        member do
+          post :add_media_item
+          delete '/remove_media_item/:media_item_id', to: 'calendar_events#remove_media_item'
+        end
+      end
+      resource :media_items, only: [:create]
     end
   end
 end

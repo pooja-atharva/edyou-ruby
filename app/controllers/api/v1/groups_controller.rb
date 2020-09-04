@@ -3,70 +3,81 @@ module Api
     before_action :validate_record, except: [:create, :index]
 
     def index
-      groups = current_user.groups.includes(:users)
-      data = {
-        status: true, message: '',
-        data: array_serializer.new(groups, serializer: Api::V1::GroupSerializer),
-      }
-      render json: data, status: default_status
+      groups = current_user.groups.includes(:users).filter_on(filter_params)
+      render_success_response(
+        { groups: array_serializer.new(groups, serializer: Api::V1::GroupSerializer) },
+        '',  200, page_meta(groups, filter_params)
+      )
     end
 
     def create
       group = Group.new(group_params)
       group.owner = current_user
       if group.save
-        data = { status: true, message: 'Group is created successfully', data: group_data(group)}
+        render_success_response( { group: group_data(group) }, 'Group is created successfully' )
       else
-        data = { status: false, message: group.errors.full_messages.join(','), errors: group.errors.full_messages }
-        @status = 422
+        render_unprocessable_entity(group.errors.full_messages.join(','))
       end
-      render json: data, status: default_status
     rescue ActiveRecord::RecordNotFound
       invalid_user_response
+    rescue
+      invalid_images_response
     end
 
     def update
       @group.attributes = group_params
       if @group.save
-        data = { status: true, message: 'Group is update successfully', data: group_data(@group)}
+        render_success_response( { group: group_data(@group) }, 'Group is updated successfully' )
       else
-        data = { status: false, message: @group.errors.full_messages.join(','), errors: @group.errors.full_messages }
-        @status = 422
+        render_unprocessable_entity(@group.errors.full_messages.join(','))
       end
-      render json: data, status: default_status
     rescue ActiveRecord::RecordNotFound
       invalid_user_response
+    rescue
+      invalid_images_response
     end
 
     def show
-      data = { status: true, message: '', data: group_data(@group)}
-      render json: data, status: default_status
+      render_success_response( { group: group_data(@group) })
     end
 
     def destroy
       if @group.leave_group(current_user)
         data = { status: true, message: 'Group is left successfully.', data: nil}
+        render json: data, status: default_status
       else
-        data = { status: false, message: @group.errors.full_messages.join(','), errors: @group.errors.full_messages }
-        @status = 422
+        render_unprocessable_entity(@group.errors.full_messages.join(','))
       end
-      render json: data, status: default_status
+    end
+
+    def remove_avatar
+      if @group.avatar.attached?
+        @group.avatar.purge
+        render_success_response( { group: group_data(@group) }, 'Group Avatar is removed.')
+      else
+        render_unprocessable_entity('Avatar is not found')
+      end
     end
 
     private
 
     def invalid_user_response
-      data = { status: false, message: 'One of passed user is invalid', errors: ['One of passed user is invalid'] }
-      render json: data, status: 422
+      render_unprocessable_entity('One of passed user is invalid')
     end
 
     def group_params
-      params.require(:group).permit(:name, :privacy, :university, :section, :president, :vice_president, :treasure,
-        :social_director, :secretary, :email, :calendar_link,  groups_users_attributes: [:id, :user_id, :admin, :_destroy])
+      params.require(:group).permit(
+        :name, :description, :privacy, :university, :section, :president, :vice_president, :treasure, :social_director,
+        :secretary, :email, :calendar_link, avatar: :data,
+        groups_users_attributes: [:id, :user_id, :admin, :_destroy])
     end
 
     def group_user_params
       params.require(:group).permit(user_ids: [])
+    end
+
+    def filter_params
+      params.permit(:page, :per)
     end
 
     def group_data(object)
@@ -79,6 +90,11 @@ module Api
       render json: {status: false, message: 'Group is not found.'}, status: 404 and return if group_user.nil?
       render json: {status: false, message: 'You are not authorized to manage this group'}, status: 404 unless group_user.admin?
     end
+
+    def invalid_images_response
+      render_unprocessable_entity('Image is invalid. Please upload valid image')
+    end
+
 
   end
 end

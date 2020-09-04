@@ -1,9 +1,7 @@
 module Api
   class V1::PrivacySettingsController < V1::BaseController
     def index
-      render_success_response(
-        { privacy_settings: array_serializer.new(current_user.privacy_settings, serializer: Api::V1::PrivacySettingSerializer) }
-      )
+      render_success_response( { privacy_settings: privacy_settings_data })
     end
 
     def update
@@ -14,10 +12,7 @@ module Api
         privacy_setting.action_object = privacy_obj[:action_object]
         privacy_setting.save
       end
-      render_success_response(
-        { privacy_settings: array_serializer.new(current_user.privacy_settings, serializer: Api::V1::PrivacySettingSerializer) },
-        'Privacy Settings are updated successfully'
-      )
+      render_success_response( { privacy_settings: privacy_settings_data}, 'Privacy Settings are updated successfully' )
     end
 
     private
@@ -27,6 +22,10 @@ module Api
 
     def privacy_setting_data(object)
       single_serializer.new(object, serializer: Api::V1::PrivacySettingSerializer)
+    end
+
+    def privacy_settings_data
+      array_serializer.new(current_user.privacy_settings, serializer: Api::V1::PrivacySettingSerializer)
     end
   end
 end

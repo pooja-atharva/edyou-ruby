@@ -1,7 +1,5 @@
 module Api
   class V1::AlbumsController < V1::BaseController
-    before_action :public_permission, only: [:create]
-
     def index
       albums = current_user.albums
       data = {
@@ -13,7 +11,7 @@ module Api
 
     def create
       album = current_user.albums.new(album_params)
-      album.permission = public_permission if album.permission_id.blank?
+      album.permission = current_user.default_permission('Album') if album.permission_id.blank?
       if album.save
         data = { status: true, message: 'Album is created successfully', data: album_data(album)}
       else
@@ -31,10 +29,6 @@ module Api
     end
 
     private
-
-    def public_permission
-      Permission.find_by(action_name: 'Public', action_object: 'Album')
-    end
 
     def album_data(object)
       single_serializer.new(object, serializer: Api::V1::AlbumSerializer)

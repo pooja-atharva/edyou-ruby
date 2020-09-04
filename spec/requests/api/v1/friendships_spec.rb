@@ -23,7 +23,7 @@ RSpec.describe 'api/v1/friendship', type: :request do
       response '200', 'friendship created' do
         let(:'Authorization') { 'Bearer ' + generate_token }
         let(:friendship) { { friend_id: 10 } }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Invitation sent successfully')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Invitation sent successfully', 'friendship')
         run_test!
       end
 
@@ -43,7 +43,7 @@ RSpec.describe 'api/v1/friendship', type: :request do
       parameter name: :id, in: :path, type: :string, description: 'User ID'
       response '200', 'friendship approved' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is approved')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is approved', 'friendship')
         run_test!
       end
 
@@ -67,7 +67,7 @@ RSpec.describe 'api/v1/friendship', type: :request do
       parameter name: :id, in: :path, type: :string, description: 'User ID'
       response '200', 'friendship approved' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is declined')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is declined', 'friendship')
         run_test!
       end
 
@@ -92,7 +92,7 @@ RSpec.describe 'api/v1/friendship', type: :request do
 
       response '200', 'friendship approved' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is cancelled')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is cancelled', 'friendship')
         run_test!
       end
 
