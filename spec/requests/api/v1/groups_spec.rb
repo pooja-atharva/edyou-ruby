@@ -172,6 +172,33 @@ RSpec.describe 'api/v1/groups', type: :request do
     end
   end
 
+  path '/api/v1/groups/{id}/status' do
+    put 'Update Group status' do
+      tags 'Groups'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string, description: 'Group ID'
+      parameter name: :group, in: :body, schema: {
+        type: :object,
+        properties: { group: { type: :object, properties: { status: {type: :string, enum: %w(active in_active)}} } },
+        required: [:group],
+      }
+
+      response '200', 'Group is updated' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        let(:group) { { name: 'sample', groups_users_attributes: update_user_attributes} }
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Group is active/hide now', 'group')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:group) { { name: 'sample', groups_users_attributes: update_user_attributes} }
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/groups/{id}' do
     get 'Group Details' do
       tags 'Groups'

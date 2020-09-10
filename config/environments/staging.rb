@@ -32,13 +32,14 @@ Rails.application.configure do
     # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
     # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-    config.action_controller.asset_host = "http://#{ENV['BASE_URL']}"
+    config.action_controller.asset_host = "http://#{Rails.application.credentials[:BASE_URL]}"
 
     # Specifies the header that your server uses for sending files.
     # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
     # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
     # Store uploaded files on the local file system (see config/storage.yml for options)
+    Rails.application.routes.default_url_options[:host] = "http://#{Rails.application.credentials[:BASE_URL]}"
     config.active_storage.service = :amazon
 
     # Mount Action Cable outside main process or domain
@@ -56,19 +57,23 @@ Rails.application.configure do
     # Prepend all log lines with the following tags.
     config.log_tags = [ :request_id ]
 
-    # Use a different cache store in production.
-    # config.cache_store = :mem_cache_store
-
-    # Use a real queuing backend for Active Job (and separate queues per environment)
-    # config.active_job.queue_adapter     = :resque
-    # config.active_job.queue_name_prefix = "uon_backend_#{Rails.env}"
-
     config.action_mailer.perform_caching = false
     config.action_mailer.delivery_method = :smtp
 
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
 
+    host = "http://#{Rails.application.credentials[:BASE_URL]}"
+    config.action_mailer.default_url_options = { host: host }
+
+    # SMTP settings for gmail
+    config.action_mailer.smtp_settings = {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :user_name            => "EDYOUtest@gmail.com",
+      :password             => "Edyou123!",
+      :authentication       => "plain"
+    }
 
     # Ignore bad email addresses and do not raise email delivery errors.
     # Set this to true and configure the email server for immediate delivery to raise delivery errors.

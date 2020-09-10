@@ -21,6 +21,8 @@ Rails.application.routes.draw do
           post :send_otp
           post :verify_otp
           post :profile_image
+          post :cover_images
+          post :google
           delete :signout
         end
       end
@@ -39,6 +41,7 @@ Rails.application.routes.draw do
       resources :groups do
         member do
           post :add_users
+          put :status
           delete :remove_avatar
         end
       end
@@ -79,6 +82,7 @@ Rails.application.routes.draw do
         member do
           post :add_media_item
           delete '/remove_media_item/:media_item_id', to: 'calendar_events#remove_media_item'
+          put :attendance
         end
       end
       resource :media_items, only: [:create]

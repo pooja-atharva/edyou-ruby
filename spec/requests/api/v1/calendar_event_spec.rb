@@ -10,13 +10,23 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
     price: { type: :string },
     event_type: { type: :string },
     user: { type: :object },
-    media_items: {type: :array, items: {type: :object , properties: { id: {type: :integer}, url: {type: :string}}}}
+    media_items: {
+      type: :array,
+      items: {
+        type: :object ,
+        properties: { id: { type: :integer}, url: { type: :string } }
+      }
+    },
+    attendance: {
+      type: :object,
+      properties: {
+        'Yes': { type: :integer },
+        'No': { type: :integer },
+        'Maybe': { type: :integer }
+      }
+    }
   }
-
-  properties = { calendar_event: { type: :object, properties: attributes }  }
-  plural_properties = { calendar_events: { type: :object, properties: attributes }  }
-
-
+  
   path '/api/v1/calendar_events' do
     get 'Get Calendar Events' do
       tags 'Calendar Events'
@@ -27,7 +37,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
 
       response '200', 'Calendar Events list' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_plural_schema(plural_properties)
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(attributes, nil, 'calendar_events')
         run_test!
       end
 
@@ -68,7 +78,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
           title: 'Sample Title', description: 'Sample Description', epoc_datetime_at: '1598876283', price: '50',
           location: 'Sample Location', event_type: 'Sample Event Type'
         } }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Event is created successfully')
+        schema type: :object, properties: ApplicationMethods.success_schema(attributes, 'Event is created successfully', 'calendar_event')
         run_test!
       end
 
@@ -114,7 +124,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
           title: 'Sample Title', description: 'Sample Description', epoc_datetime_at: '1598876283', price: '50',
           location: 'Sample Location', event_type: 'Sample Event Type'
         } }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Event is updated successfully')
+        schema type: :object, properties: ApplicationMethods.success_schema(attributes, 'Event is updated successfully', 'calendar_event')
         run_test!
       end
 
@@ -136,7 +146,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
         parameter name: :id, in: :path, type: :string, description: 'Event ID'
         response '200', 'Event Details' do
           let(:'Authorization') { 'Bearer ' + generate_token }
-          schema type: :object, properties: ApplicationMethods.success_schema(properties)
+          schema type: :object, properties: ApplicationMethods.success_schema(attributes, nil, 'calendar_event')
           run_test!
         end
 
@@ -176,7 +186,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
 
         response '200', 'Event Details' do
           let(:'Authorization') { 'Bearer ' + generate_token }
-          schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Media item is added successfully in event')
+          schema type: :object, properties: ApplicationMethods.success_schema(attributes, 'Media item is added successfully in event', 'calendar_event')
           run_test!
         end
 
@@ -197,7 +207,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
 
         response '200', 'Event Details' do
           let(:'Authorization') { 'Bearer ' + generate_token }
-          schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Media item is removed successfully from the event')
+          schema type: :object, properties: ApplicationMethods.success_schema(attributes, 'Media item is removed successfully from the event', 'calendar_event')
           run_test!
         end
 
@@ -205,6 +215,29 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
           schema '$ref' => '#/components/schemas/errors_object'
           run_test!
         end
+      end
+    end
+  end
+
+  path '/api/v1/calendar_events/{id}/attendance' do
+    put 'Event Attendance for Calendar Events' do
+      tags 'Calendar Events'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string, description: 'Calendar Event ID'
+      parameter name: :status, in: :path, type: :string, value: "Yes", description: 'Status', enum: Constant::EVENT_ATTENDANCE_STATUS
+
+      response '200', 'Event attendance' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_schema(
+          attributes, 'Your response is updated successfully for this Event', 'calendar_event')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:follower) {{id: 0}}
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
       end
     end
   end

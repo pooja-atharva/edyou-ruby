@@ -22,3 +22,7 @@
 every 1.minute do
   rake "post:deactivate"
 end
+
+every 10.minutes do
+  rake "calendar_event:update_status"
+end

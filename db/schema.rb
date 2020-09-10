@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_053639) do
+ActiveRecord::Schema.define(version: 2020_09_08_115320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,11 +37,22 @@ ActiveRecord::Schema.define(version: 2020_09_04_053639) do
   end
 
   create_table "activities", force: :cascade do |t|
-    t.string "name"
-    t.string "emoji_symbol"
-    t.integer "parent_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.string "trackable_type"
+    t.bigint "trackable_id"
+    t.string "owner_type"
+    t.bigint "owner_id"
+    t.string "key"
+    t.text "parameters"
+    t.string "recipient_type"
+    t.bigint "recipient_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
+    t.index ["owner_type", "owner_id"], name: "index_activities_on_owner_type_and_owner_id"
+    t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
+    t.index ["recipient_type", "recipient_id"], name: "index_activities_on_recipient_type_and_recipient_id"
+    t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
+    t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable_type_and_trackable_id"
   end
 
   create_table "albums", force: :cascade do |t|
@@ -92,6 +103,14 @@ ActiveRecord::Schema.define(version: 2020_09_04_053639) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["album_id"], name: "index_contributors_on_album_id"
     t.index ["user_id"], name: "index_contributors_on_user_id"
+  end
+
+  create_table "event_attendances", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "calendar_event_id"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "feelings", force: :cascade do |t|
@@ -256,6 +275,14 @@ ActiveRecord::Schema.define(version: 2020_09_04_053639) do
     t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
   end
 
+  create_table "post_activities", force: :cascade do |t|
+    t.string "name"
+    t.string "emoji_symbol"
+    t.integer "parent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.datetime "publish_date"
@@ -347,10 +374,10 @@ ActiveRecord::Schema.define(version: 2020_09_04_053639) do
   add_foreign_key "group_posts", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
-  add_foreign_key "posts", "activities"
   add_foreign_key "posts", "feelings"
   add_foreign_key "posts", "locations"
   add_foreign_key "posts", "permissions"
+  add_foreign_key "posts", "post_activities", column: "activity_id"
   add_foreign_key "posts", "users"
   add_foreign_key "privacy_settings", "permission_types"
   add_foreign_key "privacy_settings", "users"

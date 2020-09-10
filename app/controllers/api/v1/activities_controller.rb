@@ -1,7 +1,7 @@
 module Api
   class V1::ActivitiesController < V1::BaseController
     def index
-      activities = Activity.main_activities
+      activities = PostActivity.main_activities
       data = {
         status: true, message: '',
         data: array_serializer.new(activities, serializer: Api::V1::ActivitySerializer),
@@ -10,7 +10,7 @@ module Api
     end
 
     def show
-      activity = Activity.find(params[:id])
+      activity = PostActivity.find(params[:id])
       data = {
         status: true, message: '',
         data: single_serializer.new(activity, serializer: Api::V1::ActivityDetailSerializer),

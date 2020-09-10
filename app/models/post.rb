@@ -1,10 +1,12 @@
 class Post < ApplicationRecord
   include Status
   include Filterable
+  include PublicActivity::Common
+
 
   belongs_to :user
   belongs_to :feeling, optional: true
-  belongs_to :activity, optional: true
+  belongs_to :post_activity, optional: true, foreign_key: :activity_id
   belongs_to :location, optional: true
   belongs_to :parent, polymorphic: true, counter_cache: true, optional: true
   belongs_to :permission

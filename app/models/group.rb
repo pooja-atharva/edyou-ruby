@@ -17,8 +17,7 @@ class Group < ApplicationRecord
   validates :owner, presence: true
   validates :email, format: { with: Devise.email_regexp, message: 'format is invalid' }, allow_blank: true
 
-  before_create :add_owner_in_group
-
+  after_create :add_owner_in_group
 
   def initialize(attributes={})
     super
@@ -37,7 +36,9 @@ class Group < ApplicationRecord
   private
 
   def add_owner_in_group
-    groups_users.build(user_id: owner_id, admin: true)
+    if groups_users.where(user_id: owner_id).none?
+      groups_users.create(user_id: owner_id, admin: true)
+    end
   end
 
   def check_admin_user

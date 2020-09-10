@@ -1,8 +1,8 @@
 module Api
   module V1
     class PostSerializer < ActiveModel::Serializer
-      attributes :id, :body, :publish_date, :parent, :location, :feeling, :activity, :comment_count, :like_count, :permission,
-                 :access_requirement_ids, :user, :tagged_users, :status, :delete_post_after_24_hour, :groups
+      attributes :id, :body, :publish_date, :parent, :feeling, :activity, :comment_count, :like_count, :permission,
+                 :access_requirement_ids, :user, :tagged_users, :status, :delete_post_after_24_hour, :groups, :location
 
       def feeling
         object.feeling_id.present? ? object.feeling.name : ''
@@ -10,7 +10,7 @@ module Api
 
       def activity
         return '' if object.activity_id.nil?
-        [object.activity.parent_activity.try(:name).try(:downcase), object.activity.name].compact.join(' ')
+        [object.post_activity.parent_activity.try(:name).try(:downcase), object.post_activity.name].compact.join(' ')
       end
 
       def parent
@@ -28,7 +28,9 @@ module Api
       end
 
       def location
-        ActiveModelSerializers::SerializableResource.new(object.location, serializer: Api::V1::LocationSerializer)
+        unless object.location.blank?
+          ActiveModelSerializers::SerializableResource.new(object.location, serializer: Api::V1::LocationSerializer)
+        end
       end
 
       def permission
@@ -36,7 +38,9 @@ module Api
       end
 
       def groups
-        ActiveModelSerializers::SerializableResource.new(object.groups, serializer: Api::V1::GroupSerializer)
+        unless object.groups.blank?
+          ActiveModelSerializers::SerializableResource.new(object.groups, serializer: Api::V1::GroupSerializer)
+        end
       end
     end
   end
