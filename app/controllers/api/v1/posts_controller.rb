@@ -4,11 +4,21 @@ module Api
       post = Post.new(post_params)
       post_defaults(post)
       if post.save
+        post.create_activity :create, ownder: current_user
         data = { status: true, message: 'Post is created successfully', data: post_data(post)}
       else
         data = { status: false, message: post.errors.full_messages.join(','), errors: post.errors.full_messages }
         @status = 422
       end
+      render json: data, status: default_status
+    end
+
+    def show
+      post = Post.find(params[:id])
+      data = {
+        status: true, message: '',
+        data: single_serializer.new(post, serializer: Api::V1::PostSerializer),
+      }
       render json: data, status: default_status
     end
 

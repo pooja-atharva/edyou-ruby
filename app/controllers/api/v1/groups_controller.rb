@@ -1,6 +1,7 @@
 module Api
   class V1::GroupsController < V1::BaseController
     before_action :validate_record, except: [:create, :index]
+    before_action :validate_status, only: [:status]
 
     def index
       groups = current_user.groups.includes(:users).filter_on(filter_params)
@@ -59,6 +60,16 @@ module Api
       end
     end
 
+    def status
+      @group.attributes = group_status_params
+      if @group.save
+        message = @group.active? ? 'Group is active now' : 'Group is hide now'
+        render_success_response( { group: group_data(@group) }, message )
+      else
+        render_unprocessable_entity(@group.errors.full_messages.join(','))
+      end
+    end
+
     private
 
     def invalid_user_response
@@ -70,6 +81,10 @@ module Api
         :name, :description, :privacy, :university, :section, :president, :vice_president, :treasure, :social_director,
         :secretary, :email, :calendar_link, avatar: :data,
         groups_users_attributes: [:id, :user_id, :admin, :_destroy])
+    end
+
+    def group_status_params
+      params.require(:group).permit(:status)
     end
 
     def group_user_params
@@ -87,14 +102,19 @@ module Api
     def validate_record
       group_user = current_user.groups_users.find_by_group_id(params[:id])
       @group = group_user.try(:group)
-      render json: {status: false, message: 'Group is not found.'}, status: 404 and return if group_user.nil?
-      render json: {status: false, message: 'You are not authorized to manage this group'}, status: 404 unless group_user.admin?
+      render_unprocessable_entity('Group is not found') and return if group_user.nil?
+      render_unprocessable_entity('You are not authorized to manage this group') unless group_user.admin?
     end
 
     def invalid_images_response
       render_unprocessable_entity('Image is invalid. Please upload valid image')
     end
 
+    def validate_status
+      if group_status_params[:status].present? && !group_status_params[:status].in?(%w(active in_active))
+        render_unprocessable_entity('Status value is not valid')
+      end
+    end
 
   end
 end

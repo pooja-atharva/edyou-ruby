@@ -6,7 +6,7 @@ RSpec.describe 'api/v1/posts', type: :request do
                   publish_date: {type: :string},
                   parent: { type: :object},
                   feeling: { type: :string },
-                  activity: { type: :string },
+                  post_activity: { type: :string },
                   comment_count: { type: :integer },
                   like_count: { type: :integer },
                   permission: { type: :object },

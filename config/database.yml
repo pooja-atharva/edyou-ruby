@@ -2,18 +2,17 @@ default: &default
   adapter:  postgresql
   encoding: unicode
   pool:     5
-  username: <%= Rails.application.credentials.config[:DB_USERNAME] %>
-  password: <%= Rails.application.credentials.config[:DB_PASSWORD] %>
-  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>
+  username: pooja
+  password: pooja
 
 development:
   <<: *default
-  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_development
+  database: edyou_development
 
 test:
   <<: *default
-  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_test
+  database: edyou_test
 
 staging:
   <<: *default
-  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>_staging
+  database: edyou_staging

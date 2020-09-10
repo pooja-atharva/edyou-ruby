@@ -9,7 +9,8 @@ module Api
         if @user.reset_password!(params[:password])
           Doorkeeper::AccessToken.revoke_all_for(nil, @user)
           render_success_response({
-            user: single_serializer(@user, Api::V1::UserSerializer)}, 'Password updated successfully.')
+            user: single_serializer.new(@user, serializer: Api::V1::UserSerializer)
+          }, "Password updated successfully.")
         else
           render_unprocessable_entity('Update password failed.')
         end
@@ -53,7 +54,7 @@ module Api
 
     def send_otp
       if @user.present?
-          @user.send_otp_for_forgot
+          #@user.send_otp_for_forgot
           render_success_response({ otp: @user.otp_code }, 'OTP sent successfully.')
       else
         render_unprocessable_entity('User is not present.')

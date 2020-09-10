@@ -7,6 +7,7 @@ class CalendarEvent < ApplicationRecord
 
   # has_many_base64_attached :images
   has_many_attached :media_items
+  has_many :event_attendances
 
   attr_accessor :epoc_datetime_at
   validates :user_id, presence: true
@@ -18,6 +19,9 @@ class CalendarEvent < ApplicationRecord
   before_validation :set_datetime_at
   validate :validate_datetime, on: :create
   after_save :link_with_media_items
+
+  scope :passed_event, -> { where("datetime_at <= ? ",  DateTime.now) }
+  # scope :active, -> { where(status: 'active') }
 
   def set_datetime_at
     if epoc_datetime_at

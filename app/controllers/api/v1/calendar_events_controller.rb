@@ -1,6 +1,6 @@
 module Api
   class V1::CalendarEventsController < V1::BaseController
-    before_action :validate_record, except: [:create, :index]
+    before_action :validate_record, except: [:create, :index, :attendance]
 
     def index
       events = current_user.calendar_events.filter_on(filter_params).includes(:user)
@@ -72,6 +72,21 @@ module Api
       else
         data = { status: false, message: @event.errors.full_messages.join(','), errors: @event.errors.full_messages }
         render json: data, status: 422
+      end
+    end
+
+    def attendance
+      render_unprocessable_entity('Please give propar status value.') and return if params[:status].present? && !params[:status].in?(Constant::EVENT_ATTENDANCE_STATUS)
+      event = CalendarEvent.active.find_by(id: params[:id])
+      render_unprocessable_entity('Event is not found or passed') and return if event.nil?
+      event_attendance = current_user.event_attendances.find_or_initialize_by(calendar_event_id: params[:id])
+      event_attendance.status = params[:status]
+      if event_attendance.save
+        render_success_response(
+          { calendar_event: event_data(event) }, 'Your response is updated successfully for this Event',  200
+        )
+      else
+        render_unprocessable_entity_response(event_attendance)
       end
     end
 
