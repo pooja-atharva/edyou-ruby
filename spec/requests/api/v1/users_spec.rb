@@ -167,7 +167,25 @@ RSpec.describe 'api/v1/users', type: :request do
 
       response '200', 'User Profile' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, nil, 'profile')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, nil, 'user')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/users/me' do
+    get 'Current User Profile' do
+      tags 'Profile'
+      security [Bearer: []]
+      consumes 'application/json'
+      response '200', 'Current User Profile' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, nil, 'user')
         run_test!
       end
 
