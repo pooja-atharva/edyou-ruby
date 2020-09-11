@@ -4,7 +4,6 @@ RSpec.describe 'api/v1/groups', type: :request do
 
   properties = {
     id: { type: :integer },
-    owner: { type: :object },
     name: { type: :string },
     privacy: { type: :boolean},
     university: { type: :string},
@@ -16,7 +15,10 @@ RSpec.describe 'api/v1/groups', type: :request do
     secretary: { type: :string},
     email: { type: :string},
     calendar_link: { type: :string},
+    users_count: {type: :integer},
+    friends_count: {type: :integer},
     users: { type: :array, items: {type: :object} },
+    owner: { type: :object },
     groups_users: {
       type: :array,
       items: {

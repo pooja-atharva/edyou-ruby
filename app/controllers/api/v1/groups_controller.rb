@@ -96,7 +96,7 @@ module Api
     end
 
     def group_data(object)
-      single_serializer.new(object, serializer: Api::V1::GroupSerializer)
+      single_serializer.new(object, serializer: Api::V1::GroupSerializer, current_user: current_user)
     end
 
     def validate_record
