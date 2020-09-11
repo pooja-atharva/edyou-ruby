@@ -70,6 +70,21 @@ module Api
       end
     end
 
+    def join
+      render_unprocessable_entity("Please give propar value") and return if join_params[:status].blank?
+      groups_user = @group.groups_users.find_by(user_id: current_user.id)
+      render_unprocessable_entity('Group request is not present') return if groups_user.blank?
+      if groups_user.status == 'pending'
+        if join_params[:status] == 'approved'
+          groups_user.set_approved!
+          render_success_response( { group: group_data(@group) }, 'Group request is approved')
+        elsif join_params[:status] == 'declined'
+          groups_user.set_declined!
+          render_success_response({ group: group_data(@group) }, 'Group request is declined')
+        end
+      end
+    end
+
     private
 
     def invalid_user_response
@@ -78,9 +93,9 @@ module Api
 
     def group_params
       params.require(:group).permit(
-        :name, :description, :privacy, :university, :section, :president, :vice_president, :treasure, :social_director,
-        :secretary, :email, :calendar_link, avatar: :data,
-        groups_users_attributes: [:id, :user_id, :admin, :_destroy])
+        :name, :description, :privacy, :university, :section, :president, :vice_president,
+        :treasure, :social_director, :secretary, :email, :calendar_link,
+        groups_users_attributes: [:id, :status, :user_id, :admin, :_destroy])
     end
 
     def group_status_params
@@ -89,6 +104,10 @@ module Api
 
     def group_user_params
       params.require(:group).permit(user_ids: [])
+    end
+
+    def join_params
+      params.permit(:status)
     end
 
     def filter_params
@@ -115,6 +134,5 @@ module Api
         render_unprocessable_entity('Status value is not valid')
       end
     end
-
   end
 end

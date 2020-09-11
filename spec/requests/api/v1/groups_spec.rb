@@ -260,4 +260,28 @@ RSpec.describe 'api/v1/groups', type: :request do
       end
     end
   end
+
+  path '/api/v1/groups/{id}/join' do
+    post 'Join Group' do
+      tags 'Groups'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string, description: 'Group Id'
+      parameter name: :status, in: :query, type: :string, description: 'status', enum: %w(approved declined)
+
+      response '200', 'Join Group' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        let(:group) { { name: 'sample', groups_users_attributes: create_user_attributes } }
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Group request is approved/ Group request is declined', 'group')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:group) { { name: 'sample', groups_users_attributes: update_user_attributes} }
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
 end

@@ -3740,6 +3740,142 @@
         }
       }
     },
+    "/api/v1/groups/{id}/join": {
+      "post": {
+        "summary": "Join Group",
+        "tags": [
+          "Groups"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Group Id",
+            "required": true
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "description": "status",
+            "enum": [
+              "approved",
+              "declined"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Join Group",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Group request is approved/ Group request is declined"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "privacy": {
+                          "type": "boolean"
+                        },
+                        "university": {
+                          "type": "string"
+                        },
+                        "section": {
+                          "type": "string"
+                        },
+                        "president": {
+                          "type": "string"
+                        },
+                        "vice_president": {
+                          "type": "string"
+                        },
+                        "treasure": {
+                          "type": "string"
+                        },
+                        "social_director": {
+                          "type": "string"
+                        },
+                        "secretary": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "calendar_link": {
+                          "type": "string"
+                        },
+                        "users_count": {
+                          "type": "integer"
+                        },
+                        "friends_count": {
+                          "type": "integer"
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "owner": {
+                          "type": "object"
+                        },
+                        "groups_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "user": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/likes": {
       "post": {
         "summary": "like a post",

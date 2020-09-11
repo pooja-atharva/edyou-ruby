@@ -9,7 +9,7 @@ class Group < ApplicationRecord
 
   has_many :group_posts, dependent: :destroy
   has_many :posts, through: :group_posts
-  has_one_base64_attached :avatar
+  # has_one_base64_attached :avatar
 
   accepts_nested_attributes_for :groups_users, allow_destroy: true
 
@@ -18,6 +18,12 @@ class Group < ApplicationRecord
   validates :email, format: { with: Devise.email_regexp, message: 'format is invalid' }, allow_blank: true
 
   after_create :add_owner_in_group
+  after_commit :update_users_count
+
+  def update_users_count
+    self.users_count = GroupsUser.where(status: 'approved', group_id: id).count
+    self.save!
+  end
 
   def initialize(attributes={})
     super
