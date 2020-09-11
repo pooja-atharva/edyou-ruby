@@ -1,7 +1,7 @@
 module Api
   class V1::UsersController < V1::BaseController
     skip_before_action :doorkeeper_authorize!, except: %i[update profile_image]
-    before_action :set_user, except: %i[reset_password]
+    before_action :set_user, except: %i[reset_password, :show]
 
     def reset_password
       @user = User.find_by(reset_password_token: params[:reset_password_token]) rescue nil
@@ -77,11 +77,29 @@ module Api
       end
     end
 
+    def show
+      if params[:id].present?
+        if params[:id].downcase == "me"
+          current_user.create_profile(profile_params) if current_user.profile.blank? 
+          render_success_response({ profile: profile_data(current_user.profile) }) 
+        else
+          user = User.find_by(id: params[:id])
+          if user.present?
+            user.create_profile(profile_params) if user.profile.blank?
+            render_success_response({ profile: profile_data(user.profile) })
+          else
+            render_unprocessable_entity('User is not present.')
+          end
+        end
+      else
+        render_unprocessable_entity("Please give propar value")
+      end
+    end
+
     private
 
     def profile_params
-      params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion,
-                    :language, :date_of_birth, :favourite_quotes)
+      params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion, :language, :date_of_birth, :favourite_quotes)
     end
 
     def media_params
@@ -90,6 +108,10 @@ module Api
 
     def set_user
       @user = User.find_by(email: params[:email])
+    end
+
+    def profile_data(object)
+      single_serializer.new(object, serializer: Api::V1::ProfileSerializer)
     end
   end
 end

@@ -1,6 +1,20 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/users', type: :request do
+  properties = {
+    class_name: { type: :string },
+    graduation: { type: :string },
+    status: { type: :string },
+    attending_university: { type: :string },
+    high_school: { type: :string },
+    from_location: { type: :string },
+    gender: { type: :string },
+    religion: { type: :string },
+    language: { type: :string },
+    date_of_birth: { type: :string },
+    favourite_quotes: { type: :string }
+  }
+
   path '/api/v1/users/reset_password' do
     post 'Reset User Password' do
       tags 'Auth'
@@ -139,6 +153,26 @@ RSpec.describe 'api/v1/users', type: :request do
         run_test!
       end
       response "422", 'invalid request' do
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/users/{id}' do
+    get 'User Profile' do
+      tags 'Profile'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string, description: 'User ID'
+
+      response '200', 'User Profile' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, nil, 'profile')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        schema '$ref' => '#/components/schemas/errors_object'
         run_test!
       end
     end
