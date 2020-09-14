@@ -73,7 +73,7 @@ module Api
     def join
       render_unprocessable_entity("Please give propar value") and return if join_params[:status].blank?
       groups_user = @group.groups_users.find_by(user_id: current_user.id)
-      render_unprocessable_entity('Group request is not present') return if groups_user.blank?
+      render_unprocessable_entity('Group request is not present') and return if groups_user.blank?
       if groups_user.status == 'pending'
         if join_params[:status] == 'approved'
           groups_user.set_approved!
@@ -94,7 +94,7 @@ module Api
     def group_params
       params.require(:group).permit(
         :name, :description, :privacy, :university, :section, :president, :vice_president,
-        :treasure, :social_director, :secretary, :email, :calendar_link,
+        :treasure, :social_director, :secretary, :email, :calendar_link, avatar: :data,
         groups_users_attributes: [:id, :status, :user_id, :admin, :_destroy])
     end
 

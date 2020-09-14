@@ -5,7 +5,7 @@ module Api
       attributes :id, :name, :description, :privacy, :university, :section,
                  :president, :vice_president, :treasure, :social_director,
                  :secretary, :email, :calendar_link, :status, :users_count,
-                 :friends_count, :owner, :group_users
+                 :avatar, :friends_count, :owner, :group_users
 
       def owner
         ActiveModelSerializers::SerializableResource.new(object.owner, serializer: Api::V1::UserSerializer)
@@ -15,9 +15,9 @@ module Api
         ActiveModel::Serializer::CollectionSerializer.new(object.groups_users, serializer: Api::V1::GroupsUserSerializer)
       end
 
-      # def avatar
-      #   object.avatar.attached? ? rails_blob_url(object.avatar) : nil
-      # end
+      def avatar
+        object.avatar.attached? ? rails_blob_url(object.avatar) : nil
+      end
 
       def friends_count
         current_user = @instance_options[:current_user]

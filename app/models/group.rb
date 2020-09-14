@@ -9,7 +9,7 @@ class Group < ApplicationRecord
 
   has_many :group_posts, dependent: :destroy
   has_many :posts, through: :group_posts
-  # has_one_base64_attached :avatar
+  has_one_base64_attached :avatar
 
   accepts_nested_attributes_for :groups_users, allow_destroy: true
 
