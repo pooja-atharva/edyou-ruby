@@ -1,6 +1,6 @@
 module Api
   class V1::GroupsController < V1::BaseController
-    before_action :validate_record, except: [:create, :index]
+    before_action :validate_record, except: [:create, :index, :join]
     before_action :validate_status, only: [:status]
 
     def index
@@ -72,6 +72,8 @@ module Api
 
     def join
       render_unprocessable_entity("Please give propar value") and return if join_params[:status].blank?
+      @group = Group.find_by(id: params[:id])
+      render_unprocessable_entity('Group is not found') and return if @group.blank?
       groups_user = @group.groups_users.find_by(user_id: current_user.id)
       render_unprocessable_entity('Group request is not present') and return if groups_user.blank?
       if groups_user.status == 'pending'
