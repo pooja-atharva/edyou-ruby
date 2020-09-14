@@ -9,10 +9,10 @@ module Api
           { media_item: { token: media_item.media_token } }, 'Image is added successfully in event',  200
         )
       else
-        # invalid_images_response
+        render_unprocessable_entity(media_item.errors.full_messages.join(','))
       end
-    # rescue
-    #   invalid_images_response
+    rescue
+      invalid_images_response
     end
 
     private

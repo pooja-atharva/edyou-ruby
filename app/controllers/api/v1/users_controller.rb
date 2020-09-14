@@ -78,28 +78,22 @@ module Api
     end
 
     def show
-      if params[:id].present?
-        if params[:id].downcase == "me"
-          current_user.create_profile(profile_params) if current_user.profile.blank? 
-          render_success_response({ profile: profile_data(current_user.profile) }) 
-        else
-          user = User.find_by(id: params[:id])
-          if user.present?
-            user.create_profile(profile_params) if user.profile.blank?
-            render_success_response({ profile: profile_data(user.profile) })
-          else
-            render_unprocessable_entity('User is not present.')
-          end
-        end
-      else
-        render_unprocessable_entity("Please give propar value")
-      end
+      render_unprocessable_entity("Please give propar value") and return if user_params[:id].blank?
+
+      user = params[:id].downcase  == 'me' ? current_user : User.find_by_id(user_params[:id])
+      render_unprocessable_entity('User is does not exists.')and return if user.nil?
+      user.create_profile(profile_params) if user.profile.blank?
+      render_success_response({ user: profile_data(user.profile) })
     end
 
     private
 
     def profile_params
       params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion, :language, :date_of_birth, :favourite_quotes)
+    end
+
+    def user_params
+      params.permit(:id)
     end
 
     def media_params

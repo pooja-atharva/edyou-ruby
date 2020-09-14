@@ -4132,6 +4132,63 @@
         }
       }
     },
+    "/api/v1/media_items": {
+      "post": {
+        "summary": "Upload Media Items",
+        "tags": [
+          "Media Items"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "media_items",
+            "in": "formData",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image is added successfully in event",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Image is added successfully in event"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "media_item": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
     "/api/v1/permissions": {
       "get": {
         "summary": "List of permissions",
@@ -5272,7 +5329,92 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "profile": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "class_name": {
+                          "type": "string"
+                        },
+                        "graduation": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "attending_university": {
+                          "type": "string"
+                        },
+                        "high_school": {
+                          "type": "string"
+                        },
+                        "from_location": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "religion": {
+                          "type": "string"
+                        },
+                        "language": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string"
+                        },
+                        "favourite_quotes": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "summary": "Current User Profile",
+        "tags": [
+          "Profile"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
                       "type": "object",
                       "properties": {
                         "class_name": {

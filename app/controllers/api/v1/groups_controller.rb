@@ -122,7 +122,7 @@ module Api
       group_user = current_user.groups_users.find_by_group_id(params[:id])
       @group = group_user.try(:group)
       render_unprocessable_entity('Group is not found') and return if group_user.nil?
-      render_unprocessable_entity('You are not authorized to manage this group') unless group_user.admin?
+      render_unprocessable_entity('You are not authorized to manage this group') if !group_user.admin? && params[:action] != 'destroy'
     end
 
     def invalid_images_response

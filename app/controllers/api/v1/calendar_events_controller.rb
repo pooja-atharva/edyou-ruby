@@ -18,8 +18,7 @@ module Api
           { calendar_event: event_data(event) }, 'Event is created successfully',  200
         )
       else
-        data = { status: false, message: event.errors.full_messages.join(','), errors: event.errors.full_messages }
-        render json: data, status: 422
+        render_unprocessable_entity(@event.errors.full_messages.join(','))
       end
     rescue
       invalid_media_item_response
@@ -31,8 +30,7 @@ module Api
           { calendar_event: event_data(@event) }, 'Event is updated successfully',  200
         )
       else
-        data = { status: false, message: @event.errors.full_messages.join(','), errors: @event.errors.full_messages }
-        render json: data, status: 422
+        render_unprocessable_entity(@event.errors.full_messages.join(','))
       end
     rescue
       invalid_media_item_response
@@ -55,8 +53,7 @@ module Api
           { calendar_event: event_data(@event) }, 'Media item is added successfully in event',  200
         )
       else
-        data = { status: false, message: @event.errors.full_messages.join(','), errors: @event.errors.full_messages }
-        render json: data, status: 422
+        render_unprocessable_entity(@event.errors.full_messages.join(','))
       end
     rescue
       invalid_media_item_response
@@ -70,8 +67,7 @@ module Api
           { calendar_event: event_data(@event) }, 'Media item is removed successfully from the event',  200
         )
       else
-        data = { status: false, message: @event.errors.full_messages.join(','), errors: @event.errors.full_messages }
-        render json: data, status: 422
+        render_unprocessable_entity(@event.errors.full_messages.join(','))
       end
     end
 
@@ -86,7 +82,7 @@ module Api
           { calendar_event: event_data(event) }, 'Your response is updated successfully for this Event',  200
         )
       else
-        render_unprocessable_entity_response(event_attendance)
+        render_unprocessable_entity_response(event_attendance.full_messages.join(', '))
       end
     end
 
