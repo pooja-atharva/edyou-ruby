@@ -3996,6 +3996,63 @@
         }
       }
     },
+    "/api/v1/media_items": {
+      "post": {
+        "summary": "Upload Media Items",
+        "tags": [
+          "Media Items"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "media_items",
+            "in": "formData",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image is added successfully in event",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Image is added successfully in event"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "media_item": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
     "/api/v1/permissions": {
       "get": {
         "summary": "List of permissions",
