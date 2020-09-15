@@ -1,5 +1,6 @@
 class GroupsUser < ApplicationRecord
-  belongs_to :group, counter_cache: :users_count
+  include Status
+  belongs_to :group
   belongs_to :user
 
   # validates :group_id#, presence: true
@@ -7,4 +8,20 @@ class GroupsUser < ApplicationRecord
 
   scope :admin, -> { where(admin: true) }
   scope :non_admin, -> { where(admin: false ) }
+
+  after_save :update_groups_count
+  after_destroy :update_groups_count
+
+  def set_approved!
+    self.status = :approved
+    save
+  end
+
+  def set_declined!
+    self.destroy
+  end
+
+  def update_groups_count
+    group.update_column(:users_count, group.groups_users.approved.count)
+  end
 end

@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       end
       resources :groups do
         member do
+          post :join
           post :add_users
           put :status
           delete :remove_avatar

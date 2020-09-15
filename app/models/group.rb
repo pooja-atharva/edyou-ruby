@@ -18,6 +18,13 @@ class Group < ApplicationRecord
   validates :email, format: { with: Devise.email_regexp, message: 'format is invalid' }, allow_blank: true
 
   after_create :add_owner_in_group
+  after_save :set_users_count
+
+  def set_users_count
+    groups_user = groups_users.find_by(user_id: owner_id)
+    groups_user.update(status: 'approved') if groups_user.present?
+    update_column(:users_count, groups_users.approved.count)
+  end
 
   def initialize(attributes={})
     super
