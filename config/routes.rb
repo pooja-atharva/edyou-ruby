@@ -78,7 +78,6 @@ Rails.application.routes.draw do
           post :update
         end
       end
-
       resources :calendar_events do
         member do
           post :add_media_item
@@ -87,6 +86,7 @@ Rails.application.routes.draw do
         end
       end
       resource :media_items, only: [:create]
+      resources :hashtags, only: [:index]
     end
   end
 end

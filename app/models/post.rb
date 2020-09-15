@@ -28,6 +28,9 @@ class Post < ApplicationRecord
     taggings.destroy_all if taggings.present?
     body.scan(/#\w+/).flatten.each do |tag|
       taggings.create(context: tag.gsub("#", ""))
+      count = Tagging.where(taggable_type: "Post").where(context: tag.gsub("#", "")).count
+      hashtag = Hashtag.find_or_create_by(context: tag.gsub("#", ""))
+      hashtag.update_column(:count, count)
     end
   end
 
