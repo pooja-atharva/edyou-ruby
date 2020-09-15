@@ -9,11 +9,19 @@ class GroupsUser < ApplicationRecord
   scope :admin, -> { where(admin: true) }
   scope :non_admin, -> { where(admin: false ) }
 
+  after_save :update_groups_count
+  after_destroy :update_groups_count
+
   def set_approved!
-    update_column(:status, :approved)
+    self.status = :approved
+    save
   end
 
   def set_declined!
-    update_column(:status, :declined)
+    self.destroy
+  end
+
+  def update_groups_count
+    group.update_column(:users_count, group.groups_users.approved.count)
   end
 end

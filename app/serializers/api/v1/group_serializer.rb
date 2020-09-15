@@ -22,8 +22,8 @@ module Api
       def friends_count
         current_user = @instance_options[:current_user]
         if current_user.present?
-          object.groups_users.where(status: "approved")
-            .joins("INNER JOIN friendships on (friendships.friend_id = groups_users.user_id) OR (friendships.user_id = groups_users.user_id) AND (friendships.friend_id != #{current_user.id} AND friendships.user_id != #{current_user.id})")
+          object.groups_users.approved.where.not(user_id: current_user.id)
+            .joins("INNER JOIN friendships on (friendships.friend_id = groups_users.user_id) OR (friendships.user_id = groups_users.user_id) AND (friendships.friend_id = #{current_user.id} OR friendships.user_id = #{current_user.id})")
             .where(friendships: {status: '1'}).count
         else
           0

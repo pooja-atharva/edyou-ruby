@@ -74,16 +74,14 @@ module Api
       render_unprocessable_entity("Please give propar value") and return if join_params[:status].blank?
       @group = Group.find_by(id: params[:id])
       render_unprocessable_entity('Group is not found') and return if @group.blank?
-      groups_user = @group.groups_users.find_by(user_id: current_user.id)
+      groups_user = @group.groups_users.pending.find_by(user_id: current_user.id)
       render_unprocessable_entity('Group request is not present') and return if groups_user.blank?
-      if groups_user.status == 'pending'
-        if join_params[:status] == 'approved'
-          groups_user.set_approved!
-          render_success_response( { group: group_data(@group) }, 'Group request is approved')
-        elsif join_params[:status] == 'declined'
-          groups_user.set_declined!
-          render_success_response({ group: group_data(@group) }, 'Group request is declined')
-        end
+      if join_params[:status] == 'approved'
+        groups_user.set_approved!
+        render_success_response( { group: group_data(@group) }, 'Group request is approved')
+      elsif join_params[:status] == 'declined'
+        groups_user.set_declined!
+        render_success_response({ group: group_data(@group) }, 'Group request is declined')
       end
     end
 
