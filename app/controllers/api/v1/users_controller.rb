@@ -105,7 +105,7 @@ module Api
     end
 
     def profile_data(object)
-      single_serializer.new(object, serializer: Api::V1::ProfileSerializer)
+      single_serializer.new(object, serializer: Api::V1::ProfileSerializer, current_user: current_user)
     end
   end
 end

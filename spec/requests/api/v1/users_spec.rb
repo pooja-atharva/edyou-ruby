@@ -12,7 +12,8 @@ RSpec.describe 'api/v1/users', type: :request do
     religion: { type: :string },
     language: { type: :string },
     date_of_birth: { type: :string },
-    favourite_quotes: { type: :string }
+    favourite_quotes: { type: :string },
+    friend_status: { type: :string }
   }
 
   path '/api/v1/users/reset_password' do
@@ -185,7 +186,7 @@ RSpec.describe 'api/v1/users', type: :request do
       consumes 'application/json'
       response '200', 'Current User Profile' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, nil, 'user')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties.except(:friend_status), nil, 'user')
         run_test!
       end
 

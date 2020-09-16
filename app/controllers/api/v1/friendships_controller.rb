@@ -1,6 +1,15 @@
 module Api
   class V1::FriendshipsController < V1::BaseController
-    before_action :validate_record, except: [:create]
+    before_action :validate_record, except: [:index, :create]
+
+    def index
+
+      friendships = current_user.friendships
+      render_success_response(
+        { friendships: array_serializer.new(friendships, serializer: Api::V1::FriendshipSerializer) },
+        '',  200, page_meta(friendships, filter_params)
+      )
+    end
 
     def create
       friendship = current_user.friendships.with_user(friendship_params[:friend_id]).first || current_user.friendships.build(friendship_params)
@@ -52,6 +61,10 @@ module Api
 
     def friendship_data(object)
       single_serializer.new(object, serializer: Api::V1::FriendshipSerializer)
+    end
+
+    def filter_params
+      params.permit(:page, :per)
     end
   end
 end
