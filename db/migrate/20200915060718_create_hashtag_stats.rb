@@ -1,6 +1,6 @@
-class CreateHashtags < ActiveRecord::Migration[6.0]
+class CreateHashtagStats < ActiveRecord::Migration[6.0]
   def change
-    create_table :hashtags do |t|
+    create_table :hashtag_stats do |t|
       t.string :context
       t.integer :count, default: 0
 

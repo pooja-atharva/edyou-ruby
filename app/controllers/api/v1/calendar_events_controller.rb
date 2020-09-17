@@ -1,6 +1,6 @@
 module Api
   class V1::CalendarEventsController < V1::BaseController
-    before_action :validate_record, except: [:create, :index, :attendance]
+    before_action :validate_record, except: [:create, :index, :attendance, :show]
 
     def index
       events = current_user.calendar_events.filter_on(filter_params).includes(:user)
@@ -11,8 +11,7 @@ module Api
     end
 
     def create
-      event = CalendarEvent.new(calendar_event_params)
-      event.user = current_user
+      event = current_user.calendar_events.new(calendar_event_params)
       if event.save
         render_success_response(
           { calendar_event: event_data(event) }, 'Event is created successfully',  200
@@ -36,7 +35,13 @@ module Api
       invalid_media_item_response
     end
 
+    def your_events
+      render_success_response({ calendar_event: event_data(@event) }, '',  200 )
+    end
+
     def show
+      @event = CalendarEvent.find_by_id(params[:id])
+      render_unprocessable_entity('Event is not found') if @event.nil?
       render_success_response({ calendar_event: event_data(@event) }, '',  200 )
     end
 
@@ -75,7 +80,7 @@ module Api
       render_unprocessable_entity('Please give propar status value.') and return if params[:status].present? && !params[:status].in?(Constant::EVENT_ATTENDANCE_STATUS)
       event = CalendarEvent.active.find_by(id: params[:id])
       render_unprocessable_entity('Event is not found or passed') and return if event.nil?
-      event_attendance = current_user.event_attendances.find_or_initialize_by(calendar_event_id: params[:id])
+      event_attendance = current_user.event_attendances.find_by(calendar_event_id: params[:id])
       event_attendance.status = params[:status]
       if event_attendance.save
         render_success_response(
@@ -94,7 +99,7 @@ module Api
     end
 
     def event_data(object)
-      single_serializer.new(object, serializer: Api::V1::CalendarEventSerializer)
+      single_serializer.new(object, serializer: Api::V1::CalendarEventSerializer, current_user: current_user)
     end
 
     def validate_record

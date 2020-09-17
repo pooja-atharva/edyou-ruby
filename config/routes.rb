@@ -86,7 +86,7 @@ Rails.application.routes.draw do
         end
       end
       resource :media_items, only: [:create]
-      resources :hashtags, only: [:index]
+      resources :hashtag_stats, only: [:index]
     end
   end
 end

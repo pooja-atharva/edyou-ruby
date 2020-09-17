@@ -1,15 +1,15 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/hashtags', type: :request do
+RSpec.describe 'api/v1/hashtag_stats', type: :request do
   properties = {
     id: { type: :integer },
     context: { type: :string },
     count: { type: :integer }
   }
 
-  path '/api/v1/hashtags' do
+  path '/api/v1/hashtag_stats' do
     get 'Search Hashtag' do
-      tags 'Hashtags'
+      tags 'Hashtag Stats'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :query, in: :query, type: :string, value: 'string'

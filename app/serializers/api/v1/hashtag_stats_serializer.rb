@@ -1,6 +1,6 @@
 module Api
   module V1
-    class HashtagSerializer < ActiveModel::Serializer
+    class HashtagStatSerializer < ActiveModel::Serializer
       attributes :id, :context
     end
   end
