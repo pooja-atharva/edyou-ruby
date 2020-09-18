@@ -5,6 +5,27 @@ RSpec.describe 'api/v1/friendship', type: :request do
   properties = { id: {type: :integer}, user: {type: :object}, friend: {type: :object}, status: {type: :string} }
 
   path '/api/v1/friendships' do
+    get 'Get User friendships' do
+      tags 'Friendships'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+      parameter name: :page, in: :query, type: :integer, value: 1
+
+      response '200', 'friendships list' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties, '', 'friendships')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/friendships' do
     post 'Create an friendship' do
       tags 'Friendships'
       security [Bearer: []]

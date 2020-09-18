@@ -1,4 +1,5 @@
 class Friendship < ApplicationRecord
+  include Filterable
   include Status
   belongs_to :user
   belongs_to :friend, class_name: 'User', foreign_key: :friend_id
@@ -23,5 +24,9 @@ class Friendship < ApplicationRecord
 
   def set_cancelled!
     update_column(:status, :cancelled)
+  end
+
+  def unfriend?
+    declined? || cancelled?
   end
 end

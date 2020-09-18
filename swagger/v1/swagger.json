@@ -883,6 +883,9 @@
                           "event_type": {
                             "type": "string"
                           },
+                          "location": {
+                            "type": "string"
+                          },
                           "user": {
                             "type": "object"
                           },
@@ -1072,6 +1075,9 @@
                         "event_type": {
                           "type": "string"
                         },
+                        "location": {
+                          "type": "string"
+                        },
                         "user": {
                           "type": "object"
                         },
@@ -1223,6 +1229,9 @@
                         "event_type": {
                           "type": "string"
                         },
+                        "location": {
+                          "type": "string"
+                        },
                         "user": {
                           "type": "object"
                         },
@@ -1331,6 +1340,9 @@
                           "type": "string"
                         },
                         "event_type": {
+                          "type": "string"
+                        },
+                        "location": {
                           "type": "string"
                         },
                         "user": {
@@ -1485,6 +1497,9 @@
                         "event_type": {
                           "type": "string"
                         },
+                        "location": {
+                          "type": "string"
+                        },
                         "user": {
                           "type": "object"
                         },
@@ -1600,6 +1615,9 @@
                           "type": "string"
                         },
                         "event_type": {
+                          "type": "string"
+                        },
+                        "location": {
                           "type": "string"
                         },
                         "user": {
@@ -1723,6 +1741,9 @@
                           "type": "string"
                         },
                         "event_type": {
+                          "type": "string"
+                        },
+                        "location": {
                           "type": "string"
                         },
                         "user": {
@@ -2357,6 +2378,130 @@
       }
     },
     "/api/v1/friendships": {
+      "get": {
+        "summary": "Get User friendships",
+        "tags": [
+          "Friendships"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "friendships list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "friendships": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "user": {
+                            "type": "object"
+                          },
+                          "friend": {
+                            "type": "object"
+                          },
+                          "status": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
       "post": {
         "summary": "Create an friendship",
         "tags": [
@@ -3876,135 +4021,6 @@
         }
       }
     },
-    "/api/v1/hashtags": {
-      "get": {
-        "summary": "Search Hashtag",
-        "tags": [
-          "Hashtags"
-        ],
-        "security": [
-          {
-            "Bearer": [
-
-            ]
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "query",
-            "in": "query",
-            "type": "string",
-            "value": "string"
-          },
-          {
-            "name": "per",
-            "in": "query",
-            "type": "integer",
-            "value": 25
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "type": "integer",
-            "value": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of hashtags",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": null
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "model_key": {
-                      "type": "array",
-                      "items": {
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "context": {
-                            "type": "string"
-                          },
-                          "count": {
-                            "type": "integer"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "meta": {
-                  "type": "object",
-                  "properties": {
-                    "page": {
-                      "type": "string"
-                    },
-                    "per": {
-                      "type": "string"
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "per_page": {
-                          "type": "integer",
-                          "example": 25
-                        },
-                        "current_page": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "next_page": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "prev_page": {
-                          "type": "integer",
-                          "example": 0
-                        },
-                        "total_pages": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "total_count": {
-                          "type": "integer",
-                          "example": 50
-                        }
-                      }
-                    }
-                  }
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Invalid Request",
-            "schema": {
-              "$ref": "#/components/schemas/errors_object"
-            }
-          }
-        }
-      }
-    },
     "/api/v1/likes": {
       "post": {
         "summary": "like a post",
@@ -5461,6 +5477,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
                         "class_name": {
                           "type": "string"
                         },
@@ -5492,6 +5520,9 @@
                           "type": "string"
                         },
                         "favourite_quotes": {
+                          "type": "string"
+                        },
+                        "friend_status": {
                           "type": "string"
                         }
                       }
@@ -5546,6 +5577,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
                         "class_name": {
                           "type": "string"
                         },

@@ -9,6 +9,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
     epoc_datetime_at: { type: :integer },
     price: { type: :string },
     event_type: { type: :string },
+    location: { type: :string },
     user: { type: :object },
     media_items: {
       type: :array,
