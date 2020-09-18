@@ -2,6 +2,10 @@ require 'swagger_helper'
 
 RSpec.describe 'api/v1/users', type: :request do
   properties = {
+    id: { type: :integer },
+    user_id: { type: :integer },
+    email: { type: :string },
+    name: { type: :string },
     class_name: { type: :string },
     graduation: { type: :string },
     status: { type: :string },

@@ -18,6 +18,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
         properties: { id: { type: :integer}, url: { type: :string } }
       }
     },
+    invite: {type: :string},
     attendance: {
       type: :object,
       properties: {
@@ -27,7 +28,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
       }
     }
   }
-  
+
   path '/api/v1/calendar_events' do
     get 'Get Calendar Events' do
       tags 'Calendar Events'

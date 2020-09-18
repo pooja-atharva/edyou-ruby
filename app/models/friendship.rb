@@ -25,4 +25,8 @@ class Friendship < ApplicationRecord
   def set_cancelled!
     update_column(:status, :cancelled)
   end
+
+  def unfriend?
+    declined? || cancelled?
+  end
 end

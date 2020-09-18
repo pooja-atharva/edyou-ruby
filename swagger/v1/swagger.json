@@ -903,6 +903,9 @@
                               }
                             }
                           },
+                          "invite": {
+                            "type": "string"
+                          },
                           "attendance": {
                             "type": "object",
                             "properties": {
@@ -1095,6 +1098,9 @@
                             }
                           }
                         },
+                        "invite": {
+                          "type": "string"
+                        },
                         "attendance": {
                           "type": "object",
                           "properties": {
@@ -1249,6 +1255,9 @@
                             }
                           }
                         },
+                        "invite": {
+                          "type": "string"
+                        },
                         "attendance": {
                           "type": "object",
                           "properties": {
@@ -1361,6 +1370,9 @@
                               }
                             }
                           }
+                        },
+                        "invite": {
+                          "type": "string"
                         },
                         "attendance": {
                           "type": "object",
@@ -1517,6 +1529,9 @@
                             }
                           }
                         },
+                        "invite": {
+                          "type": "string"
+                        },
                         "attendance": {
                           "type": "object",
                           "properties": {
@@ -1636,6 +1651,9 @@
                               }
                             }
                           }
+                        },
+                        "invite": {
+                          "type": "string"
                         },
                         "attendance": {
                           "type": "object",
@@ -1762,6 +1780,9 @@
                               }
                             }
                           }
+                        },
+                        "invite": {
+                          "type": "string"
                         },
                         "attendance": {
                           "type": "object",
@@ -5477,6 +5498,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
                         "class_name": {
                           "type": "string"
                         },
@@ -5565,6 +5598,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
                         "class_name": {
                           "type": "string"
                         },

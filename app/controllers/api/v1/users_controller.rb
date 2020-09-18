@@ -1,7 +1,7 @@
 module Api
   class V1::UsersController < V1::BaseController
-    skip_before_action :doorkeeper_authorize!, except: %i[update profile_image]
-    before_action :set_user, except: %i[reset_password, :show]
+    skip_before_action :doorkeeper_authorize!, except: %i[update profile_image, show]
+    before_action :set_user, except: %i[reset_password, show]
 
     def reset_password
       @user = User.find_by(reset_password_token: params[:reset_password_token]) rescue nil
@@ -78,7 +78,7 @@ module Api
     end
 
     def show
-      render_unprocessable_entity("Please give propar value") and return if user_params[:id].blank?
+      render_unprocessable_entity('Please give proper value') and return if user_params[:id].blank?
 
       user = params[:id].downcase  == 'me' ? current_user : User.find_by_id(user_params[:id])
       render_unprocessable_entity('User is does not exists.')and return if user.nil?
