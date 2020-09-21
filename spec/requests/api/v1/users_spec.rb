@@ -20,6 +20,47 @@ RSpec.describe 'api/v1/users', type: :request do
     friend_status: { type: :string }
   }
 
+  search_properties = {
+    "your_college": [
+      {
+        id: { type: :integer },
+        email: { type: :string },
+        name: { type: :string },
+        profile_image: { type: :string }
+      }
+    ],
+    "other_college": [
+      {
+        id: { type: :integer },
+        email: { type: :string },
+        name: { type: :string },
+        profile_image: { type: :string }
+      }
+    ]
+  }
+
+  path '/api/v1/users' do
+    get 'Get User Users' do
+      tags 'Users'
+      security [Bearer: []]
+      parameter name: :query, in: :query, type: :string, value: 'string'
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+      parameter name: :page, in: :query, type: :integer, value: 1
+
+      response '200', 'Users list' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:album) { { name: 'sample' } }
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/users/reset_password' do
     post 'Reset User Password' do
       tags 'Auth'
