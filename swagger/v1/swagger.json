@@ -5169,6 +5169,58 @@
         }
       }
     },
+    "/api/v1/support_tickets": {
+      "post": {
+        "summary": "Raise a support ticket",
+        "tags": [
+          "Contact us"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "support_ticket",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "reason": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "like created"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/v1/users/reset_password": {
       "post": {
         "summary": "Reset User Password",

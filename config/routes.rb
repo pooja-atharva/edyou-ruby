@@ -47,6 +47,7 @@ Rails.application.routes.draw do
         end
       end
       resources :likes
+      resources :support_tickets
       resources :comments
       resources :posts do
         collection do
