@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resources :friends do
         collection do
           post :search
+          get :feeds
         end
       end
       resources :groups do
