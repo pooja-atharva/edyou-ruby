@@ -50,6 +50,7 @@ group :development do
   gem 'capistrano3-puma',   require: false
   gem 'solargraph'
   gem 'rubocop'
+  gem 'letter_opener'
 end
 
 group :test do

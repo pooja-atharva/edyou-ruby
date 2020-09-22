@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_111945) do
+ActiveRecord::Schema.define(version: 2020_09_17_160934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,13 +191,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_111945) do
     t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
 
-  create_table "hashtag_stats", force: :cascade do |t|
-    t.string "context"
-    t.integer "count", default: 0
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "likeable_id", null: false
@@ -344,6 +337,18 @@ ActiveRecord::Schema.define(version: 2020_09_11_111945) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "support_tickets", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "reason"
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.string "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_support_tickets_on_user_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.string "taggable_type"
     t.bigint "taggable_id"
@@ -390,4 +395,5 @@ ActiveRecord::Schema.define(version: 2020_09_11_111945) do
   add_foreign_key "privacy_settings", "permission_types"
   add_foreign_key "privacy_settings", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "support_tickets", "users"
 end

@@ -10,7 +10,7 @@ module Api
       render_success_response(
         {
           school_users: array_serializer.new(school_users, serializer: Api::V1::UserSerializer),
-          non_school_users: array_serializer.new(non_school_users, serializer: Api::V1::UserSerializer)   
+          non_school_users: array_serializer.new(non_school_users, serializer: Api::V1::UserSerializer)
         },
         '',  200, page_meta(school_users, filter_params)
       )

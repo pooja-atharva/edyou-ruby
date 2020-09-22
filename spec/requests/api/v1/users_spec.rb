@@ -49,7 +49,7 @@ RSpec.describe 'api/v1/users', type: :request do
 
       response '200', 'Users list' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(search_properties)
         run_test!
       end
 

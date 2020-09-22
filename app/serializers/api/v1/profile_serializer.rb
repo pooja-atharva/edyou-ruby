@@ -14,6 +14,16 @@ module Api
         object.user.try(:name)
       end
 
+      def is_following
+        current_user = @instance_options[:current_user]
+        current_user.following?(object.user)
+      end
+
+      def is_blocked
+        current_user = @instance_options[:current_user]
+        object.user.blocks.include?(current_user)
+      end
+
       def friend_status
         current_user = @instance_options[:current_user]
         friend_obj  = current_user.friendships.with_user(object.user_id).last if current_user
