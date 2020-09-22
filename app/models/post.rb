@@ -3,7 +3,6 @@ class Post < ApplicationRecord
   include Filterable
   include PublicActivity::Common
 
-
   belongs_to :user
   belongs_to :feeling, optional: true
   belongs_to :post_activity, optional: true, foreign_key: :activity_id
