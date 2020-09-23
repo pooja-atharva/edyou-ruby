@@ -14,6 +14,7 @@ module Api
     def create
       friendship = current_user.friendships.with_user(friendship_params[:friend_id]).first || current_user.friendships.build(friendship_params)
       friendship.user = current_user if friendship.new_record?
+      friendship.set_pending if !friendship.new_record? && friendship.unfriend?
       if friendship.save
         render_success_response(
           { friendship: friendship_data(friendship) }, 'Invitation sent successfully'
@@ -38,7 +39,7 @@ module Api
     end
 
     def cancel
-      @friendship.set_declined!
+      @friendship.set_cancelled!
       render_success_response(
         { friendship: friendship_data(@friendship) }, 'Friendship request is cancelled'
       )

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include Filterable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   acts_as_followable
@@ -38,6 +39,10 @@ class User < ApplicationRecord
   scope :search_with_name, -> (query) { where("name ilike ?", "%#{query}%") }
 
   after_create :set_privacy_settings
+
+  def self.search(query)
+    where("name ilike ?  OR email = ?", "%#{query}%","#{query}")
+  end
 
   def set_privacy_settings
     default_permission_type_id = PermissionType.find_by(action: 'public').id

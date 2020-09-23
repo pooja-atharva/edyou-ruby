@@ -4,7 +4,7 @@ module Api
 
     def index
       blocks = Follow.blocked.where(followable: current_user)
-      blocks = blocks.where(follower_type: block_params[:reference_type]) if block_params[:reference_type]
+      blocks = blocks.where(follower_type: block_list_params[:reference_type]) if block_list_params[:reference_type]
       blocks = blocks.filter_on(filter_params)
       render_success_response(
         { blocks: array_serializer.new(blocks, serializer: Api::V1::BlockSerializer) },
@@ -51,6 +51,10 @@ module Api
 
     def block_params
       params.require(:block).permit(:reference_id, :reference_type)
+    end
+
+    def block_list_params
+      params.permit(:reference_type)
     end
   end
 end

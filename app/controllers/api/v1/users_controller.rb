@@ -3,6 +3,20 @@ module Api
     skip_before_action :doorkeeper_authorize!, except: %i[update profile_image, show]
     before_action :set_user, except: %i[reset_password, show]
 
+    def index
+      high_school = current_user.try(:profile).try(:high_school)
+      base_results = User.joins(:profile).search(search_params[:query])
+      school_users = base_results.where(profiles: {high_school:  high_school}).filter_on(filter_params)
+      other_school_users = base_results.where.not(profiles: {high_school:  high_school}).filter_on(filter_params)
+      render_success_response(
+        {
+          school_users: array_serializer.new(school_users, serializer: Api::V1::UserSerializer),
+          other_school_users: array_serializer.new(other_school_users, serializer: Api::V1::UserSerializer)
+        },
+        '',  200, page_meta(school_users, filter_params)
+      )
+    end
+
     def reset_password
       @user = User.find_by(reset_password_token: params[:reset_password_token]) rescue nil
       if @user.present? && @user.password_token_valid?
@@ -106,6 +120,14 @@ module Api
 
     def profile_data(object)
       single_serializer.new(object, serializer: Api::V1::ProfileSerializer, current_user: current_user)
+    end
+
+    def filter_params
+      params.permit(:page, :per)
+    end
+
+    def search_params
+      params.permit(:query)
     end
   end
 end
