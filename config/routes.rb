@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         end
       end
       resources :followings, only: [:index, :create, :destroy]
+      resources :followers, only: [:index]
       resources :blocks, only: [:index, :create] do
         collection do
           delete :destroy
@@ -80,7 +81,6 @@ Rails.application.routes.draw do
           post :update
         end
       end
-
       resources :calendar_events do
         member do
           post :add_media_item
