@@ -19,16 +19,9 @@ class CalendarEvent < ApplicationRecord
   before_validation :set_datetime_at
   validate :validate_datetime, on: :create
   after_save :link_with_media_items
-  after_create :create_event_request
 
   scope :passed_event, -> { where("datetime_at <= ? ",  DateTime.now) }
   # scope :active, -> { where(status: 'active') }
-
-  def create_event_request
-    User.find_each(batch_size: 200) do |user|
-      user.event_attendances.find_or_create_by(calendar_event_id: id)
-    end
-  end
 
   def set_datetime_at
     if epoc_datetime_at

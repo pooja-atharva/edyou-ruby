@@ -1,6 +1,6 @@
 module Api
   class V1::CalendarEventsController < V1::BaseController
-    before_action :validate_record, except: [:create, :index, :attendance, :show]
+    before_action :validate_record, except: [:create, :index, :attendance]
 
     def index
       events = current_user.calendar_events.filter_on(filter_params).includes(:user)
@@ -37,9 +37,7 @@ module Api
     end
 
     def show
-      event = CalendarEvent.find_by_id(params[:id])
-      render_unprocessable_entity('Event is not found') and return if event.nil?
-      render_success_response({ calendar_event: event_data(event) }, '',  200 )
+      render_success_response({ calendar_event: event_data(@event) }, '',  200 )
     end
 
     def destroy

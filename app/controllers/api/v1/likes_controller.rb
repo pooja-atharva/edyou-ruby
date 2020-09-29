@@ -1,6 +1,6 @@
 module Api
     class V1::LikesController < V1::BaseController
-
+  
       def create
         post = Post.find(params[:id]) rescue nil
         like = post.likes.build(user_id: current_user.id)
@@ -9,10 +9,10 @@ module Api
             post: single_serializer.new(post, serializer: Api::V1::PostSerializer)
           }, "Liked successfully.")
         else
-          render_unprocessable_entity(like.errors.full_messages.join(','))
+          render_unprocessable_entity_response(like)
         end
       end
-
+  
       def destroy
         post = Post.find(params[:id]) rescue nil
         like = post.likes.find_by(user_id: current_user.id)
@@ -32,6 +32,6 @@ module Api
             users: array_serializer.new(post.likes.map(&:user), serializer: Api::V1::UserSerializer)
           })
       end
-
+  
     end
   end

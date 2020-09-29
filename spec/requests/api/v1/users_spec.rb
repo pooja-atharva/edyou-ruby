@@ -17,46 +17,8 @@ RSpec.describe 'api/v1/users', type: :request do
     language: { type: :string },
     date_of_birth: { type: :string },
     favourite_quotes: { type: :string },
-    friend_status: { type: :string },
-    is_following: { type: :boolean },
-    is_blocked: { type: :boolean },
+    friend_status: { type: :string }
   }
-
-  user_properties = {
-    type: :array,
-    items: {
-      type: :object,
-      properties: { id: { type: :integer }, email: { type: :string }, name: { type: :string }, profile_image: { type: :string } }
-    }
-  }
-  base_response = {
-    status: { type: :boolean, example: true },
-    message: { type: :string, example: '' },
-    data: { type: :object,  properties: { your_college: user_properties, other_school_users: user_properties } }
-  }
-
-  path '/api/v1/users' do
-    get 'Get User Users' do
-      tags 'Users'
-      security [Bearer: []]
-      parameter name: :query, in: :query, type: :string, value: 'string'
-      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
-      parameter name: :page, in: :query, type: :integer, value: 1
-      parameter name: :section_type, in: :query, type: :string, value: 'school_users', enum: Constant::SECTION_OBJECTS
-
-      response '200', 'Users list' do
-        let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: base_response.merge(ApplicationMethods.meta_tags_schema).merge(errors: {type: :array, items: { type: :string}})
-        run_test!
-      end
-
-      response '422', 'Invalid Request' do
-        let(:album) { { name: 'sample' } }
-        schema '$ref' => '#/components/schemas/errors_object'
-        run_test!
-      end
-    end
-  end
 
   path '/api/v1/users/reset_password' do
     post 'Reset User Password' do

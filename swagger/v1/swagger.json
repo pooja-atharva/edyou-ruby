@@ -1963,126 +1963,6 @@
         }
       }
     },
-    "/api/v1/followers": {
-      "get": {
-        "summary": "List of Followers",
-        "tags": [
-          "Followers"
-        ],
-        "security": [
-          {
-            "Bearer": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "per",
-            "in": "query",
-            "type": "integer",
-            "value": 25
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "type": "integer",
-            "value": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of Followers",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": null
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "follow": {
-                      "type": "array",
-                      "items": {
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "follower": {
-                            "type": "object"
-                          },
-                          "following": {
-                            "type": "object"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "meta": {
-                  "type": "object",
-                  "properties": {
-                    "page": {
-                      "type": "string"
-                    },
-                    "per": {
-                      "type": "string"
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "per_page": {
-                          "type": "integer",
-                          "example": 25
-                        },
-                        "current_page": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "next_page": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "prev_page": {
-                          "type": "integer",
-                          "example": 0
-                        },
-                        "total_pages": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "total_count": {
-                          "type": "integer",
-                          "example": 50
-                        }
-                      }
-                    }
-                  }
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Invalid Request",
-            "schema": {
-              "$ref": "#/components/schemas/errors_object"
-            }
-          }
-        }
-      }
-    },
     "/api/v1/followings": {
       "get": {
         "summary": "List of Followings",
@@ -4162,6 +4042,135 @@
         }
       }
     },
+    "/api/v1/hashtag_stats": {
+      "get": {
+        "summary": "Search Hashtag Stat",
+        "tags": [
+          "Hashtag Stats"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string",
+            "value": "string"
+          },
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of hashtag stats",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "context": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/likes": {
       "post": {
         "summary": "like a post",
@@ -5289,218 +5298,6 @@
         }
       }
     },
-    "/api/v1/support_tickets": {
-      "post": {
-        "summary": "Raise a support ticket",
-        "tags": [
-          "Contact us"
-        ],
-        "security": [
-          {
-            "Bearer": [
-
-            ]
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "support_ticket",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "reason": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "string"
-                },
-                "phone": {
-                  "type": "string"
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "like created"
-          },
-          "422": {
-            "description": "Invalid Request"
-          }
-        }
-      }
-    },
-    "/api/v1/users": {
-      "get": {
-        "summary": "Get User Users",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "Bearer": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "query",
-            "in": "query",
-            "type": "string",
-            "value": "string"
-          },
-          {
-            "name": "per",
-            "in": "query",
-            "type": "integer",
-            "value": 25
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "type": "integer",
-            "value": 1
-          },
-          {
-            "name": "section_type",
-            "in": "query",
-            "type": "string",
-            "value": "school",
-            "enum": [
-              "school_users",
-              "other_school_users"
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Users list",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": ""
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "your_college": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "email": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "profile_image": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "other_school_users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "email": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "profile_image": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "meta": {
-                  "type": "object",
-                  "properties": {
-                    "page": {
-                      "type": "string"
-                    },
-                    "per": {
-                      "type": "string"
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "per_page": {
-                          "type": "integer",
-                          "example": 25
-                        },
-                        "current_page": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "next_page": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "prev_page": {
-                          "type": "integer",
-                          "example": 0
-                        },
-                        "total_pages": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "total_count": {
-                          "type": "integer",
-                          "example": 50
-                        }
-                      }
-                    }
-                  }
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Invalid Request",
-            "schema": {
-              "$ref": "#/components/schemas/errors_object"
-            }
-          }
-        }
-      }
-    },
     "/api/v1/users/reset_password": {
       "post": {
         "summary": "Reset User Password",
@@ -5877,12 +5674,6 @@
                         },
                         "friend_status": {
                           "type": "string"
-                        },
-                        "is_following": {
-                          "type": "boolean"
-                        },
-                        "is_blocked": {
-                          "type": "boolean"
                         }
                       }
                     }
@@ -5980,12 +5771,6 @@
                         },
                         "favourite_quotes": {
                           "type": "string"
-                        },
-                        "is_following": {
-                          "type": "boolean"
-                        },
-                        "is_blocked": {
-                          "type": "boolean"
                         }
                       }
                     }

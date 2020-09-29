@@ -36,7 +36,6 @@ Rails.application.routes.draw do
       resources :friends do
         collection do
           post :search
-          get :feeds
         end
       end
       resources :groups do
@@ -48,7 +47,6 @@ Rails.application.routes.draw do
         end
       end
       resources :likes
-      resources :support_tickets
       resources :comments
       resources :posts do
         collection do
@@ -69,7 +67,6 @@ Rails.application.routes.draw do
         end
       end
       resources :followings, only: [:index, :create, :destroy]
-      resources :followers, only: [:index]
       resources :blocks, only: [:index, :create] do
         collection do
           delete :destroy
@@ -89,6 +86,7 @@ Rails.application.routes.draw do
         end
       end
       resource :media_items, only: [:create]
+      resources :hashtag_stats, only: [:index]
     end
   end
 end

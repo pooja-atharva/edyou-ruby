@@ -18,15 +18,5 @@ module Api
       }
       render json: data, status: default_status
     end
-
-    def feed
-      friends = current_user.friends
-      feeds = Post.where(user_id: friends.ids)
-      data = {
-        status: true, message: '',
-        data: array_serializer.new(feeds, serializer: Api::V1::PostSerializer),
-      }
-      render json: data, status: default_status
-    end
   end
 end

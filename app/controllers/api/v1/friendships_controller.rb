@@ -3,6 +3,7 @@ module Api
     before_action :validate_record, except: [:index, :create]
 
     def index
+
       friendships = current_user.friendships
       render_success_response(
         { friendships: array_serializer.new(friendships, serializer: Api::V1::FriendshipSerializer) },
@@ -11,14 +12,8 @@ module Api
     end
 
     def create
-      user = User.find_by_id(friendship_params[:friend_id])
-      render_unprocessable_entity('User is not found') and return if user.nil?
-      render_unprocessable_entity('You cannot send frindship to yourself') and return if current_user == user
-      render_unprocessable_entity('User is blocked by you so you can not send frindship') and return if current_user.blocks.include?(user)
-      render_unprocessable_entity('You are blocked by this user so you can not send frindship') and return if user.blocks.include?(current_user)
       friendship = current_user.friendships.with_user(friendship_params[:friend_id]).first || current_user.friendships.build(friendship_params)
       friendship.user = current_user if friendship.new_record?
-      friendship.set_pending if !friendship.new_record? && friendship.unfriend?
       if friendship.save
         render_success_response(
           { friendship: friendship_data(friendship) }, 'Invitation sent successfully'
@@ -43,7 +38,7 @@ module Api
     end
 
     def cancel
-      @friendship.set_cancelled!
+      @friendship.set_declined!
       render_success_response(
         { friendship: friendship_data(@friendship) }, 'Friendship request is cancelled'
       )
@@ -60,9 +55,6 @@ module Api
     end
 
     def validate_record
-      user = User.find_by_id(params[:id])
-      render_unprocessable_entity('User is not found') and return if user.nil?
-      render_unprocessable_entity('Can not send frindship blocked user') and return if current_user.blocks.include?(user) || user.blocks.include?(current_user)
       @friendship = current_user.friendships.with_user(params[:id]).last
       render_unprocessable_entity('Friendship record is not found.') if @friendship.nil?
     end

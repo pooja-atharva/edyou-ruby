@@ -4,7 +4,7 @@ module Api
       post = Post.new(post_params)
       post_defaults(post)
       if post.save
-        post.create_activity :create, ownder: current_user
+        post.create_activity :create, owner: current_user
         data = { status: true, message: 'Post is created successfully', data: post_data(post)}
       else
         data = { status: false, message: post.errors.full_messages.join(','), errors: post.errors.full_messages }

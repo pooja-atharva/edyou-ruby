@@ -1,7 +1,9 @@
+
 module Api
   module V1
     class ProfileSerializer < ActiveModel::Serializer
-      attributes :id, :user_id, :email, :name, :class_name, :graduation, :major, :status,:attending_university, :high_school, :from_location, :gender, :religion, :language,:date_of_birth, :favourite_quotes, :is_following, :is_blocked
+      attributes :id, :user_id, :email, :name, :class_name, :graduation, :major, :status, :attending_university,
+                 :high_school, :from_location, :gender, :religion, :language, :date_of_birth, :favourite_quotes
       attribute :friend_status, if: :not_current_user?
 
       def email
@@ -10,16 +12,6 @@ module Api
 
       def name
         object.user.try(:name)
-      end
-
-      def is_following
-        current_user = @instance_options[:current_user]
-        current_user.following?(object.user)
-      end
-
-      def is_blocked
-        current_user = @instance_options[:current_user]
-        current_user.blocks.include?(object.user)
       end
 
       def friend_status

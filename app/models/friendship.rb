@@ -26,10 +26,6 @@ class Friendship < ApplicationRecord
     update_column(:status, :cancelled)
   end
 
-  def set_pending
-    self.status = :pending
-  end
-
   def unfriend?
     declined? || cancelled?
   end
