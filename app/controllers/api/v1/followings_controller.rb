@@ -13,6 +13,8 @@ module Api
       user = User.find_by_id(params[:user_id])
       render_unprocessable_entity('User is not found') and return if user.nil?
       render_unprocessable_entity('You cannot follow yourself') and return if current_user == user
+      render_unprocessable_entity('User is blocked by you so you can not follow') and return if current_user.blocks.include?(user)
+      render_unprocessable_entity('You are blocked by this user so you can not follow') and return if user.blocks.include?(current_user)
       if current_user.following?(user)
         follow = Follow.where(follower_id: current_user.id, followable_id: user.id).first
         message = 'You already following this user'

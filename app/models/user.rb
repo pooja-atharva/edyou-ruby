@@ -37,11 +37,12 @@ class User < ApplicationRecord
   validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@edu.com\z/, message: 'must be from edu account' }, if: :from_website?
 
   scope :search_with_name, -> (query) { where("name ilike ?", "%#{query}%") }
+  scope :exclude_blocks, -> (user){ where.not(id: user.try(:blocks) || [])}
 
   after_create :set_privacy_settings
 
   def self.search(query)
-    where("name ilike ?  OR email = ?", "%#{query}%","#{query}")
+    where("name ilike ? OR email = ?", "%#{query}%","#{query}")
   end
 
   def set_privacy_settings

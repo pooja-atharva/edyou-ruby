@@ -5372,6 +5372,16 @@
             "in": "query",
             "type": "integer",
             "value": 1
+          },
+          {
+            "name": "section_type",
+            "in": "query",
+            "type": "string",
+            "value": "school",
+            "enum": [
+              "school_users",
+              "other_school_users"
+            ]
           }
         ],
         "responses": {

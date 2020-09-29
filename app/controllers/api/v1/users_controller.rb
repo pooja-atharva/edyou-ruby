@@ -4,16 +4,31 @@ module Api
     before_action :set_user, except: %i[reset_password, show]
 
     def index
+      # render_unprocessable_entity('Please give propar section_type value.') and return if params[:section_type].present? && !params[:section_type].in?(Constant::SECTION_OBJECTS)
       high_school = current_user.try(:profile).try(:high_school)
-      base_results = User.joins(:profile).search(search_params[:query])
-      school_users = base_results.where(profiles: {high_school:  high_school}).filter_on(filter_params)
-      other_school_users = base_results.where.not(profiles: {high_school:  high_school}).filter_on(filter_params)
+      base_results = User.exclude_blocks(current_user).where.not(id: current_user)
+                         .joins('LEFT JOIN profiles on profiles.user_id = users.id')
+                         .search(search_params[:query])
+      if high_school.nil?
+        school_users = []
+        other_school_users = base_results.filter_on(filter_params)
+      else
+        school_users = base_results.where(profiles: {high_school:  high_school}).filter_on(filter_params)
+        other_school_users = base_results.where("profiles.high_school != ? OR profiles.high_school IS NULL", high_school).filter_on(filter_params)
+      end
+
+      case params[:section_type]
+      when 'other_school_users'
+        pagination_obj = other_school_users
+      else
+        pagination_obj = school_users
+      end
       render_success_response(
         {
           school_users: array_serializer.new(school_users, serializer: Api::V1::UserSerializer),
           other_school_users: array_serializer.new(other_school_users, serializer: Api::V1::UserSerializer)
         },
-        '',  200, page_meta(school_users, filter_params)
+        '',  200, page_meta(pagination_obj, filter_params)
       )
     end
 

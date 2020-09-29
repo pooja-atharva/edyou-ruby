@@ -42,6 +42,7 @@ RSpec.describe 'api/v1/users', type: :request do
       parameter name: :query, in: :query, type: :string, value: 'string'
       parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
       parameter name: :page, in: :query, type: :integer, value: 1
+      parameter name: :section_type, in: :query, type: :string, value: 'school_users', enum: Constant::SECTION_OBJECTS
 
       response '200', 'Users list' do
         let(:'Authorization') { 'Bearer ' + generate_token }
