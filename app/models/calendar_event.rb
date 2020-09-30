@@ -32,12 +32,12 @@ class CalendarEvent < ApplicationRecord
 
   def set_datetime_at
     if epoc_datetime_at
-      self.datetime_at = DateTime.strptime(epoc_datetime_at.to_s,'%s')
+      self.datetime_at = DateTime.strptime(epoc_datetime_at.to_s,'%s') rescue nil
     end
   end
 
   def validate_datetime
-    if datetime_at <= Time.now
+    if datetime_at.present? && datetime_at <= Time.now
       errors.add(:base, 'Event datetime must be future time.')
     end
   end

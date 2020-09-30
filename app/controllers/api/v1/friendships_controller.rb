@@ -3,7 +3,12 @@ module Api
     before_action :validate_record, except: [:index, :create]
 
     def index
-      friendships = current_user.friendships
+      ids = []
+      current_user.friendships.where.not(friend_id: current_user.blocks.pluck(:id)).each do |friendship|
+        ids << friendship.friend.id if friendship.friend.blocks.include?(current_user)
+      end
+      blocked_ids = ids.flatten + current_user.blocks.pluck(:id)
+      friendships = current_user.friendships.where.not(friend_id: blocked_ids).filter_on(filter_params)
       render_success_response(
         { friendships: array_serializer.new(friendships, serializer: Api::V1::FriendshipSerializer) },
         '',  200, page_meta(friendships, filter_params)

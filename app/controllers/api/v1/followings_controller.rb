@@ -2,7 +2,7 @@ module Api
   class V1::FollowingsController < V1::BaseController
 
     def index
-      follows = current_user.all_follows.filter_on(filter_params)
+      follows = current_user.all_follows.where.not(followable_id: current_user.blocks.pluck(:id)).filter_on(filter_params)
       render_success_response(
         { follows: array_serializer.new(follows, serializer: Api::V1::FollowSerializer) },
         '',  200, page_meta(follows, filter_params)

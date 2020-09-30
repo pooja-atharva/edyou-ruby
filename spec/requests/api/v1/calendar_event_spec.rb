@@ -227,7 +227,7 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :id, in: :path, type: :string, description: 'Calendar Event ID'
-      parameter name: :status, in: :path, type: :string, value: "Yes", description: 'Status', enum: Constant::EVENT_ATTENDANCE_STATUS
+      parameter name: :status, in: :formData, type: :string, value: "Yes", description: 'Status', enum: Constant::EVENT_ATTENDANCE_STATUS
 
       response '200', 'Event attendance' do
         let(:'Authorization') { 'Bearer ' + generate_token }

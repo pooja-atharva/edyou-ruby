@@ -41,6 +41,10 @@ class User < ApplicationRecord
 
   after_create :set_privacy_settings
 
+  def exclude_block_user(user)
+    self.blocks.include?(user) || user.blocks.include?(self)
+  end
+
   def self.search(query)
     where("name ilike ? OR email = ?", "%#{query}%","#{query}")
   end

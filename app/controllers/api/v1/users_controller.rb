@@ -108,9 +108,8 @@ module Api
 
     def show
       render_unprocessable_entity('Please give proper value') and return if user_params[:id].blank?
-
       user = params[:id].downcase  == 'me' ? current_user : User.find_by_id(user_params[:id])
-      render_unprocessable_entity('User is does not exists.')and return if user.nil?
+      render_unprocessable_entity('User is does not exists.') and return if user.nil? || current_user.exclude_block_user(user)
       user.create_profile(profile_params) if user.profile.blank?
       render_success_response({ user: profile_data(user.profile) })
     end

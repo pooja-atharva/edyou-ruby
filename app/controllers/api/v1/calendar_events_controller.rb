@@ -11,14 +11,13 @@ module Api
     end
 
     def create
-      event = CalendarEvent.new(calendar_event_params)
-      event.user = current_user
+      event = current_user.calendar_events.new(calendar_event_params)
       if event.save
         render_success_response(
           { calendar_event: event_data(event) }, 'Event is created successfully',  200
         )
       else
-        render_unprocessable_entity(@event.errors.full_messages.join(','))
+        render_unprocessable_entity(event.errors.full_messages.join(','))
       end
     rescue
       invalid_media_item_response
