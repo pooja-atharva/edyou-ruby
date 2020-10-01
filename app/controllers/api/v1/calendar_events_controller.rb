@@ -5,7 +5,7 @@ module Api
     def index
       events = current_user.calendar_events.filter_on(filter_params).includes(:user)
       render_success_response(
-        { calendar_events: array_serializer.new(events, serializer: Api::V1::CalendarEventSerializer) },
+        { calendar_events: array_serializer.new(events, serializer: Api::V1::CalendarEventSerializer, current_user: current_user) },
         '',  200, page_meta(events, filter_params)
       )
     end
@@ -95,7 +95,7 @@ module Api
     end
 
     def event_data(object)
-      single_serializer.new(object, serializer: Api::V1::CalendarEventSerializer)
+      single_serializer.new(object, serializer: Api::V1::CalendarEventSerializer, current_user: current_user)
     end
 
     def validate_record

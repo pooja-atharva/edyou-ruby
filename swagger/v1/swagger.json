@@ -919,6 +919,9 @@
                                 "type": "integer"
                               }
                             }
+                          },
+                          "attendance_status": {
+                            "type": "string"
                           }
                         }
                       }
@@ -1114,6 +1117,9 @@
                               "type": "integer"
                             }
                           }
+                        },
+                        "attendance_status": {
+                          "type": "string"
                         }
                       }
                     }
@@ -1271,6 +1277,9 @@
                               "type": "integer"
                             }
                           }
+                        },
+                        "attendance_status": {
+                          "type": "string"
                         }
                       }
                     }
@@ -1387,6 +1396,9 @@
                               "type": "integer"
                             }
                           }
+                        },
+                        "attendance_status": {
+                          "type": "string"
                         }
                       }
                     }
@@ -1545,6 +1557,9 @@
                               "type": "integer"
                             }
                           }
+                        },
+                        "attendance_status": {
+                          "type": "string"
                         }
                       }
                     }
@@ -1668,6 +1683,9 @@
                               "type": "integer"
                             }
                           }
+                        },
+                        "attendance_status": {
+                          "type": "string"
                         }
                       }
                     }
@@ -1796,6 +1814,9 @@
                               "type": "integer"
                             }
                           }
+                        },
+                        "attendance_status": {
+                          "type": "string"
                         }
                       }
                     }

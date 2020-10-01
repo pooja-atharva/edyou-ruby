@@ -3,7 +3,7 @@ module Api
     class CalendarEventSerializer < ActiveModel::Serializer
       include Rails.application.routes.url_helpers
       attributes :id, :title, :description, :epoc_datetime_at, :price, :location, :event_type, :status, :user,
-                 :media_items, :invite, :attendance
+                 :media_items, :invite, :attendance, :attendance_status
 
       def user
         ActiveModelSerializers::SerializableResource.new( object.user, serializer: Api::V1::UserSerializer )
@@ -26,6 +26,11 @@ module Api
       def attendance
         default = Constant::EVENT_ATTENDANCE_STATUS.to_h{|item| [item, 0]}
         default.merge(object.event_attendances.group(:status).count).slice(*Constant::EVENT_ATTENDANCE_STATUS)
+      end
+
+      def attendance_status
+        current_user = @instance_options[:current_user]
+        object.event_attendances.find_by(user_id: current_user.id).try(:status)
       end
     end
   end

@@ -26,7 +26,8 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
         'No': { type: :integer },
         'Maybe': { type: :integer }
       }
-    }
+    },
+    attendance_status: { type: :string }
   }
 
   path '/api/v1/calendar_events' do
