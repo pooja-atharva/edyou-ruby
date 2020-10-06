@@ -9,11 +9,14 @@ RSpec.describe 'api/v1/friends', type: :request do
       tags 'Friends'
       security [Bearer: []]
       consumes 'application/json'
+      parameter name: :user_id, in: :query, type: :integer, value: 1
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+      parameter name: :page, in: :query, type: :integer, value: 1
 
       response '200', 'Friends list' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        let(:friend) { { name: 'sample' } }
-        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        let(:friend) {{ name: 'sample' }}
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties, '', 'friends')
         run_test!
       end
 

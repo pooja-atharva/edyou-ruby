@@ -102,9 +102,9 @@ RSpec.describe 'api/v1/groups', type: :request do
       tags 'Groups'
       security [Bearer: []]
       consumes 'application/json'
+      parameter name: :user_id, in: :query, type: :integer, value: 1
       parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
       parameter name: :page, in: :query, type: :integer, value: 1
-
 
       response '200', 'Groups list' do
         let(:'Authorization') { 'Bearer ' + generate_token }

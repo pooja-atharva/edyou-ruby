@@ -2644,6 +2644,26 @@
         "consumes": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          },
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "Friends list",
@@ -2656,12 +2676,12 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": null
+                  "example": ""
                 },
                 "data": {
                   "type": "object",
                   "properties": {
-                    "model_key": {
+                    "friends": {
                       "type": "array",
                       "items": {
                         "properties": {
@@ -3380,6 +3400,12 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          },
           {
             "name": "per",
             "in": "query",

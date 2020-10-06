@@ -4,7 +4,9 @@ module Api
     before_action :validate_status, only: [:status]
 
     def index
-      groups = current_user.groups.includes(:users).filter_on(filter_params)
+      user = params[:user_id].present? ? User.find_by(id: params[:user_id]) : current_user
+      render_unprocessable_entity('User is does not exists.') and return if user.nil?
+      groups = user.groups.includes(:users).filter_on(filter_params)
       render_success_response(
         { groups: array_serializer.new(groups, serializer: Api::V1::GroupSerializer) },
         '',  200, page_meta(groups, filter_params)
