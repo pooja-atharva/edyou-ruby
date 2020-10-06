@@ -30,6 +30,27 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
     attendance_status: { type: :string }
   }
 
+  path '/api/v1/calendar_events/list' do
+    get 'Public Calendar Events' do
+      tags 'Calendar Events'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+      parameter name: :page, in: :query, type: :integer, value: 1
+
+      response '200', 'Public Calendar Events list' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(attributes, nil, 'calendar_events')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/calendar_events' do
     get 'Get Calendar Events' do
       tags 'Calendar Events'

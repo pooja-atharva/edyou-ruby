@@ -87,6 +87,9 @@ Rails.application.routes.draw do
           delete '/remove_media_item/:media_item_id', to: 'calendar_events#remove_media_item'
           put :attendance
         end
+        collection do
+          get :list
+        end
       end
       resource :media_items, only: [:create]
       resources :hashtags, controller: 'hashtag_stats', only: [:index]

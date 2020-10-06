@@ -41,17 +41,18 @@ module Api
     end
 
     def decline
-      @friendship.set_declined!
-      render_success_response(
-        { friendship: friendship_data(@friendship) }, 'Friendship request is declined'
-      )
+      @friendship.destroy
+      render_success_response(nil, 'Friendship request is declined' )
     end
 
     def cancel
-      @friendship.set_cancelled!
-      render_success_response(
-        { friendship: friendship_data(@friendship) }, 'Friendship request is cancelled'
-      )
+      @friendship.destroy
+      render_success_response( nil, 'Friendship request is cancelled' )
+    end
+
+    def destroy
+      @friendship.destroy
+      render_success_response( nil, 'Friendship is removed' )
     end
 
     private
@@ -67,13 +68,13 @@ module Api
     def validate_record
       user = User.find_by_id(params[:id])
       render_unprocessable_entity('User is not found') and return if user.nil?
-      render_unprocessable_entity('Can not send frindship blocked user') and return if current_user.blocks.include?(user) || user.blocks.include?(current_user)
+      render_unprocessable_entity('Can not send friendship blocked user') and return if current_user.blocks.include?(user) || user.blocks.include?(current_user)
       @friendship = current_user.friendships.with_user(params[:id]).last
       render_unprocessable_entity('Friendship record is not found.') if @friendship.nil?
     end
 
     def friendship_data(object)
-      single_serializer.new(object, serializer: Api::V1::FriendshipSerializer)
+      single_serializer.new(object, serializer: Api::V1::FriendshipSerializer, current_user: current_user)
     end
 
     def filter_params

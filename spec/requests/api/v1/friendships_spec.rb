@@ -88,7 +88,7 @@ RSpec.describe 'api/v1/friendship', type: :request do
       parameter name: :id, in: :path, type: :string, description: 'User ID'
       response '200', 'friendship approved' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is declined', 'friendship')
+        schema type: :object, properties: ApplicationMethods.success_schema(nil, 'Friendship request is declined', 'friendship')
         run_test!
       end
 
@@ -113,7 +113,32 @@ RSpec.describe 'api/v1/friendship', type: :request do
 
       response '200', 'friendship approved' do
         let(:'Authorization') { 'Bearer ' + generate_token }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Friendship request is cancelled', 'friendship')
+        schema type: :object, properties: ApplicationMethods.success_schema(nil, 'Friendship request is cancelled', 'friendship')
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        schema type: :object, properties: ApplicationMethods.unauthorized_schema
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/friendships/{id}' do
+    delete 'Remove friendship' do
+      tags 'Friendships'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string, description: 'User ID'
+
+      response '200', 'friendship removed' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        schema type: :object, properties: ApplicationMethods.success_schema(nil, 'Friendship is removed', 'friendship')
         run_test!
       end
 

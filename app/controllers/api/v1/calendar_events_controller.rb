@@ -1,6 +1,14 @@
 module Api
   class V1::CalendarEventsController < V1::BaseController
-    before_action :validate_record, except: [:create, :index, :attendance, :show]
+    before_action :validate_record, except: [:create, :index, :attendance, :show, :list]
+
+    def list
+      events = CalendarEvent.active.filter_on(filter_params).includes(:user).order(datetime_at: :asc)
+      render_success_response(
+        { calendar_events: array_serializer.new(events, serializer: Api::V1::CalendarEventSerializer, current_user: current_user) },
+        '',  200, page_meta(events, filter_params)
+      )
+    end
 
     def index
       events = current_user.calendar_events.filter_on(filter_params).includes(:user)

@@ -3,6 +3,10 @@ module Api
     class FriendshipSerializer < ActiveModel::Serializer
       attributes :id, :user, :friend, :status
 
+      def status
+        object.show_status(@instance_options[:current_user])
+      end
+
       def user
         ActiveModelSerializers::SerializableResource.new(object.user, serializer: Api::V1::UserSerializer)
       end

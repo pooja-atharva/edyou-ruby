@@ -68,14 +68,15 @@ module ApplicationMethods
   end
 
   def self.success_schema(properties = {}, message = nil, data_key = 'model_key')
-    {
-      status: { type: :boolean, example: true }, message: { type: :string, example: message },
-      data: {
-        type: :object, properties: {
-          "#{data_key}": { type: :object, properties: properties }
-        }
-      }
-    }
+    base_response = { status: { type: :boolean, example: true }, message: { type: :string, example: message } }
+    if properties.present?
+      data = { data: { type: :object, properties: { "#{data_key}": { type: :object, properties: properties } } }}
+    else
+      data = { data: { type: :object } }
+    end
+    base_response.merge!(data)
+    base_response.merge!({ meta: { type: :object }})
+    base_response.merge(errors: {type: :array, items: { type: :string}})
   end
 
   def self.success_plural_schema(properties = {}, message = nil, data_key = 'model_key', meta_tags = true)

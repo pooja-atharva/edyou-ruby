@@ -33,4 +33,10 @@ class Friendship < ApplicationRecord
   def unfriend?
     declined? || cancelled?
   end
+
+  def show_status(current_user)
+    return 'unfriend' if unfriend?
+    return status if approved? || friend_id == current_user.id
+    'requestSent'
+  end
 end

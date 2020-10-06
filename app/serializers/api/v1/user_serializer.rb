@@ -6,7 +6,6 @@ module Api
       def profile_image
         # object.profile_image.service_url.sub(/\?.*/, '') if object.profile_image.attached?
       end
-
     end
   end
 end
