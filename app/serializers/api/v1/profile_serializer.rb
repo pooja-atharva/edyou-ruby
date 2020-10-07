@@ -26,7 +26,7 @@ module Api
         current_user = @instance_options[:current_user]
         friend_obj  = current_user.friendships.with_user(object.user_id).last if current_user
         return 'unfriend' if current_user.nil? || friend_obj.nil? || friend_obj.unfriend?
-        show_status(current_user)
+        friend_obj.show_status(current_user)
         # return friend_obj.status if friend_obj.approved? || friend_obj.friend_id == current_user.id
         # 'requestSent'
       end

@@ -8,9 +8,11 @@ class User < ApplicationRecord
   has_one_time_password length: 6
   has_many :friendships, ->(user) {
     unscope(:where).where(user: user).or(where(friend: user))
-  }
-  has_many :approved_friendships, -> { where status: :approved }, class_name: 'Friendship', dependent: :destroy
-  has_many :friends, through: :approved_friendships, class_name: 'User', dependent: :destroy
+  }, dependent: :destroy
+  has_many :approved_friendships, -> (user) {
+    unscope(:where).where(user: user).or(where(friend: user)).where(status: :approved)
+  }, class_name: 'Friendship', dependent: :destroy
+  # has_many :friends, through: :approved_friendships, class_name: 'User', dependent: :destroy
   has_one :profile
 
   has_many :groups_users
@@ -47,6 +49,10 @@ class User < ApplicationRecord
 
   def self.search(query)
     where("name ilike ? OR email = ?", "%#{query}%","#{query}")
+  end
+
+  def friends
+    User.where(id: approved_friendships.pluck(:user_id, :friend_id).flatten).where.not(id: self.id)
   end
 
   def set_privacy_settings
