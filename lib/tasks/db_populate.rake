@@ -27,6 +27,7 @@ namespace :db do
         attending_university:           Faker::University.name,
         high_school:                    Faker::University.name,
         from_location:                  Faker::Address.city,
+        country:                        Faker::Address.country,
         gender:                         Faker::Gender.binary_type,
         religion:                       "Christian",
         language:                       "English, Spanish, French",

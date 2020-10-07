@@ -6,27 +6,33 @@ module Api
     def index
       # render_unprocessable_entity('Please give propar section_type value.') and return if params[:section_type].present? && !params[:section_type].in?(Constant::SECTION_OBJECTS)
       high_school = current_user.try(:profile).try(:high_school)
+      from_location = current_user.try(:profile).try(:from_location)
+      country = current_user.try(:profile).try(:country)
       base_results = User.exclude_blocks(current_user).where.not(id: current_user)
                          .joins('LEFT JOIN profiles on profiles.user_id = users.id')
                          .search(search_params[:query])
-      if high_school.nil?
+      if high_school.nil? && from_location.nil? && country.nil?
         school_users = []
-        other_school_users = base_results.filter_on(filter_params)
+        other_school_users = []
       else
-        school_users = base_results.where(profiles: {high_school:  high_school}).filter_on(filter_params)
-        other_school_users = base_results.where("profiles.high_school != ? OR profiles.high_school IS NULL", high_school).filter_on(filter_params)
+        school_users = base_results.where(profiles: {high_school:  high_school, from_location:  from_location, country:  country}).filter_on(filter_params)
+        other_school_users = base_results.where(profiles: {country:  country}).where("profiles.high_school != ? OR profiles.high_school IS NULL", high_school).filter_on(filter_params)
+        other_country_users = base_results.where("profiles.country != ? OR profiles.country IS NULL", country).filter_on(filter_params)
       end
 
       case params[:section_type]
       when 'other_school_users'
         pagination_obj = other_school_users
+      when 'other_country_users'
+        pagination_obj = other_country_users
       else
         pagination_obj = school_users
       end
       render_success_response(
         {
           school_users: array_serializer.new(school_users, serializer: Api::V1::UserSerializer),
-          other_school_users: array_serializer.new(other_school_users, serializer: Api::V1::UserSerializer)
+          other_school_users: array_serializer.new(other_school_users, serializer: Api::V1::UserSerializer),
+          other_country_users: array_serializer.new(other_country_users, serializer: Api::V1::UserSerializer)
         },
         '',  200, page_meta(pagination_obj, filter_params)
       )
@@ -117,7 +123,7 @@ module Api
     private
 
     def profile_params
-      params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion, :language, :date_of_birth, :favourite_quotes)
+      params.permit(:class_name, :graduation, :major, :status, :attending_university, :high_school, :from_location, :gender, :religion, :language, :date_of_birth, :favourite_quotes, :country)
     end
 
     def user_params
