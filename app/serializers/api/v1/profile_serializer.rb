@@ -1,7 +1,7 @@
 module Api
   module V1
     class ProfileSerializer < ActiveModel::Serializer
-      attributes :id, :user_id, :email, :name, :class_name, :graduation, :major, :status,:attending_university, :high_school, :from_location, :gender, :religion, :language,:date_of_birth, :favourite_quotes, :is_following, :is_blocked
+      attributes :id, :user_id, :email, :name, :class_name, :graduation, :major, :status,:attending_university, :high_school, :from_location, :gender, :religion, :language,:date_of_birth, :favourite_quotes, :is_following, :is_blocked, :country
       attribute :friend_status, if: :not_current_user?
 
       def email

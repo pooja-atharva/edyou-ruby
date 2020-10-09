@@ -5993,7 +5993,8 @@
             "value": "school_users",
             "enum": [
               "school_users",
-              "other_school_users"
+              "other_school_users",
+              "other_country_users"
             ]
           }
         ],
@@ -6217,6 +6218,9 @@
                   "type": "string"
                 },
                 "from_location": {
+                  "type": "string"
+                },
+                "country": {
                   "type": "string"
                 },
                 "gender": {
@@ -6473,6 +6477,9 @@
                         "from_location": {
                           "type": "string"
                         },
+                        "country": {
+                          "type": "string"
+                        },
                         "gender": {
                           "type": "string"
                         },
@@ -6586,6 +6593,9 @@
                           "type": "string"
                         },
                         "from_location": {
+                          "type": "string"
+                        },
+                        "country": {
                           "type": "string"
                         },
                         "gender": {

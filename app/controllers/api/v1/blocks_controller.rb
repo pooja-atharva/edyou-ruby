@@ -16,7 +16,7 @@ module Api
       if @block.present?
         message = 'You have already blocked'
       else
-        current_user.block(@reference)
+        @block = current_user.block(@reference)
         message = 'You have blocked successfully'
       end
       render_success_response(
