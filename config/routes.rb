@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   scope module: :api, path: :api do
     scope module: :v1, path: :v1 do
+      scope module: :admin, path: :admin do
+        resources :users, only: [:index, :update, :destroy]
+      end
       resources :users do
         collection do
           post :reset_password

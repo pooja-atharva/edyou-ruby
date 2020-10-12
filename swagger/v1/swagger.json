@@ -114,6 +114,291 @@
         }
       }
     },
+    "/api/v1/admin/users": {
+      "get": {
+        "summary": "List of Blocked Users",
+        "tags": [
+          "Admin Users"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of blocked Users",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "profile_image": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users/{id}": {
+      "put": {
+        "summary": "Block User",
+        "tags": [
+          "Admin Users"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You have blocked succesfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "profile_image": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Unblock User",
+        "tags": [
+          "Admin Users"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unblock User",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You have unblocked succesfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "profile_image": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/albums": {
       "get": {
         "summary": "Get User Albums",

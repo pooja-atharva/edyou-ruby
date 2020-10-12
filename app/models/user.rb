@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
   scope :search_with_name, -> (query) { where("name ilike ?", "%#{query}%") }
   scope :exclude_blocks, -> (user){ where.not(id: user.try(:blocks) || [])}
+  scope :blocked_users, -> { where(blocked: true) }
 
   after_create :set_privacy_settings
 
