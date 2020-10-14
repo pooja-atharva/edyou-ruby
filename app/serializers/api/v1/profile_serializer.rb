@@ -3,6 +3,7 @@ module Api
     class ProfileSerializer < ActiveModel::Serializer
       attributes :id, :user_id, :email, :name, :class_name, :graduation, :major, :status,:attending_university, :high_school, :from_location, :gender, :religion, :language,:date_of_birth, :favourite_quotes, :is_following, :is_blocked, :country
       attribute :friend_status, if: :not_current_user?
+      attribute :blocked, if: :admin_user?
 
       def email
         object.user.try(:email)
@@ -34,6 +35,14 @@ module Api
       def not_current_user?
         current_user = @instance_options[:current_user]
         current_user.nil? ? true : (current_user.id != object.user_id)
+      end
+
+      def blocked
+        object.user.try(:blocked)
+      end
+
+      def admin_user?
+        @instance_options[:current_user] && @instance_options[:current_user].admin? rescue false
       end
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_06_134318) do
+ActiveRecord::Schema.define(version: 2020_10_13_115155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,31 @@ ActiveRecord::Schema.define(version: 2020_10_06_134318) do
     t.index ["status"], name: "index_calendar_events_on_status"
     t.index ["title"], name: "index_calendar_events_on_title"
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
+  end
+
+  create_table "chatroom_users", force: :cascade do |t|
+    t.bigint "chatroom_id"
+    t.bigint "user_id"
+    t.datetime "last_read_at"
+    t.integer "message_id"
+    t.integer "status", default: 0
+    t.boolean "is_admin", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_chatroom_users_on_chatroom_id"
+    t.index ["user_id"], name: "index_chatroom_users_on_user_id"
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.string "name"
+    t.boolean "direct_message", default: false
+    t.text "description"
+    t.text "last_message"
+    t.datetime "discarded_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "created_by_id"
+    t.index ["created_by_id"], name: "index_chatrooms_on_created_by_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -220,6 +245,20 @@ ActiveRecord::Schema.define(version: 2020_10_06_134318) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["media_token"], name: "index_media_items_on_media_token"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "chatroom_id"
+    t.bigint "user_id"
+    t.text "body"
+    t.datetime "discarded_at"
+    t.string "media_type"
+    t.text "file_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["discarded_at"], name: "index_messages_on_discarded_at"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -380,6 +419,8 @@ ActiveRecord::Schema.define(version: 2020_10_06_134318) do
     t.string "name"
     t.string "otp_secret_key"
     t.string "google_id"
+    t.boolean "admin"
+    t.boolean "blocked"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -387,6 +428,9 @@ ActiveRecord::Schema.define(version: 2020_10_06_134318) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "albums", "permissions"
   add_foreign_key "albums", "users"
+  add_foreign_key "chatroom_users", "chatrooms"
+  add_foreign_key "chatroom_users", "users"
+  add_foreign_key "chatrooms", "users", column: "created_by_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "contributors", "albums"
@@ -394,6 +438,8 @@ ActiveRecord::Schema.define(version: 2020_10_06_134318) do
   add_foreign_key "group_posts", "groups"
   add_foreign_key "group_posts", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "messages", "chatrooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "posts", "feelings"
   add_foreign_key "posts", "locations"

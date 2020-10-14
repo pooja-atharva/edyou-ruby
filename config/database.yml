@@ -4,6 +4,7 @@ default: &default
   pool:     5
   username: pooja
   password: pooja
+  database: <%= Rails.application.credentials.config[:DB_DATABASE] %>
 
 development:
   <<: *default

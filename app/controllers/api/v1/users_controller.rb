@@ -1,7 +1,7 @@
 module Api
   class V1::UsersController < V1::BaseController
     skip_before_action :doorkeeper_authorize!, except: %i[update profile_image, show]
-    before_action :set_user, except: %i[reset_password, show]
+    before_action :set_user, except: %i[reset_password, show, google]
 
     def index
       # render_unprocessable_entity('Please give propar section_type value.') and return if params[:section_type].present? && !params[:section_type].in?(Constant::SECTION_OBJECTS)
@@ -66,6 +66,37 @@ module Api
       else
         render_unprocessable_entity('User is not present.')
       end
+    end
+
+    def google
+
+      profile = Oauth::Google.new(params[:access_token]).build_user
+        if profile[:google_id].nil?
+          {status: false, message: 'Invalid Token'}
+        else
+          user = User.find_by(email: profile[:email])
+          if user.present?
+            render_success_response({
+                                      user: single_serializer.new(user, serializer: UserSerializer),
+                                      token: Doorkeeper::AccessToken.where(resource_owner_id: user.id, revoked_at: nil).last.token
+                                    })
+          else
+            user = User.new(profile)
+            user.skip_confirmation!
+            user.skip_password_validation = true
+            if user.save
+              Doorkeeper::AccessToken.create!(resource_owner_id: user.id)
+              render_success_response({
+                                        user: single_serializer.new(user, serializer: UserSerializer),
+                                        token: Doorkeeper::AccessToken.where(resource_owner_id: user.id, revoked_at: nil).last.token
+                                      })
+            else
+              render_unprocessable_entity(user.errors.full_messages.join(','))
+            end
+          end
+        end
+
+
     end
 
     def cover_images

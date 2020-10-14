@@ -21,6 +21,10 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :calendar_events, dependent: :destroy
 
+  has_many :chatroom_users
+  has_many :chatrooms, through: :chatroom_users
+  has_many :messages, dependent: :destroy
+
   has_many :taggings, as: :tagger, dependent: :destroy
   has_many :tagged_posts, through: :taggings, source: :taggable, source_type: 'Post', dependent: :destroy
 
@@ -40,8 +44,10 @@ class User < ApplicationRecord
 
   scope :search_with_name, -> (query) { where("name ilike ?", "%#{query}%") }
   scope :exclude_blocks, -> (user){ where.not(id: user.try(:blocks) || [])}
+  scope :blocked_users, -> { where(blocked: true) }
 
   after_create :set_privacy_settings
+  after_save :revoke_all_access_tokens!
 
   def exclude_block_user(user)
     self.blocks.include?(user) || user.blocks.include?(self)
@@ -72,6 +78,10 @@ class User < ApplicationRecord
     google_id.nil?
   end
 
+  def profile_pic_url
+    profile_image.service_url.sub(/\?.*/, '') if profile_image.attached?
+  end
+
   def generate_password_token!
     self.reset_password_token = generate_token
     self.reset_password_sent_at = Time.now.utc
@@ -100,5 +110,9 @@ class User < ApplicationRecord
 
   def generate_token
     SecureRandom.hex(10)
+  end
+
+  def revoke_all_access_tokens!
+    Doorkeeper::AccessToken.revoke_all_for(Doorkeeper::Application.pluck(:id), self) if blocked?
   end
 end

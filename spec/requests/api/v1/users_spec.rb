@@ -95,6 +95,26 @@ RSpec.describe 'api/v1/users', type: :request do
     end
   end
 
+  path '/api/v1/users/google' do
+    post 'Google signin' do
+      tags 'Auth'
+      consumes 'application/json'
+      parameter name: :google, in: :body, schema: {
+        type: :object,
+        properties: {
+            access_token: { type: :string }
+        },
+        required: [:access_token],
+      }
+      response '200', 'Login Successful' do
+        run_test!
+      end
+      response "422", 'invalid request' do
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/users/update' do
     put 'Update User Profile' do
       tags 'Profile'

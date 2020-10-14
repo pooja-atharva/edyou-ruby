@@ -81,3 +81,5 @@ gem 'kaminari'
 gem "rspec-rails"
 gem "rswag-specs"
 gem 'whenever', require: false
+gem 'discard', '~> 1.2'
+gem 'httparty'

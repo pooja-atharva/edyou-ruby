@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   scope module: :api, path: :api do
     scope module: :v1, path: :v1 do
+      scope module: :admin, path: :admin do
+        resources :users, only: [:show, :update]
+      end
       resources :users do
         collection do
           post :reset_password
@@ -49,6 +52,26 @@ Rails.application.routes.draw do
       end
       resources :likes
       resources :support_tickets
+      resources :direct_messages
+      resources :messages
+      resources :chatroom_users do
+        collection do
+            post :add_participants
+            delete :delete_participant
+            put :add_admin_role
+            put :remove_admin_role
+          end
+      end
+      resources :chatrooms do
+        member do
+          get :chatroom_detail
+          get :get_media
+          get :get_participants
+        end
+        collection do
+          get :users_list
+        end
+      end
       resources :comments
       resources :posts do
         collection do

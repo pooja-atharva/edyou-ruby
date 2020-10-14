@@ -114,6 +114,239 @@
         }
       }
     },
+    "/api/v1/admin/users/{id}": {
+      "get": {
+        "summary": "User Profile",
+        "tags": [
+          "Admin Users"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "class_name": {
+                          "type": "string"
+                        },
+                        "graduation": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "attending_university": {
+                          "type": "string"
+                        },
+                        "high_school": {
+                          "type": "string"
+                        },
+                        "from_location": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "religion": {
+                          "type": "string"
+                        },
+                        "language": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string"
+                        },
+                        "favourite_quotes": {
+                          "type": "string"
+                        },
+                        "friend_status": {
+                          "type": "string"
+                        },
+                        "is_following": {
+                          "type": "boolean"
+                        },
+                        "is_blocked": {
+                          "type": "boolean"
+                        },
+                        "blocked": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update User",
+        "tags": [
+          "Admin Users"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "blocked": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "user"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You have blocked succesfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "profile_image": {
+                          "type": "string"
+                        },
+                        "blocked": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/albums": {
       "get": {
         "summary": "Get User Albums",
@@ -2087,6 +2320,502 @@
         }
       }
     },
+    "/api/v1/chatroom_users/add_participants": {
+      "post": {
+        "summary": "add participants",
+        "tags": [
+          "Chatroom User"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chatroom",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "chatroom_id": {
+                  "type": "integer"
+                },
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatroom_users/delete_participant": {
+      "post": {
+        "summary": "delete participant",
+        "tags": [
+          "Chatroom User"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chatroom",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "chatroom_id": {
+                  "type": "integer"
+                },
+                "user_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatroom_users/add_admin_role": {
+      "post": {
+        "summary": "add admin role",
+        "tags": [
+          "Chatroom User"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chatroom",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "chatroom_id": {
+                  "type": "integer"
+                },
+                "user_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatroom_users/remove_admin_role": {
+      "post": {
+        "summary": "remove admin role",
+        "tags": [
+          "Chatroom User"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chatroom",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "chatroom_id": {
+                  "type": "integer"
+                },
+                "user_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatroom_users/{chatroom_id}": {
+      "delete": {
+        "summary": "Leave chatroom",
+        "tags": [
+          "Chatroom User"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chatroom_id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatrooms/": {
+      "post": {
+        "summary": "create chatroom",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "group_image",
+            "in": "query",
+            "type": "file"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "user_ids[]",
+            "in": "query",
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "put": {
+        "summary": "update chatroom",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "group_image",
+            "in": "query",
+            "type": "file"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatrooms/{id}": {
+      "delete": {
+        "summary": "Delete chatroom",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatrooms/{id}/chatroom_detail": {
+      "get": {
+        "summary": "get chatroom detail",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatrooms/{id}/get_media?per_page={per_page}&page={page}": {
+      "get": {
+        "summary": "get media detail",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "per_page",
+            "in": "path",
+            "type": "integer",
+            "value": 25,
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "type": "integer",
+            "value": 1,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatrooms/{id}/get_participants?per_page={per_page}&page={page}": {
+      "get": {
+        "summary": "get participants",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "per_page",
+            "in": "path",
+            "type": "integer",
+            "value": 25,
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "type": "integer",
+            "value": 1,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/chatrooms/users_list?per_page={per_page}&page={page}&search={search}": {
+      "get": {
+        "summary": "get participants",
+        "tags": [
+          "Chatroom"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "per_page",
+            "in": "path",
+            "type": "integer",
+            "value": 25,
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "type": "integer",
+            "value": 1,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/v1/comments": {
       "post": {
         "summary": "comment on a post",
@@ -2123,6 +2852,40 @@
         "responses": {
           "200": {
             "description": "comment created"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/direct_messages/{id}": {
+      "get": {
+        "summary": "particular user chat detail",
+        "tags": [
+          "Direct Message"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           },
           "422": {
             "description": "Invalid Request"
@@ -5070,6 +5833,82 @@
         }
       }
     },
+    "/api/v1/messages/get_media?chatroom_id={chatroom_id}&per_page={per_page}&page={page}": {
+      "get": {
+        "summary": "Get all messages of particular chatroom",
+        "tags": [
+          "Message"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "chatroom_id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "per_page",
+            "in": "path",
+            "type": "integer",
+            "value": 25,
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "type": "integer",
+            "value": 1,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/v1/messages/{id}": {
+      "delete": {
+        "summary": "delete message",
+        "tags": [
+          "Message"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/v1/permissions": {
       "get": {
         "summary": "List of permissions",
@@ -6172,6 +7011,42 @@
         "responses": {
           "200": {
             "description": "User created successfully"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/users/google": {
+      "post": {
+        "summary": "Google signin",
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "google",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "access_token"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login Successful"
           },
           "422": {
             "description": "invalid request"
