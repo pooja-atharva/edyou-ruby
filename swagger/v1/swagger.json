@@ -2816,6 +2816,199 @@
         }
       }
     },
+    "/api/v1/close_friends": {
+      "get": {
+        "summary": "Get User Close Friends",
+        "tags": [
+          "Close Friends"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Close Friends list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Close Friends",
+        "tags": [
+          "Close Friends"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "close_friend",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "close_friends": {
+                  "type": "object",
+                  "properties": {
+                    "friend_id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "close_friend"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Close friend is added successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/comments": {
       "post": {
         "summary": "comment on a post",
@@ -3573,6 +3766,163 @@
                 },
                 "meta": {
                   "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/friends/feeds": {
+      "get": {
+        "summary": "Get User Friend's Feeds",
+        "tags": [
+          "Friends"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Friends feed list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "publish_date": {
+                            "type": "string"
+                          },
+                          "parent": {
+                            "type": "object"
+                          },
+                          "feeling": {
+                            "type": "string"
+                          },
+                          "post_activity": {
+                            "type": "string"
+                          },
+                          "comment_count": {
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "type": "integer"
+                          },
+                          "permission": {
+                            "type": "object"
+                          },
+                          "location": {
+                            "type": "object"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "delete_post_after_24_hour": {
+                            "type": "boolean"
+                          },
+                          "groups": {
+                            "type": "object"
+                          },
+                          "access_requirement_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            }
+                          },
+                          "tagged_users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
                 },
                 "errors": {
                   "type": "array",

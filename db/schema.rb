@@ -223,6 +223,15 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "interrelations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "friend_id", null: false
+    t.string "relavance"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_interrelations_on_user_id"
+  end
+
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "likeable_id", null: false
@@ -419,8 +428,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.string "name"
     t.string "otp_secret_key"
     t.string "google_id"
-    t.boolean "admin"
-    t.boolean "blocked"
+    t.boolean "admin", default: false
+    t.boolean "blocked", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -437,6 +446,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
   add_foreign_key "contributors", "users"
   add_foreign_key "group_posts", "groups"
   add_foreign_key "group_posts", "posts"
+  add_foreign_key "interrelations", "users"
   add_foreign_key "likes", "users"
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"

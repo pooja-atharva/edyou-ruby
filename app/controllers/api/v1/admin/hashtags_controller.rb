@@ -1,13 +1,7 @@
 module Api
-    class V1::Admin::UsersController < V1::BaseController
-      before_action :set_user, only: [:show, :update]
+    class V1::Admin::HashtagsController < V1::BaseController
   
-      def show
-        @user.create_profile(profile_params) if @user.profile.blank?
-        render_success_response({ user: profile_data(@user.profile) })
-      end
-  
-      def update
+      def create
         @user.update_attributes(user_params)
         render_success_response(
           { user: single_serializer.new(@user, serializer: Api::V1::UserSerializer) },
@@ -22,7 +16,7 @@ module Api
       end
   
       def user_params
-        params.require(:user).permit(:blocked)
+        params.require(:hashtag).permit(:blocked)
       end
   
       def set_user

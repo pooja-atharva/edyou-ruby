@@ -8,11 +8,16 @@ class User < ApplicationRecord
   has_one_time_password length: 6
   has_many :friendships, ->(user) {
     unscope(:where).where(user: user).or(where(friend: user))
+
   }, dependent: :destroy
   has_many :approved_friendships, -> (user) {
     unscope(:where).where(user: user).or(where(friend: user)).where(status: :approved)
   }, class_name: 'Friendship', dependent: :destroy
   # has_many :friends, through: :approved_friendships, class_name: 'User', dependent: :destroy
+
+  has_many :close_friendships, -> { where relavance: 'close_friends' }, class_name: 'Interrelation', dependent: :destroy, foreign_key: 'user_id'
+  has_many :close_friends, through: :close_friendships, class_name: 'User', foreign_key: 'friend_id', dependent: :destroy
+
   has_one :profile
 
   has_many :groups_users

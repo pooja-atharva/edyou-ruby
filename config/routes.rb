@@ -42,6 +42,7 @@ Rails.application.routes.draw do
           get :feeds
         end
       end
+      resources :close_friends, only: [:index, :create]
       resources :groups do
         member do
           post :join
