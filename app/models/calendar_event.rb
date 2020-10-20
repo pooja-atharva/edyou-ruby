@@ -8,6 +8,7 @@ class CalendarEvent < ApplicationRecord
   # has_many_base64_attached :images
   has_many_attached :media_items
   has_many :event_attendances
+  has_many :taggings, as: :taggable, dependent: :destroy
 
   attr_accessor :epoc_datetime_at
   validates :user_id, presence: true
@@ -20,9 +21,17 @@ class CalendarEvent < ApplicationRecord
   validate :validate_datetime, on: :create
   after_save :link_with_media_items
   after_create :create_event_request
+  after_commit :create_hashtags
 
   scope :passed_event, -> { where("datetime_at <= ? ",  DateTime.now) }
   # scope :active, -> { where(status: 'active') }
+
+  def create_hashtags
+    taggings.destroy_all if taggings.present?
+    (title.scan(/#\w+/) + description.scan(/#\w+/)).flatten.each do |tag|
+      taggings.create(context: tag.gsub("#", ""))
+    end
+  end
 
   def create_event_request
     User.find_each(batch_size: 200) do |user|

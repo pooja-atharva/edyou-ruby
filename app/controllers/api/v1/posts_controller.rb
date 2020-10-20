@@ -27,6 +27,18 @@ module Api
       render json: { status: true, data: array_serializer.new(permissions, serializer: Api::V1::PermissionSerializer) }
     end
 
+    def report_post
+      post = Post.find(params[:id])
+      post.post_reports.new(user: current_user, reason: post_params[:reason])
+      if post.save
+        render_success_response(
+          { post: post_data(post) }, 'Post reported successfully',  200
+        )
+      else
+        render_unprocessable_entity(post.errors.full_messages.join(','))
+      end
+    end
+
     def search
       render_unprocessable_entity('Query params must be present.') and return unless search_params[:query].present?
       posts = Post.joins(:taggings).where(taggings: { context: search_params[:query] }).filter_on(filter_params)
@@ -52,7 +64,7 @@ module Api
       def post_params
         params.require(:post).permit(:body, :publish_date, :parent_id,
           :parent_type, :feeling_id, :activity_id, :permission_id,
-          :delete_post_after_24_hour, :status, :location_id,
+          :delete_post_after_24_hour, :status, :location_id, :reason,
           group_ids: [],
           taggings_attributes: [:id, :tagger_id, :tagger_type],
           access_requirement_ids: [])

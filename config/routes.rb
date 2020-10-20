@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     scope module: :v1, path: :v1 do
       scope module: :admin, path: :admin do
         resources :users, only: [:show, :update]
+        resources :hashtags, only: [:create]
+        resources :posts, only: [:index, :show, :destroy]
       end
       resources :users do
         collection do
@@ -78,6 +80,9 @@ Rails.application.routes.draw do
         collection do
           get :audience
           post :search
+        end
+        member do
+          post :report_post
         end
       end
       resources :feelings, only: [:index]

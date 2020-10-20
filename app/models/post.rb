@@ -16,6 +16,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :group_posts, dependent: :destroy
   has_many :groups, through: :group_posts
+  has_many :post_reports
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
@@ -28,9 +29,5 @@ class Post < ApplicationRecord
     body.scan(/#\w+/).flatten.each do |tag|
       taggings.create(context: tag.gsub("#", ""))
     end
-  end
-
-  def self.deactivate
-    update_all(status: 5)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_115155) do
+ActiveRecord::Schema.define(version: 2020_10_19_120207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.integer "count", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "high_priority", default: false
   end
 
   create_table "interrelations", force: :cascade do |t|
@@ -318,8 +319,6 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.string "action"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["action"], name: "index_permission_types_on_action"
-    t.index ["action_name"], name: "index_permission_types_on_action_name"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -328,7 +327,6 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "permission_type_id"
-    t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
   end
 
   create_table "post_activities", force: :cascade do |t|
@@ -337,6 +335,16 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.integer "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "post_reports", force: :cascade do |t|
+    t.string "reason"
+    t.bigint "post_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_post_reports_on_post_id"
+    t.index ["user_id"], name: "index_post_reports_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -356,6 +364,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
     t.boolean "delete_post_after_24_hour", default: false
     t.integer "status"
     t.bigint "location_id"
+    t.integer "post_reports_count"
     t.index ["activity_id"], name: "index_posts_on_activity_id"
     t.index ["feeling_id"], name: "index_posts_on_feeling_id"
     t.index ["location_id"], name: "index_posts_on_location_id"
@@ -451,6 +460,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_115155) do
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
+  add_foreign_key "post_reports", "posts"
+  add_foreign_key "post_reports", "users"
   add_foreign_key "posts", "feelings"
   add_foreign_key "posts", "locations"
   add_foreign_key "posts", "permissions"

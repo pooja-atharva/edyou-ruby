@@ -97,6 +97,32 @@ RSpec.describe 'api/v1/posts', type: :request do
     end
   end
 
+  path '/api/v1/posts/{id}/report_post' do
+    post 'Report a Post' do
+      tags 'Posts'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :integer
+      parameter name: :post, in: :body, schema: {
+        type: :object,
+        properties: { post: { type: :object, properties: {reason: {type: :string} } } },
+        required: [:post],
+      }
+      response '200', 'Post reported' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        let(:post) { { reason: 'sample' } }
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Post is reported successfully')
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:post) { { body: 'sample' } }
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/posts/search' do
     post 'Search Post by Hashtag' do
       tags 'Posts'

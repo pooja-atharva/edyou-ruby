@@ -41,6 +41,7 @@ class User < ApplicationRecord
   has_many :privacy_settings
   has_many :event_attendances
   has_many :support_tickets
+  has_many :post_reports
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
   accepts_nested_attributes_for :contributors, allow_destroy: true

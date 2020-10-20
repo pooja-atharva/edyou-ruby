@@ -114,6 +114,464 @@
         }
       }
     },
+    "/api/v1/admin/hashtags": {
+      "post": {
+        "summary": "Create Hashtag",
+        "tags": [
+          "Admin Hashtag"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "hashtag",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hashtag": {
+                  "type": "object",
+                  "properties": {
+                    "context": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "hashtag"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hashtag",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "hashtag": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "context": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/posts": {
+      "get": {
+        "summary": "Get Posts",
+        "tags": [
+          "Admin Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "per",
+            "in": "query",
+            "type": "integer",
+            "value": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "value": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "publish_date": {
+                            "type": "string"
+                          },
+                          "parent": {
+                            "type": "object"
+                          },
+                          "feeling": {
+                            "type": "string"
+                          },
+                          "post_activity": {
+                            "type": "string"
+                          },
+                          "comment_count": {
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "type": "integer"
+                          },
+                          "permission": {
+                            "type": "object"
+                          },
+                          "location": {
+                            "type": "object"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "delete_post_after_24_hour": {
+                            "type": "boolean"
+                          },
+                          "groups": {
+                            "type": "object"
+                          },
+                          "access_requirement_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            }
+                          },
+                          "tagged_users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/posts/{id}": {
+      "get": {
+        "summary": "Get Post",
+        "tags": [
+          "Admin Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Post ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "publish_date": {
+                            "type": "string"
+                          },
+                          "parent": {
+                            "type": "object"
+                          },
+                          "feeling": {
+                            "type": "string"
+                          },
+                          "post_activity": {
+                            "type": "string"
+                          },
+                          "comment_count": {
+                            "type": "integer"
+                          },
+                          "like_count": {
+                            "type": "integer"
+                          },
+                          "permission": {
+                            "type": "object"
+                          },
+                          "location": {
+                            "type": "object"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "delete_post_after_24_hour": {
+                            "type": "boolean"
+                          },
+                          "groups": {
+                            "type": "object"
+                          },
+                          "access_requirement_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            }
+                          },
+                          "tagged_users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete post",
+        "tags": [
+          "Admin Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/v1/admin/users/{id}": {
       "get": {
         "summary": "User Profile",
@@ -6673,6 +7131,152 @@
                       }
                     }
                   }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/posts/{id}/report_post": {
+      "post": {
+        "summary": "Report a Post",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "post",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "post": {
+                  "type": "object",
+                  "properties": {
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "post"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post reported",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Post is reported successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "publish_date": {
+                          "type": "string"
+                        },
+                        "parent": {
+                          "type": "object"
+                        },
+                        "feeling": {
+                          "type": "string"
+                        },
+                        "post_activity": {
+                          "type": "string"
+                        },
+                        "comment_count": {
+                          "type": "integer"
+                        },
+                        "like_count": {
+                          "type": "integer"
+                        },
+                        "permission": {
+                          "type": "object"
+                        },
+                        "location": {
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "delete_post_after_24_hour": {
+                          "type": "boolean"
+                        },
+                        "groups": {
+                          "type": "object"
+                        },
+                        "access_requirement_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "tagged_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
                 },
                 "errors": {
                   "type": "array",
