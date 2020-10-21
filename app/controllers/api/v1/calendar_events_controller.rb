@@ -32,7 +32,7 @@ module Api
     end
 
     def update
-      if @event.update_attributes(calendar_event_params)
+      if @event.update_attributes(calendar_event_params.except(:user_ids, :group_ids))
         render_success_response(
           { calendar_event: event_data(@event) }, 'Event is updated successfully',  200
         )
@@ -98,8 +98,7 @@ module Api
     private
 
     def calendar_event_params
-      params.require(:calendar_event)
-        .permit(:title, :description, :epoc_datetime_at, :location, :price, :event_type, media_tokens: [])
+      params.require(:calendar_event).permit(:title, :description, :epoc_datetime_at, :location, :price, :event_type, media_tokens: [], user_ids: [], group_ids: [])
     end
 
     def event_data(object)

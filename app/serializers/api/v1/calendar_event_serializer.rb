@@ -3,7 +3,7 @@ module Api
     class CalendarEventSerializer < ActiveModel::Serializer
       include Rails.application.routes.url_helpers
       attributes :id, :title, :description, :epoc_datetime_at, :price, :location, :event_type, :status, :user,
-                 :media_items, :invite, :attendance, :attendance_status
+                 :media_items, :invite, :attendance, :attendance_status, :users, :groups
 
       def user
         ActiveModelSerializers::SerializableResource.new( object.user, serializer: Api::V1::UserSerializer )
@@ -31,6 +31,16 @@ module Api
       def attendance_status
         current_user = @instance_options[:current_user]
         object.event_attendances.find_by(user_id: current_user.id).try(:status)
+      end
+
+      def users
+        user_records = User.where(id: object.user_ids)
+        ActiveModel::Serializer::CollectionSerializer.new(user_records, serializer: Api::V1::UserSerializer)
+      end
+
+      def groups
+        groups_records = Group.where(id: object.group_ids)
+        ActiveModel::Serializer::CollectionSerializer.new(groups_records, serializer: Api::V1::GroupSerializer)
       end
     end
   end

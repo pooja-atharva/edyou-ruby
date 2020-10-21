@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_19_120207) do
+ActiveRecord::Schema.define(version: 2020_10_20_065623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(version: 2020_10_19_120207) do
     t.integer "status", default: 4
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_ids", default: [], array: true
+    t.integer "group_ids", default: [], array: true
     t.index ["datetime_at"], name: "index_calendar_events_on_datetime_at"
     t.index ["status"], name: "index_calendar_events_on_status"
     t.index ["title"], name: "index_calendar_events_on_title"
@@ -319,6 +321,8 @@ ActiveRecord::Schema.define(version: 2020_10_19_120207) do
     t.string "action"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_permission_types_on_action"
+    t.index ["action_name"], name: "index_permission_types_on_action_name"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -327,6 +331,7 @@ ActiveRecord::Schema.define(version: 2020_10_19_120207) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "permission_type_id"
+    t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
   end
 
   create_table "post_activities", force: :cascade do |t|
@@ -437,8 +442,8 @@ ActiveRecord::Schema.define(version: 2020_10_19_120207) do
     t.string "name"
     t.string "otp_secret_key"
     t.string "google_id"
-    t.boolean "admin", default: false
-    t.boolean "blocked", default: false
+    t.boolean "admin"
+    t.boolean "blocked"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

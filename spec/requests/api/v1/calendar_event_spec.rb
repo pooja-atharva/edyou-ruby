@@ -18,6 +18,18 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
         properties: { id: { type: :integer}, url: { type: :string } }
       }
     },
+    users: {
+      type: :array,
+      items: {
+        type: :object
+      }
+    },
+    groups: {
+      type: :array,
+      items: {
+        type: :object
+      }
+    },
     invite: {type: :string},
     attendance: {
       type: :object,
@@ -89,7 +101,9 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
               price: { type: :string },
               location: { type: :string },
               event_type: { type: :string },
-              media_tokens: {type: :array, items: { type: :string }}
+              media_tokens: {type: :array, items: { type: :string }},
+              user_ids: {type: :array, items: { type: :integer }},
+              group_ids: {type: :array, items: { type: :integer }}
             }
           }
         },
@@ -135,7 +149,9 @@ RSpec.describe 'api/v1/calendar_events', type: :request do
               price: { type: :string },
               location: { type: :string },
               event_type: { type: :string },
-              media_tokens: { type: :array, items: { type: :string }}
+              media_tokens: { type: :array, items: { type: :string }},
+              user_ids: {type: :array, items: { type: :integer }},
+              group_ids: {type: :array, items: { type: :integer }}
             }
           }
         },

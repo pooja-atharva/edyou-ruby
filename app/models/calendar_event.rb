@@ -19,6 +19,7 @@ class CalendarEvent < ApplicationRecord
 
   before_validation :set_datetime_at
   validate :validate_datetime, on: :create
+  validate :validate_people
   after_save :link_with_media_items
   after_create :create_event_request
   after_commit :create_hashtags
@@ -34,9 +35,16 @@ class CalendarEvent < ApplicationRecord
   end
 
   def create_event_request
-    User.find_each(batch_size: 200) do |user|
+    group_user_ids = GroupsUser.where(group_id: group_ids).pluck(:user_id)
+    users = User.where(id: [user_ids, group_user_ids].flatten.compact)
+    users.find_each(batch_size: 200) do |user|
       user.event_attendances.find_or_create_by(calendar_event_id: id)
     end
+  end
+
+  def validate_people
+    self.user_ids = user.friends.pluck(:id) & user_ids
+    self.group_ids = user.group_ids & group_ids
   end
 
   def set_datetime_at

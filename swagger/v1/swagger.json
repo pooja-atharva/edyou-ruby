@@ -1621,6 +1621,18 @@
                               }
                             }
                           },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "groups": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
                           "invite": {
                             "type": "string"
                           },
@@ -1793,6 +1805,18 @@
                               }
                             }
                           },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
+                          "groups": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          },
                           "invite": {
                             "type": "string"
                           },
@@ -1923,6 +1947,18 @@
                       "items": {
                         "type": "string"
                       }
+                    },
+                    "user_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "group_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
                     }
                   }
                 }
@@ -1989,6 +2025,18 @@
                                 "type": "string"
                               }
                             }
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
                           }
                         },
                         "invite": {
@@ -2092,6 +2140,18 @@
                       "items": {
                         "type": "string"
                       }
+                    },
+                    "user_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "group_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
                     }
                   }
                 }
@@ -2158,6 +2218,18 @@
                                 "type": "string"
                               }
                             }
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
                           }
                         },
                         "invite": {
@@ -2286,6 +2358,18 @@
                                 "type": "string"
                               }
                             }
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
                           }
                         },
                         "invite": {
@@ -2458,6 +2542,18 @@
                             }
                           }
                         },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
                         "invite": {
                           "type": "string"
                         },
@@ -2591,6 +2687,18 @@
                                 "type": "string"
                               }
                             }
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
                           }
                         },
                         "invite": {
@@ -2731,6 +2839,18 @@
                                 "type": "string"
                               }
                             }
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "groups": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
                           }
                         },
                         "invite": {
