@@ -1,6 +1,6 @@
 class Message < ApplicationRecord
   include Discard::Model
-  
+
   belongs_to :chatroom
   belongs_to :user
 
@@ -15,11 +15,11 @@ class Message < ApplicationRecord
 
   def sized(size)
     variant = self.file.variant(Message.sizes[size]).processed
-    variant.service_url(expires_in: ActiveStorage::Service.url_expires_in)
+    variant.service_url(expires_in: Rails.application.config.active_storage.service_urls_expire_in)
   end
 
   def video_thumb(size)
     variant = self.file.preview(Message.sizes[size]).processed
-    variant.service_url(expires_in: ActiveStorage::Service.url_expires_in)
+    variant.service_url(expires_in: Rails.application.config.active_storage.service_urls_expire_in)
   end
 end

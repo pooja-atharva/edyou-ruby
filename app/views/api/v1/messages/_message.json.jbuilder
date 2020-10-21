@@ -1,4 +1,4 @@
-expires_in = ActiveStorage::Service.url_expires_in.to_i
+expires_in = Rails.application.config.active_storage.service_urls_expire_in.to_i
 expires_at = Time.current + expires_in.seconds
 
 json.id message.id
@@ -14,7 +14,7 @@ json.user do
 end
 if message.file.attached?
 	json.attachment do
-	  json.url message.file.service_url(expires_in: ActiveStorage::Service.url_expires_in)
+	  json.url message.file.service_url(expires_in: Rails.application.config.active_storage.service_urls_expire_in)
       json.thumbnail msg_thumb_url(message)
       json.expires_in expires_in
   	  json.expires_at expires_at
