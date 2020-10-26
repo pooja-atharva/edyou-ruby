@@ -18,6 +18,9 @@ class User < ApplicationRecord
   has_many :close_friendships, -> { where relavance: 'close_friends' }, class_name: 'Interrelation', dependent: :destroy, foreign_key: 'user_id'
   has_many :close_friends, through: :close_friendships, class_name: 'User', foreign_key: 'friend_id', dependent: :destroy
 
+  has_many :roommateships, -> { where relavance: 'roommates' }, class_name: 'Interrelation', dependent: :destroy, foreign_key: 'user_id'
+  has_many :roommates, through: :roommateships, class_name: 'User', foreign_key: 'friend_id', dependent: :destroy
+
   has_one :profile
 
   has_many :groups_users

@@ -46,6 +46,7 @@ Rails.application.routes.draw do
         end
       end
       resources :close_friends, only: [:index, :create]
+      resources :roommates, only: [:index, :create, :destroy]
       resources :groups do
         member do
           post :join
