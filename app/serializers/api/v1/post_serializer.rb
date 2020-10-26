@@ -2,7 +2,16 @@ module Api
   module V1
     class PostSerializer < ActiveModel::Serializer
       attributes :id, :body, :publish_date, :parent, :feeling, :activity, :comment_count, :like_count, :post_reports_count, :permission,
-                 :access_requirement_ids, :user, :tagged_users, :status, :delete_post_after_24_hour, :groups, :location
+                 :access_requirement_ids, :user, :tagged_users, :status, :delete_post_after_24_hour, :groups, :location, :is_liked
+
+      def is_liked
+        total_likes = object.likes.where(user_id: scope.id).count
+        if total_likes > 0
+          true
+        else
+          false
+        end
+      end
 
       def feeling
         object.feeling_id.present? ? object.feeling.name : ''

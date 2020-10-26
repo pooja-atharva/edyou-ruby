@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resources :users, only: [:show, :update]
         resources :hashtags, only: [:create]
         resources :posts, only: [:index, :show, :destroy]
+        resources :events, only: [:index, :show, :destroy]
       end
       resources :users do
         collection do

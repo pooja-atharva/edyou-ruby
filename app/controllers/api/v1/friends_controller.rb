@@ -1,5 +1,6 @@
 module Api
   class V1::FriendsController < V1::BaseController
+    serialization_scope :current_user
 
     def index
       user = params[:user_id].present? ? User.find_by(id: params[:user_id]) : current_user
@@ -29,7 +30,7 @@ module Api
       feeds = feeds.reverse.take(10)
       data = {
         status: true, message: '',
-        data: array_serializer.new(feeds, serializer: Api::V1::PostSerializer),
+        data: array_serializer.new(feeds, serializer: Api::V1::PostSerializer, scope: current_user),
       }
       render json: data, status: default_status
     end

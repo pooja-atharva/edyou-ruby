@@ -56,7 +56,7 @@ class ChatroomsChannel < ApplicationCable::Channel
     MessageRelayJob.perform_later(message, 'created')
   end
 
-  def get_chatrooms()
+  def get_chatrooms
 
     chatrooms = current_user.joined_chatrooms.order(updated_at: :desc)
     event = "all_chatrooms"
@@ -66,7 +66,6 @@ class ChatroomsChannel < ApplicationCable::Channel
       event: event
     }
 
-    # ChatroomJob.perform_later(@groups, current_user, event) if @groups.present?
   end
 
   private

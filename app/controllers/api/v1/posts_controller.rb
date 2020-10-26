@@ -1,5 +1,7 @@
 module Api
   class V1::PostsController < V1::BaseController
+    serialization_scope :current_user
+
     def create
       post = Post.new(post_params)
       post_defaults(post)
@@ -17,14 +19,14 @@ module Api
       post = Post.find(params[:id])
       data = {
         status: true, message: '',
-        data: single_serializer.new(post, serializer: Api::V1::PostSerializer),
+        data: single_serializer.new(post, serializer: Api::V1::PostSerializer, scope: current_user),
       }
       render json: data, status: default_status
     end
 
     def audience
       permissions = Permission.post_permissions
-      render json: { status: true, data: array_serializer.new(permissions, serializer: Api::V1::PermissionSerializer) }
+      render json: { status: true, data: array_serializer.new(permissions, serializer: Api::V1::PermissionSerializer, scope: current_user) }
     end
 
     def report_post
@@ -44,7 +46,7 @@ module Api
       posts = Post.joins(:taggings).where(taggings: { context: search_params[:query] }).filter_on(filter_params)
       if posts.present?
         render_success_response(
-          { posts: array_serializer.new(posts, serializer: Api::V1::PostSerializer) },
+          { posts: array_serializer.new(posts, serializer: Api::V1::PostSerializer, scope: current_user) },
           '',  200, page_meta(posts, filter_params)
         )
       else
@@ -71,7 +73,7 @@ module Api
       end
 
       def post_data(object)
-        single_serializer.new(object, serializer: Api::V1::PostSerializer)
+        single_serializer.new(object, serializer: Api::V1::PostSerializer, scope: current_user)
       end
 
       def search_params
