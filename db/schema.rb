@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_065623) do
+ActiveRecord::Schema.define(version: 2020_10_27_093501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,15 @@ ActiveRecord::Schema.define(version: 2020_10_20_065623) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["album_id"], name: "index_contributors_on_album_id"
     t.index ["user_id"], name: "index_contributors_on_user_id"
+  end
+
+  create_table "devices", force: :cascade do |t|
+    t.integer "device_type"
+    t.string "token"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
   create_table "event_attendances", force: :cascade do |t|
@@ -442,8 +451,8 @@ ActiveRecord::Schema.define(version: 2020_10_20_065623) do
     t.string "name"
     t.string "otp_secret_key"
     t.string "google_id"
-    t.boolean "admin"
-    t.boolean "blocked"
+    t.boolean "admin", default: false
+    t.boolean "blocked", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -458,6 +467,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_065623) do
   add_foreign_key "comments", "users"
   add_foreign_key "contributors", "albums"
   add_foreign_key "contributors", "users"
+  add_foreign_key "devices", "users"
   add_foreign_key "group_posts", "groups"
   add_foreign_key "group_posts", "posts"
   add_foreign_key "interrelations", "users"

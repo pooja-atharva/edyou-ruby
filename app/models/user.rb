@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :chatroom_users
   has_many :chatrooms, through: :chatroom_users
   has_many :messages, dependent: :destroy
+  has_many :devices, dependent: :destroy
 
   has_many :taggings, as: :tagger, dependent: :destroy
   has_many :tagged_posts, through: :taggings, source: :taggable, source_type: 'Post', dependent: :destroy

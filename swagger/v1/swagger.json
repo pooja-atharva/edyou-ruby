@@ -8746,6 +8746,49 @@
         }
       }
     },
+    "/api/v1/users/device_token": {
+      "post": {
+        "summary": "Add device token",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "device",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                },
+                "device_type": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "like created"
+          },
+          "422": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/v1/users/{id}": {
       "get": {
         "summary": "User Profile",

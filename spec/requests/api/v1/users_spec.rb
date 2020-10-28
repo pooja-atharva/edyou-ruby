@@ -223,6 +223,30 @@ RSpec.describe 'api/v1/users', type: :request do
     end
   end
 
+  path '/api/v1/users/device_token' do
+    post 'Add device token' do
+      tags 'Auth'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :device, in: :body, schema: {
+        type: :object,
+        properties:{
+            token: { type: :string },
+            device_type: { type: :integer }
+        }
+      }
+
+      response '200', 'like created' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        run_test!
+      end
+    end
+  end
+
   path '/api/v1/users/{id}' do
     get 'User Profile' do
       tags 'Profile'

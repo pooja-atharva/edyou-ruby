@@ -1,7 +1,7 @@
 module Api
   class V1::UsersController < V1::BaseController
-    skip_before_action :doorkeeper_authorize!, except: %i[update profile_image, show]
-    before_action :set_user, except: %i[reset_password, show, google]
+    skip_before_action :doorkeeper_authorize!, except: %i[update profile_image, show, device_token, cover_images]
+    before_action :set_user, except: %i[reset_password, show, google, device_token]
 
     def index
       # render_unprocessable_entity('Please give propar section_type value.') and return if params[:section_type].present? && !params[:section_type].in?(Constant::SECTION_OBJECTS)
@@ -66,6 +66,11 @@ module Api
       else
         render_unprocessable_entity('User is not present.')
       end
+    end
+
+    def device_token
+      current_user.devices.find_or_create_by(token: params[:token], device_type: params[:device_type])
+      render json: { success: true, message: 'Device Token added successfully', data: {}, meta: {}, errors: [] }
     end
 
     def google

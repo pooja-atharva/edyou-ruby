@@ -30,6 +30,7 @@ Rails.application.routes.draw do
           post :cover_images
           post :google
           delete :signout
+          post :device_token
         end
       end
       resources :friendships do
