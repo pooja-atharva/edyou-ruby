@@ -7232,6 +7232,226 @@
         }
       }
     },
+    "/api/v1/notification_settings": {
+      "get": {
+        "summary": "List of notification_settings",
+        "tags": [
+          "Notification Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of notification_settings",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "notification_settings": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "notification_type": {
+                            "type": "string"
+                          },
+                          "notify": {
+                            "type": "boolean"
+                          },
+                          "user": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Change Notification Setting",
+        "tags": [
+          "Notification Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "notification_type",
+            "in": "query",
+            "type": "string",
+            "description": "notification_type",
+            "enum": [
+              "push",
+              "chat",
+              "call",
+              "group",
+              "jobs",
+              "deal",
+              "event"
+            ]
+          },
+          {
+            "name": "notify",
+            "in": "query",
+            "type": "boolean",
+            "value": "true",
+            "description": "notify"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification Setting Updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Notification Setting is updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "notification_settings": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "notification_type": {
+                          "type": "string"
+                        },
+                        "notify": {
+                          "type": "boolean"
+                        },
+                        "user": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You are not authorized."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/permissions": {
       "get": {
         "summary": "List of permissions",
@@ -8168,6 +8388,225 @@
                         },
                         "user": {
                           "type": "object"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You are not authorized."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story_settings": {
+      "get": {
+        "summary": "List of story_settings",
+        "tags": [
+          "Story Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of story_settings",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "story_settings": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "share_public_story": {
+                            "type": "boolean"
+                          },
+                          "share_mentioned_story": {
+                            "type": "boolean"
+                          },
+                          "user": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Change story Setting",
+        "tags": [
+          "Story Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "story_settings",
+            "description": "array of objects",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "story_setting": {
+                  "type": "object",
+                  "properties": {
+                    "share_public_story": {
+                      "type": "boolean"
+                    },
+                    "share_mentioned_story": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "story Setting Updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Story Setting is updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "story_settings": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "share_public_story": {
+                          "type": "boolean"
+                        },
+                        "share_mentioned_story": {
+                          "type": "boolean"
+                        },
+                        "user": {
+                          "type": "integer"
                         }
                       }
                     }

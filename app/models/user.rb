@@ -40,6 +40,7 @@ class User < ApplicationRecord
   has_many :contributors, dependent: :destroy
   has_many :contributing_albums, through: :contributors, source: :album
   has_many :privacy_settings
+  has_many :notification_settings
   has_many :event_attendances
   has_many :support_tickets
   has_many :post_reports
@@ -54,6 +55,7 @@ class User < ApplicationRecord
   scope :blocked_users, -> { where(blocked: true) }
 
   after_create :set_privacy_settings
+  after_create :set_notification_settings
   after_save :revoke_all_access_tokens!
 
   def exclude_block_user(user)
@@ -79,6 +81,12 @@ class User < ApplicationRecord
     default_permission_type = privacy_settings.find_by(action_object: action_object).permission_type
     permission = Permission.find_by(action_object: action_object, permission_type_id: default_permission_type.id)
     return permission
+  end
+
+  def set_notification_settings
+    Constant::NOTIFICATION_TYPE_OBJECTS.each do |ps_object|
+      notification_settings.find_or_create_by(notification_type: ps_object, notify: true)
+    end
   end
 
   def from_website?

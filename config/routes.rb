@@ -112,6 +112,16 @@ Rails.application.routes.draw do
           post :update
         end
       end
+      resources :story_settings, only: [:index] do
+        collection do
+          post :update
+        end
+      end
+      resources :notification_settings, only: [:index] do
+        collection do
+          post :update
+        end
+      end
       resources :calendar_events do
         member do
           post :add_media_item
