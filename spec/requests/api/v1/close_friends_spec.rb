@@ -12,11 +12,13 @@ RSpec.describe 'api/v1/close_friends', type: :request do
       tags 'Close Friends'
       security [Bearer: []]
       consumes 'application/json'
+      parameter name: :per, in: :query, type: :integer, value: Kaminari.config.default_per_page
+      parameter name: :page, in: :query, type: :integer, value: 1
 
       response '200', 'Close Friends list' do
         let(:'Authorization') { 'Bearer ' + generate_token }
         let(:close_friend) { { name: 'sample' } }
-        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties)
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(properties, nil, 'close_friends')
         run_test!
       end
 
@@ -35,13 +37,13 @@ RSpec.describe 'api/v1/close_friends', type: :request do
       consumes 'application/json'
       parameter name: :close_friend, in: :body, schema: {
         type: :object,
-        properties: { close_friends: { type: :object, properties: close_friend_properties } },
+        properties: { close_friend: { type: :object, properties: close_friend_properties } },
         required: [:close_friend],
       }
       response '200', 'Post created' do
         let(:'Authorization') { 'Bearer ' + generate_token }
         let(:close_friend) { { friend_id: 1 } }
-        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Close friend is added successfully')
+        schema type: :object, properties: ApplicationMethods.success_schema(properties, 'Close friend is added successfully', 'close_friend')
         run_test!
       end
 

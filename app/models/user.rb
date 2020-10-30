@@ -18,6 +18,9 @@ class User < ApplicationRecord
   has_many :close_friendships, -> { where relavance: 'close_friends' }, class_name: 'Interrelation', dependent: :destroy, foreign_key: 'user_id'
   has_many :close_friends, through: :close_friendships, class_name: 'User', foreign_key: 'friend_id', dependent: :destroy
 
+  has_many :roommateships, -> { where relavance: 'roommates' }, class_name: 'Interrelation', dependent: :destroy, foreign_key: 'user_id'
+  has_many :roommates, through: :roommateships, class_name: 'User', foreign_key: 'friend_id', dependent: :destroy
+
   has_one :profile
 
   has_many :groups_users
@@ -29,6 +32,10 @@ class User < ApplicationRecord
   has_many :chatroom_users
   has_many :chatrooms, through: :chatroom_users
   has_many :messages, dependent: :destroy
+  has_many :group_chatrooms, -> { merge(Chatroom.public_channels) }, through: :chatroom_users, class_name: 'Chatroom', source: :chatroom
+  has_many :direct_chatrooms, -> { merge(Chatroom.direct_messages) }, through: :chatroom_users, class_name: 'Chatroom', source: :chatroom
+  has_many :joined_chatrooms, -> { merge(Chatroom.joined_users) }, through: :chatroom_users, class_name: 'Chatroom', source: :chatroom
+
   has_many :devices, dependent: :destroy
 
   has_many :taggings, as: :tagger, dependent: :destroy
@@ -40,6 +47,9 @@ class User < ApplicationRecord
   has_many :contributors, dependent: :destroy
   has_many :contributing_albums, through: :contributors, source: :album
   has_many :privacy_settings
+  has_many :post_settings
+  has_one :story_setting
+  has_many :notification_settings
   has_many :event_attendances
   has_many :support_tickets
   has_many :post_reports
@@ -54,6 +64,8 @@ class User < ApplicationRecord
   scope :blocked_users, -> { where(blocked: true) }
 
   after_create :set_privacy_settings
+  after_create :set_story_setting
+  after_create :set_notification_settings
   after_save :revoke_all_access_tokens!
 
   def exclude_block_user(user)
@@ -79,6 +91,16 @@ class User < ApplicationRecord
     default_permission_type = privacy_settings.find_by(action_object: action_object).permission_type
     permission = Permission.find_by(action_object: action_object, permission_type_id: default_permission_type.id)
     return permission
+  end
+
+  def set_story_setting
+    create_story_setting(share_public_story: true, share_mentioned_story: true)
+  end
+
+  def set_notification_settings
+    Constant::NOTIFICATION_TYPE_OBJECTS.each do |ps_object|
+      notification_settings.find_or_create_by(notification_type: ps_object, notify: true)
+    end
   end
 
   def from_website?

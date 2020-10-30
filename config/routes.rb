@@ -47,6 +47,7 @@ Rails.application.routes.draw do
         end
       end
       resources :close_friends, only: [:index, :create]
+      resources :roommates, only: [:index, :create, :destroy]
       resources :groups do
         member do
           post :join
@@ -108,6 +109,22 @@ Rails.application.routes.draw do
       end
       resources :permissions, only: [:index]
       resources :privacy_settings, only: [:index] do
+        collection do
+          post :update
+        end
+      end
+      resources :post_settings, only: [:index] do
+        collection do
+          post :update
+        end
+      end
+
+      resources :story_settings, only: [:index] do
+        collection do
+          post :update
+        end
+      end
+      resources :notification_settings, only: [:index] do
         collection do
           post :update
         end

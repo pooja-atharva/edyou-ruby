@@ -61,12 +61,25 @@ module Api
         post.publish_date = Time.now if post.publish_date.blank?
         post.permission = current_user.default_permission('Post') if post.permission_id.blank?
         post.status = :approved if post.status.blank?
+        unless post.temp_post_type.blank?
+          case post.temp_post_type
+          when "24-hour"
+            post.remove_datetime = 1.days.from_now
+          when "7-days"
+            post.remove_datetime = 7.days.from_now
+          when "30-days"
+            post.remove_datetime = 30.days.from_now
+          when "60-days"
+            post.remove_datetime = 60.days.from_now
+          end
+        end
       end
 
       def post_params
         params.require(:post).permit(:body, :publish_date, :parent_id,
           :parent_type, :feeling_id, :activity_id, :permission_id,
           :delete_post_after_24_hour, :status, :location_id, :reason,
+          :temp_post_type,
           group_ids: [],
           taggings_attributes: [:id, :tagger_id, :tagger_type],
           access_requirement_ids: [])

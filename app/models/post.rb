@@ -20,7 +20,7 @@ class Post < ApplicationRecord
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
-  scope :daily_temp_post, -> { where("created_at <= ? and delete_post_after_24_hour = ? and status = ?", 1.day.ago, true, 4)}
+  scope :daily_temp_post, -> { where('remove_datetime is not null and remove_datetime <= ? and status = ?', Time.now, 4)}
 
   after_commit :create_hashtags
 

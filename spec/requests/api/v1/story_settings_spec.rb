@@ -7,7 +7,7 @@ RSpec.describe 'api/v1/story_settings', type: :request do
     share_mentioned_story: { type: :boolean },
     user: { type: :integer }
   }
- 
+
   path '/api/v1/story_settings' do
     get 'List of story_settings' do
       tags 'Story Setting'
@@ -30,9 +30,9 @@ RSpec.describe 'api/v1/story_settings', type: :request do
   path '/api/v1/story_settings' do
     post 'Change story Setting' do
       tags 'Story Setting'
-      security [Bearer: []] 
+      security [Bearer: []]
       consumes 'application/json'
-      parameter name: :story_settings, description: 'array of objects', in: :body, schema: { 
+      parameter name: :story_settings, description: 'array of objects', in: :body, schema: {
         type: :object,
         properties: {
           story_setting: {

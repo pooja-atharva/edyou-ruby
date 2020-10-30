@@ -10,7 +10,7 @@ module Api
       blocked_ids = ids.flatten + current_user.blocks.pluck(:id)
       friendships = current_user.friendships.where.not(friend_id: blocked_ids).filter_on(filter_params)
       render_success_response(
-        { friendships: array_serializer.new(friendships, serializer: Api::V1::FriendshipSerializer) },
+        { friendships: array_serializer.new(friendships, serializer: Api::V1::FriendshipSerializer, current_user: current_user) },
         '',  200, page_meta(friendships, filter_params)
       )
     end

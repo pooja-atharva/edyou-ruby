@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_27_093501) do
+ActiveRecord::Schema.define(version: 2020_10_28_104238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -282,6 +282,15 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "notification_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "notification_type"
+    t.boolean "notify", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notification_settings_on_user_id"
+  end
+
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
     t.bigint "application_id", null: false
@@ -361,6 +370,14 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
     t.index ["user_id"], name: "index_post_reports_on_user_id"
   end
 
+  create_table "post_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "remove_datetime"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_post_settings_on_user_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.datetime "publish_date"
@@ -379,6 +396,8 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
     t.integer "status"
     t.bigint "location_id"
     t.integer "post_reports_count"
+    t.string "temp_post_type"
+    t.datetime "remove_datetime"
     t.index ["activity_id"], name: "index_posts_on_activity_id"
     t.index ["feeling_id"], name: "index_posts_on_feeling_id"
     t.index ["location_id"], name: "index_posts_on_location_id"
@@ -416,6 +435,15 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "story_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "share_public_story", default: true
+    t.boolean "share_mentioned_story", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_story_settings_on_user_id"
+  end
+
   create_table "support_tickets", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "reason"
@@ -451,8 +479,8 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
     t.string "name"
     t.string "otp_secret_key"
     t.string "google_id"
-    t.boolean "admin", default: false
-    t.boolean "blocked", default: false
+    t.boolean "admin"
+    t.boolean "blocked"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -474,9 +502,11 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
   add_foreign_key "likes", "users"
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"
+  add_foreign_key "notification_settings", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "post_reports", "posts"
   add_foreign_key "post_reports", "users"
+  add_foreign_key "post_settings", "users"
   add_foreign_key "posts", "feelings"
   add_foreign_key "posts", "locations"
   add_foreign_key "posts", "permissions"
@@ -485,5 +515,6 @@ ActiveRecord::Schema.define(version: 2020_10_27_093501) do
   add_foreign_key "privacy_settings", "permission_types"
   add_foreign_key "privacy_settings", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "story_settings", "users"
   add_foreign_key "support_tickets", "users"
 end
