@@ -104,7 +104,7 @@ class User < ApplicationRecord
   end
 
   def from_website?
-    google_id.nil?
+    google_id.nil? and !user_type.present?
   end
 
   def profile_pic_url

@@ -74,34 +74,33 @@ module Api
     end
 
     def google
+      
+      profile = Oauth::Google.new(params).custom_build_user
+      #if profile[:google_id].nil?
+      #  {status: false, message: 'Invalid Token'}
+      #else
+      user = User.find_by(email: profile[:email])
+      if user.present?
+        render_success_response({
+                                  user: single_serializer.new(user, serializer: Api::V1::UserSerializer),
+                                  token: Doorkeeper::AccessToken.where(resource_owner_id: user.id).last.token
+                                })
+      else
+        user = User.new(profile)
+        #user.skip_confirmation!
+        user.skip_password_change_notification!
+        if user.save
+          Doorkeeper::AccessToken.create!(resource_owner_id: user.id)
+          render_success_response({
+                                    user: single_serializer.new(user, serializer: Api::V1::UserSerializer),
+                                    token: Doorkeeper::AccessToken.where(resource_owner_id: user.id).last.token
 
-      profile = Oauth::Google.new(params[:access_token]).build_user
-        if profile[:google_id].nil?
-          {status: false, message: 'Invalid Token'}
+                                  })
         else
-          user = User.find_by(email: profile[:email])
-          if user.present?
-            render_success_response({
-                                      user: single_serializer.new(user, serializer: UserSerializer),
-                                      token: Doorkeeper::AccessToken.where(resource_owner_id: user.id, revoked_at: nil).last.token
-                                    })
-          else
-            user = User.new(profile)
-            user.skip_confirmation!
-            user.skip_password_validation = true
-            if user.save
-              Doorkeeper::AccessToken.create!(resource_owner_id: user.id)
-              render_success_response({
-                                        user: single_serializer.new(user, serializer: UserSerializer),
-                                        token: Doorkeeper::AccessToken.where(resource_owner_id: user.id, revoked_at: nil).last.token
-                                      })
-            else
-              render_unprocessable_entity(user.errors.full_messages.join(','))
-            end
-          end
+          render_unprocessable_entity(user.errors.full_messages.join(','))
         end
-
-
+      end
+      #end
     end
 
     def cover_images

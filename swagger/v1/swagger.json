@@ -7857,8 +7857,8 @@
                         "type": "integer"
                       }
                     },
-                    "delete_post_after_24_hour": {
-                      "type": "boolean"
+                    "temp_post_type": {
+                      "type": "string"
                     },
                     "status": {
                       "type": "integer"
@@ -7948,8 +7948,8 @@
                         "status": {
                           "type": "integer"
                         },
-                        "delete_post_after_24_hour": {
-                          "type": "boolean"
+                        "temp_post_type": {
+                          "type": "string"
                         },
                         "groups": {
                           "type": "object"
@@ -8115,6 +8115,119 @@
         }
       }
     },
+    "/api/v1/posts/{id}/comments": {
+      "get": {
+        "summary": "List comments of the posts",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Post comment list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "model_key": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "object"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/posts/{id}/report_post": {
       "post": {
         "summary": "Report a Post",
@@ -8212,8 +8325,8 @@
                         "status": {
                           "type": "integer"
                         },
-                        "delete_post_after_24_hour": {
-                          "type": "boolean"
+                        "temp_post_type": {
+                          "type": "string"
                         },
                         "groups": {
                           "type": "object"
@@ -8351,8 +8464,8 @@
                           "status": {
                             "type": "integer"
                           },
-                          "delete_post_after_24_hour": {
-                            "type": "boolean"
+                          "temp_post_type": {
+                            "type": "string"
                           },
                           "groups": {
                             "type": "object"
@@ -8660,225 +8773,6 @@
         }
       }
     },
-    "/api/v1/story_settings": {
-      "get": {
-        "summary": "List of story_settings",
-        "tags": [
-          "Story Setting"
-        ],
-        "security": [
-          {
-            "Bearer": [
-
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of story_settings",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": null
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "story_settings": {
-                      "type": "array",
-                      "items": {
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "share_public_story": {
-                            "type": "boolean"
-                          },
-                          "share_mentioned_story": {
-                            "type": "boolean"
-                          },
-                          "user": {
-                            "type": "integer"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "meta": {
-                  "type": "object",
-                  "properties": {
-                    "page": {
-                      "type": "string"
-                    },
-                    "per": {
-                      "type": "string"
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "per_page": {
-                          "type": "integer",
-                          "example": 25
-                        },
-                        "current_page": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "next_page": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "prev_page": {
-                          "type": "integer",
-                          "example": 0
-                        },
-                        "total_pages": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "total_count": {
-                          "type": "integer",
-                          "example": 50
-                        }
-                      }
-                    }
-                  }
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Invalid Request",
-            "schema": {
-              "$ref": "#/components/schemas/errors_object"
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Change story Setting",
-        "tags": [
-          "Story Setting"
-        ],
-        "security": [
-          {
-            "Bearer": [
-
-            ]
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "story_settings",
-            "description": "array of objects",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "story_setting": {
-                  "type": "object",
-                  "properties": {
-                    "share_public_story": {
-                      "type": "boolean"
-                    },
-                    "share_mentioned_story": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "story Setting Updated",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Story Setting is updated successfully"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "story_settings": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer"
-                        },
-                        "share_public_story": {
-                          "type": "boolean"
-                        },
-                        "share_mentioned_story": {
-                          "type": "boolean"
-                        },
-                        "user": {
-                          "type": "integer"
-                        }
-                      }
-                    }
-                  }
-                },
-                "meta": {
-                  "type": "object"
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string",
-                  "example": "You are not authorized."
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Invalid Request",
-            "schema": {
-              "$ref": "#/components/schemas/errors_object"
-            }
-          }
-        }
-      }
-    },
     "/api/v1/roommates": {
       "get": {
         "summary": "Get User Roommates",
@@ -9113,6 +9007,225 @@
         "responses": {
           "200": {
             "description": "Roommate is removed successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You are not authorized."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story_settings": {
+      "get": {
+        "summary": "List of story_settings",
+        "tags": [
+          "Story Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of story_settings",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": null
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "story_settings": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "share_public_story": {
+                            "type": "boolean"
+                          },
+                          "share_mentioned_story": {
+                            "type": "boolean"
+                          },
+                          "user": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "per": {
+                      "type": "string"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "next_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "prev_page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_count": {
+                          "type": "integer",
+                          "example": 50
+                        }
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/components/schemas/errors_object"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Change story Setting",
+        "tags": [
+          "Story Setting"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "story_settings",
+            "description": "array of objects",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "story_setting": {
+                  "type": "object",
+                  "properties": {
+                    "share_public_story": {
+                      "type": "boolean"
+                    },
+                    "share_mentioned_story": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "story Setting Updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Story Setting is updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "story_settings": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "share_public_story": {
+                          "type": "boolean"
+                        },
+                        "share_mentioned_story": {
+                          "type": "boolean"
+                        },
+                        "user": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -9432,12 +9545,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "access_token": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
                   "type": "string"
                 }
               },
               "required": [
-                "access_token"
+                "name",
+                "email"
               ]
             }
           }

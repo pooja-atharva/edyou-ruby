@@ -24,6 +24,14 @@ module Api
       render json: data, status: default_status
     end
 
+    def comments
+      post = Post.find(params[:id])
+      comments = post.comments
+      render_success_response({
+        comments: array_serializer.new(comments, serializer: Api::V1::CommentSerializer)}, '', 200, page_meta(comments, filter_params)
+      )
+    end
+
     def audience
       permissions = Permission.post_permissions
       render json: { status: true, data: array_serializer.new(permissions, serializer: Api::V1::PermissionSerializer, scope: current_user) }

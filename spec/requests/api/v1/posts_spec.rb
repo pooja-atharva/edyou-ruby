@@ -12,7 +12,7 @@ RSpec.describe 'api/v1/posts', type: :request do
                   permission: { type: :object },
                   location: {type: :object },
                   status: { type: :integer},
-                  delete_post_after_24_hour: { type: :boolean },
+                  temp_post_type: { type: :string },
                   groups: {type: :object},
                   access_requirement_ids: { type: :array,
                                             items: { type: :integer } },
@@ -25,6 +25,10 @@ RSpec.describe 'api/v1/posts', type: :request do
                             action: {type: :string},
                             action_object: {type: :string} }
 
+  comment_properties = { id: {type: :integer}, content: {type: :string},
+                            user: {type: :object},
+                            created_at: {type: :string, format: "date-time" }}
+
   post_properties = {
     body: { type: :string },
     publish_date: { type: :string, format: "date-time" },
@@ -35,7 +39,7 @@ RSpec.describe 'api/v1/posts', type: :request do
     permission_id: { type: :integer },
     location_id: { type: :integer },
     group_ids: { type: :array, items: { type: :integer } },
-    delete_post_after_24_hour: { type: :boolean },
+    temp_post_type: { type: :string },
     status: { type: :integer },
     access_requirement_ids: { type: :array, items: { type: :integer } },
     taggings_attributes: {
@@ -86,6 +90,27 @@ RSpec.describe 'api/v1/posts', type: :request do
         let(:'Authorization') { 'Bearer ' + generate_token }
         let(:post) { { name: 'sample' } }
         schema type: :object, properties: ApplicationMethods.success_plural_schema(audience_properties)
+        run_test!
+      end
+
+      response '422', 'Invalid Request' do
+        let(:post) {{name: 'sample', user_ids: [1,2]}}
+        schema '$ref' => '#/components/schemas/errors_object'
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/posts/{id}/comments' do
+    get 'List comments of the posts' do
+      tags 'Posts'
+      security [Bearer: []]
+      consumes 'application/json'
+
+      response '200', 'Post comment list' do
+        let(:'Authorization') { 'Bearer ' + generate_token }
+        let(:post) { { name: 'sample' } }
+        schema type: :object, properties: ApplicationMethods.success_plural_schema(comment_properties)
         run_test!
       end
 

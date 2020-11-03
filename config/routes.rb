@@ -86,6 +86,7 @@ Rails.application.routes.draw do
         end
         member do
           post :report_post
+          get :comments
         end
       end
       resources :feelings, only: [:index]
